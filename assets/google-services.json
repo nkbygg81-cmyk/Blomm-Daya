@@ -1,0 +1,29 @@
+{
+"project_info": {
+"project_number": "210948477572",
+"project_id": "daya-33fe2",
+"storage_bucket": "daya-33fe2.firebasestorage.app"
+},
+"client": [
+{
+"client_info": {
+"mobilesdk_app_id": "1:210948477572:android:75df5fa2a5d277b12628d1",
+"android_client_info": {
+"package_name": "se.daya.app"
+}
+},
+"oauth_client": [],
+"api_key": [
+{
+"current_key": "AIzaSyAIOpKlzCsk3FYxOEpdP5WIZVCgcWt6_BQ"
+}
+],
+"services": {
+"appinvite_service": {
+"other_platform_oauth_client": []
+}
+}
+}
+],
+"configuration_version": "1"
+}

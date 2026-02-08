@@ -1,0 +1,28 @@
+Subject: Android Push Notifications — need googleServicesFile support in build.yaml
+
+Hi a0 team,
+
+I'm building an app (se.daya.app) that uses expo-notifications with Expo Push Service for push notifications.
+
+On iOS everything works fine. On Android I get this error:
+
+  "Default FirebaseApp is not initialized in this process se.daya.app.
+   Make sure to call FirebaseApp.initializeApp(Context) first."
+
+This happens because Expo Push Notifications on Android requires FCM, which needs google-services.json to be included in the Android build.
+
+According to Expo documentation, this is configured via the android.googleServicesFile field in app.json / app.config.ts. However:
+- a0 does not allow editing app.json or app.config.ts
+- The build.yaml schema does not have a googleServicesFile option
+- Placing google-services.json in the project root or assets/ folder does not work
+
+What I've tried:
+1. Created google-services.json in Firebase Console (project: daya-33fe2, package: se.daya.app)
+2. Placed the file in the project root and in assets/
+3. Built multiple new APKs (versionCode 214, 215)
+4. Completely uninstalled and reinstalled the app
+
+Request:
+Could you please add support for android.googleServicesFile in build.yaml so that google-services.json is included in Android builds? This is required for Expo Push Notifications to work on Android.
+
+Thank you!
