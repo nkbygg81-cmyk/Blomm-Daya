@@ -7,7 +7,22 @@ export default defineSchema({
    * Kept fully permissive so old documents never block schema deployments.
    */
   sellers: defineTable(v.any()),
-  flowers: defineTable(v.any()),
+  flowers: defineTable({
+    name: v.string(),
+    nameUk: v.optional(v.string()),
+    nameSv: v.optional(v.string()),
+    description: v.optional(v.string()),
+    descriptionUk: v.optional(v.string()),
+    descriptionSv: v.optional(v.string()),
+    price: v.optional(v.number()),
+    currency: v.optional(v.string()),
+    imageUrl: v.optional(v.string()),
+    imageStorageId: v.optional(v.id("_storage")),
+    inStock: v.optional(v.boolean()),
+    isActive: v.optional(v.boolean()),
+    createdAt: v.optional(v.number()),
+    updatedAt: v.optional(v.number()),
+  }),
   orders: defineTable(v.any()),
   importantDates: defineTable(v.any()),
   
@@ -356,6 +371,11 @@ export default defineSchema({
     imageUrl: v.optional(v.string()),
     imageStorageId: v.optional(v.id("_storage")),
     description: v.optional(v.string()),
+    descriptionUk: v.optional(v.string()),
+    descriptionSv: v.optional(v.string()),
+    name: v.optional(v.string()),
+    nameUk: v.optional(v.string()),
+    nameSv: v.optional(v.string()),
     price: v.optional(v.number()),
     createdAt: v.number(),
   })

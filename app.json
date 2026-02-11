@@ -1,41 +1,26 @@
 {
   "expo": {
-    "name": "a0-project",
-    "slug": "snack-2ae557b3-a2b0-4b12-8c25-5a595982c084",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
+    "name": "Blomm Daya",
+    "slug": "blomm-daya",
+
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "package": "se.daya.app",
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 7
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "description": "Quickly generate React Native components with AI",
-    "plugins": [
-      "expo-localization",
-      "expo-web-browser"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "51bba005-0310-4835-8044-453f723d581a"
+
+    "ios": {
+      "bundleIdentifier": "se.blommdaya.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
-    "owner": "nazar81"
+
+    "owner": "nazar81",
+    "extra": {
+      "eas": {
+        "projectId": "d88f7d4f-45f8-4a08-b6b5-f66e5bf05c50"
+      }
+    }
   }
 }

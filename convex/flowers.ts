@@ -31,10 +31,21 @@ async function listPublicImpl(ctx: any, limit: number): Promise<PublicOut[]> {
 
   const out: PublicOut[] = [];
 
+  // Визначаємо мову (пріоритет: ctx.locale -> ctx.req.locale -> uk)
+  const locale = ctx.locale || ctx.req?.locale || "uk";
+
   for (const f of rows as any[]) {
     if (out.length >= limit) break;
 
-    const name = typeof f.name === "string" ? f.name.trim() : "Bouquet";
+    // Вибір правильного поля залежно від мови
+    let name = f.name;
+    let description = f.description;
+    if (locale === "uk" && f.nameUk) name = f.nameUk;
+    if (locale === "sv" && f.nameSv) name = f.nameSv;
+    if (locale === "uk" && f.descriptionUk) description = f.descriptionUk;
+    if (locale === "sv" && f.descriptionSv) description = f.descriptionSv;
+
+    name = typeof name === "string" ? name.trim() : "Bouquet";
     const price = typeof f.price === "number" ? f.price : 0;
     const currency = "SEK";
 
@@ -43,7 +54,7 @@ async function listPublicImpl(ctx: any, limit: number): Promise<PublicOut[]> {
     if (!inStock) continue;
     if (!name) continue;
 
-    const description = typeof f.description === "string" ? f.description : null;
+    description = typeof description === "string" ? description : null;
 
     // Get image URL from storage if imageStorageId exists, otherwise use imageUrl
     let imageUrl: string | null = null;

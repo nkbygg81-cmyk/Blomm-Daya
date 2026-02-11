@@ -9,7 +9,11 @@ import { useTranslation } from "../lib/i18n/useTranslation";
 type Flower = {
   id: string;
   name: string;
+  nameUk?: string;
+  nameSv?: string;
   description: string | null;
+  descriptionUk?: string | null;
+  descriptionSv?: string | null;
   price: number;
   currency: string;
   imageUrl: string | null;
@@ -23,8 +27,16 @@ type Props = {
 
 export function FlowerDetailScreen({ flower, onBack, onAskFlorist }: Props) {
   const { addItem } = useCart();
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const dateLocale = t("dateLocale");
+
+  // Вибір правильного поля залежно від мови
+  let name = flower.name;
+  let description = flower.description;
+  if (locale === "uk" && flower.nameUk) name = flower.nameUk;
+  if (locale === "sv" && flower.nameSv) name = flower.nameSv;
+  if (locale === "uk" && flower.descriptionUk) description = flower.descriptionUk;
+  if (locale === "sv" && flower.descriptionSv) description = flower.descriptionSv;
 
   // Get reviews and ratings
   const reviews = useQuery(api.reviews.listForFlower, { flowerId: flower.id, limit: 5 });
@@ -48,7 +60,7 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist }: Props) {
         <View style={styles.content}>
           <View style={styles.nameRow}>
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>{flower.name}</Text>
+              <Text style={styles.name}>{name}</Text>
               {ratingData && ratingData.count > 0 && (
                 <View style={styles.ratingBadge}>
                   <Ionicons name="star" size={16} color="#FFA500" />
@@ -64,10 +76,10 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist }: Props) {
             {flower.price} {flower.currency || "kr"}
           </Text>
 
-          {flower.description && (
+          {description && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t("flowerDetail.description")}</Text>
-              <Text style={styles.description}>{flower.description}</Text>
+              <Text style={styles.description}>{description}</Text>
             </View>
           )}
 
@@ -112,7 +124,7 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist }: Props) {
               onPress={() => {
                 addItem({
                   id: flower.id,
-                  name: flower.name,
+                  name,
                   price: flower.price,
                   imageUrl: flower.imageUrl,
                 });

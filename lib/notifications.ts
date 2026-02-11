@@ -53,7 +53,7 @@ export async function registerForPushNotificationsAsync(): Promise<string | null
   // Push tokens only work on real devices (not web)
   if (Platform.OS === "web") {
     console.log("[Push] Web platform — skipping token registration");
-    return null;
+    return undefined as any;
   }
 
   await ensureAndroidChannel();
@@ -134,4 +134,42 @@ export async function scheduleLocalNotification(
       ? { date: trigger instanceof Date ? trigger : new Date(trigger) }
       : null,
   });
+}
+
+
+// --- Push diagnostics with permissions and token ---
+export async function runPushDiagnosticsAsync() {
+  const c = Constants as any;
+  const platform = Platform.OS;
+  const isDevice = platform !== "web";
+  const projectId = getProjectId() ?? null;
+  let permissions = null;
+  let token = null;
+  let error = null;
+
+  try {
+    permissions = await Notifications.getPermissionsAsync();
+    if (permissions.status === "granted") {
+      try {
+        token = projectId
+          ? (await Notifications.getExpoPushTokenAsync({ projectId })).data
+          : (await Notifications.getExpoPushTokenAsync()).data;
+      } catch (err) {
+        error = String(err?.message ?? err);
+      }
+    }
+  } catch (err) {
+    error = String(err?.message ?? err);
+  }
+
+  return {
+    platform,
+    isDevice,
+    projectId,
+    permissions,
+    token,
+    error,
+    executionEnvironment: c.executionEnvironment ?? "unknown",
+    appOwnership: c.appOwnership ?? "unknown",
+  };
 }

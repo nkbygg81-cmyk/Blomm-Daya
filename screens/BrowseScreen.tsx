@@ -14,7 +14,11 @@ import { formatPrice } from "../lib/formatPrice";
 type PublicFlower = {
   id: string;
   name: string;
+  nameUk?: string;
+  nameSv?: string;
   description: string | null;
+  descriptionUk?: string | null;
+  descriptionSv?: string | null;
   price: number;
   currency: string;
   imageUrl: string | null;
@@ -100,7 +104,7 @@ const matchesCategory = (flower: PublicFlower, categoryId: string): boolean => {
 };
 
 export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const { addItem } = useCart();
   const [viewMode, setViewMode] = useState<"catalog" | "florist">("catalog");
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
@@ -165,8 +169,17 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
 
   const filteredFlowers = useMemo(() => {
     if (!flowers) return [];
-    
-    let results = flowers.filter((flower: PublicFlower) => {
+    // Вибір правильного поля залежно від мови
+    const getLocalized = (flower: PublicFlower) => {
+      let name = flower.name;
+      let description = flower.description;
+      if (locale === "uk" && flower.nameUk) name = flower.nameUk;
+      if (locale === "sv" && flower.nameSv) name = flower.nameSv;
+      if (locale === "uk" && flower.descriptionUk) description = flower.descriptionUk;
+      if (locale === "sv" && flower.descriptionSv) description = flower.descriptionSv;
+      return { ...flower, name, description };
+    };
+    let results = flowers.map(getLocalized).filter((flower: PublicFlower) => {
       const matchesSearch = searchQuery
         ? flower.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           flower.description?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -174,10 +187,8 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
       const matchesMode = viewMode === "catalog" ? true : flower.floristId != null;
       return matchesSearch && matchesMode;
     });
-
     // Apply location filtering
     if (filterMode === "nearMe" && userLocation) {
-      // Sort by distance and take top 50
       results = results
         .map((flower: PublicFlower) => ({
           ...flower,
@@ -193,14 +204,12 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
       const matchesCity = selectedCity ? (flower: PublicFlower) => flower.floristCity === selectedCity : () => true;
       results = results.filter((flower: PublicFlower) => matchesCountry(flower) && matchesCity(flower));
     }
-
     // Apply category/occasion filtering
     if (selectedCategory) {
       results = results.filter((flower: PublicFlower) => matchesCategory(flower, selectedCategory));
     }
-
     return results;
-  }, [flowers, searchQuery, selectedCountry, selectedCity, viewMode, filterMode, userLocation, selectedCategory]);
+  }, [flowers, searchQuery, selectedCountry, selectedCity, viewMode, filterMode, userLocation, selectedCategory, locale]);
 
   const handleAddToCart = useCallback(
     (flower: PublicFlower) => {
