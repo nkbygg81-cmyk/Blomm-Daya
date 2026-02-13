@@ -51,9 +51,6 @@ import { FlowerCareTipsScreen } from "./screens/FlowerCareTipsScreen";
 import { LoyaltyScreen } from "./screens/LoyaltyScreen";
 import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen";
 
-// Note: Hardcoded for Expo Go compatibility. 
-// For production builds with environment variables, use EAS Build.
-const convex = new ConvexReactClient("https://little-coyote-905.convex.cloud");
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
