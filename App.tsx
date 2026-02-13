@@ -57,9 +57,7 @@ if (!process.env.EXPO_PUBLIC_CONVEX_URL) {
   );
 }
 
-const convex = new ConvexReactClient(
-  process.env.EXPO_PUBLIC_CONVEX_URL || ''
-);
+const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL);
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
