@@ -53,7 +53,7 @@ import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen
 
 if (!process.env.EXPO_PUBLIC_CONVEX_URL) {
   throw new Error(
-    'EXPO_PUBLIC_CONVEX_URL is not defined. Please check your .env file.'
+    'EXPO_PUBLIC_CONVEX_URL is not defined. Please check your .env file and restart the dev server.'
   );
 }
 
