@@ -7,15 +7,15 @@ describe('App.tsx Convex Configuration', () => {
     const appPath = path.join(__dirname, '..', 'App.tsx');
     const appContent = fs.readFileSync(appPath, 'utf-8');
     
-    // Verify that the hardcoded URL is present
-    expect(appContent).toContain('const convex = new ConvexReactClient("https://little-coyote-905.convex.cloud");');
+    // Verify that the hardcoded URL is present (flexible whitespace matching)
+    expect(appContent).toMatch(/const\s+convex\s*=\s*new\s+ConvexReactClient\s*\(\s*["']https:\/\/little-coyote-905\.convex\.cloud["']\s*\)/);
     
     // Verify that the environment variable check is NOT present
-    expect(appContent).not.toContain('if (!process.env.EXPO_PUBLIC_CONVEX_URL)');
+    expect(appContent).not.toMatch(/if\s*\(\s*!\s*process\.env\.EXPO_PUBLIC_CONVEX_URL/);
     
     // Verify that the Expo Go compatibility comment is present
-    expect(appContent).toContain('Note: Hardcoded for Expo Go compatibility');
-    expect(appContent).toContain('For production builds with environment variables, use EAS Build');
+    expect(appContent).toMatch(/Note:\s*Hardcoded for Expo Go compatibility/);
+    expect(appContent).toMatch(/For production builds with environment variables,\s*use EAS Build/);
   });
   
   it('should not throw error for missing environment variable', () => {
