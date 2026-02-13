@@ -50,7 +50,16 @@ import { SubscriptionScreen } from "./screens/SubscriptionScreen";
 import { FlowerCareTipsScreen } from "./screens/FlowerCareTipsScreen";
 import { LoyaltyScreen } from "./screens/LoyaltyScreen";
 import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen";
-const convex=new ConvexReactClient("https://little-coyote-905.convex.cloud");
+
+if (!process.env.EXPO_PUBLIC_CONVEX_URL) {
+  throw new Error(
+    'EXPO_PUBLIC_CONVEX_URL is not defined. Please check your .env file.'
+  );
+}
+
+const convex = new ConvexReactClient(
+  process.env.EXPO_PUBLIC_CONVEX_URL || ''
+);
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
