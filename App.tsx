@@ -51,13 +51,9 @@ import { FlowerCareTipsScreen } from "./screens/FlowerCareTipsScreen";
 import { LoyaltyScreen } from "./screens/LoyaltyScreen";
 import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen";
 
-if (!process.env.EXPO_PUBLIC_CONVEX_URL) {
-  throw new Error(
-    'EXPO_PUBLIC_CONVEX_URL is not defined. Please check your .env file and restart the dev server.'
-  );
-}
-
-const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL);
+// Note: Hardcoded for Expo Go compatibility. 
+// For production builds with environment variables, use EAS Build.
+const convex = new ConvexReactClient("https://little-coyote-905.convex.cloud");
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
