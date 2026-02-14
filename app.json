@@ -1,26 +1,31 @@
 {
   "expo": {
-    "name": "Blomm Daya",
-    "slug": "blomm-daya",
-
-    "android": {
-      "package": "se.daya.app",
-      "googleServicesFile": "./google-services.json",
-      "versionCode": 7
+    "name": "a0-project",
+    "slug": "snack-b509e052-bdd0-4012-8a20-858155dd333b",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
-
     "ios": {
-      "bundleIdentifier": "se.blommdaya.app",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
+      "supportsTablet": true
     },
-
-    "owner": "nazar81",
-    "extra": {
-      "eas": {
-        "projectId": "d88f7d4f-45f8-4a08-b6b5-f66e5bf05c50"
-      }
-    }
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "description": "Quickly generate React Native components with AI"
   }
 }

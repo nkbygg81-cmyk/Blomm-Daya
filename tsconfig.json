@@ -1,26 +1,15 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "lib": [
-      "ESNext"
-    ],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "react-jsx",
-    "strict": false,
-    "noEmit": true,
-    "skipLibCheck": true,
-    "types": [
-      "react",
-      "react-native"
-    ]
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "extends": "expo/tsconfig.base"
+"compilerOptions": {
+"target": "ESNext",
+"lib": ["ESNext"],
+"module": "ESNext",
+"moduleResolution": "Bundler",
+"jsx": "react-jsx",
+"strict": false,
+"noEmit": true,
+"skipLibCheck": true,
+"types": ["react", "react-native"]
+},
+"include": ["**/*.ts", "**/*.tsx"],
+"exclude": ["node_modules"]
 }

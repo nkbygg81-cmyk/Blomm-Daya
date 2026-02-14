@@ -6,7 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ConvexProvider,ConvexReactClient,useMutation,useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 
 import { colors, spacing } from "./lib/theme";
 import { CartProvider } from "./lib/CartContext";
@@ -16,6 +16,7 @@ import { initializeI18n } from "./lib/i18n";
 import { useTranslation } from "./lib/i18n/useTranslation";
 import { buttonPress } from "./lib/haptics";
 import { OfflineBanner } from "./lib/OfflineBanner";
+import { useFloristFeatureFlags } from "./lib/useFeatureFlags";
 
 import { api } from "./convex/_generated/api";
 
@@ -50,17 +51,17 @@ import { SubscriptionScreen } from "./screens/SubscriptionScreen";
 import { FlowerCareTipsScreen } from "./screens/FlowerCareTipsScreen";
 import { LoyaltyScreen } from "./screens/LoyaltyScreen";
 import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen";
+import { AdminPanelScreen } from "./screens/AdminPanelScreen";
 
-// Note: Hardcoded for Expo Go compatibility. 
-// For production builds with environment variables, use EAS Build.
-const convex = new ConvexReactClient("https://little-coyote-905.convex.cloud");
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function RoleSelectionScreen({
   onSelectRole,
+  onAdminPress,
 }: {
   onSelectRole: (role: "buyer" | "florist") => void;
+  onAdminPress: () => void;
 }) {
   const { t } = useTranslation();
   
@@ -92,6 +93,16 @@ function RoleSelectionScreen({
         <Text style={styles.roleButtonText}>{t("role.florist")}</Text>
         <Text style={styles.roleButtonSubtext}>{t("role.floristSubtext")}</Text>
       </TouchableOpacity>
+      {Platform.OS === "web" && (
+      <TouchableOpacity
+          style={{ marginTop: spacing.xl, padding: spacing.sm }}
+          onPress={onAdminPress}
+        >
+          <Text style={{ color: colors.muted, fontSize: 13, textAlign: "center" }}>
+            Admin Panel
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -451,6 +462,7 @@ function FloristSettingsStack({ onLogout, floristId }: { onLogout: () => void; f
 
 function FloristTabs({ onLogout }: { onLogout: () => void }) {
   const { t } = useTranslation();
+  const featureFlags = useFloristFeatureFlags();
   const [floristId, setFloristId] = useState<string | null>(null);
   const [selectedConsultationId, setSelectedConsultationId] = useState<string | null>(null);
 
@@ -479,6 +491,7 @@ function FloristTabs({ onLogout }: { onLogout: () => void }) {
     >
       <Tab.Screen name="Dashboard" component={FloristDashboardTab} options={{ title: t("tabs.dashboard") }} />
       <Tab.Screen name="Orders" component={FloristOrdersTab} options={{ title: t("tabs.orders") }} />
+      {featureFlags.consultations && (
       <Tab.Screen
         name="Consultations"
         options={{ title: t("tabs.consultations"), headerShown: false }}
@@ -515,6 +528,7 @@ function FloristTabs({ onLogout }: { onLogout: () => void }) {
           )
         }
       </Tab.Screen>
+      )}
       <Tab.Screen name="Settings" options={{ title: t("tabs.settings"), headerShown: false }}>
         {() => floristId ? <FloristSettingsStack onLogout={onLogout} floristId={floristId} /> : <View />}
       </Tab.Screen>
@@ -528,6 +542,7 @@ function AppContent() {
   const [floristId, setFloristId] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<"buyer" | "florist" | null>(null);
   const [showFloristRegistration, setShowFloristRegistration] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState(true); // default true to avoid flash
   const { t } = useTranslation();
@@ -713,8 +728,10 @@ function AppContent() {
     <NavigationContainer>
       {!hasSeenOnboarding ? (
         <OnboardingScreen onDone={handleOnboardingDone} />
+      ) : showAdmin ? (
+        <AdminPanelScreen onBack={() => setShowAdmin(false)} />
       ) : !userRole ? (
-        <RoleSelectionScreen onSelectRole={handleSelectRole} />
+        <RoleSelectionScreen onSelectRole={handleSelectRole} onAdminPress={() => setShowAdmin(true)} />
       ) : userRole === "buyer" ? (
         authToken ? (
           <BuyerTabs onLogout={handleBuyerLogout} authToken={authToken} />
@@ -741,14 +758,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ConvexProvider client={convex}>
     <SafeAreaProvider style={styles.safeArea}>
       <CartProvider>
         <AppContent />
       </CartProvider>
       <OfflineBanner />
     </SafeAreaProvider>
-    </ConvexProvider>
   );
 }
 
