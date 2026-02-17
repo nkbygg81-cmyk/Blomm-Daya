@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "a0-project",
-    "slug": "snack-b84c426c-42e5-48c0-8bb8-84caf649c7b3",
+    "slug": "blomm-daya",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -36,6 +36,10 @@
       "eas": {
         "projectId": "375060bc-d4c7-4d6c-8cbb-7279d5346c00"
       }
-    }
+    },
+    "plugins": [
+      "expo-localization",
+      "expo-web-browser"
+    ]
   }
 }
