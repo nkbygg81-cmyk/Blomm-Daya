@@ -2,7 +2,7 @@
   "expo": {
     "name": "a0-project",
     "slug": "blomm-daya",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,6 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nazar81.blommdaya",
+      "buildNumber": "7",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -32,11 +33,15 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "Quickly generate React Native components with AI",
-    
     "plugins": [
       "expo-localization",
       "expo-web-browser"
     ],
-    "owner": "nazar81"
+    "owner": "nazar81",
+    "extra": {
+      "eas": {
+        "projectId": "d88f7d4f-45f8-4a08-b6b5-f66e5bf05c50"
+      }
+    }
   }
 }
