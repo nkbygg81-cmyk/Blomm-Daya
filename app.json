@@ -40,6 +40,7 @@
     "plugins": [
       "expo-localization",
       "expo-web-browser"
-    ]
+    ],
+    "owner": "nazar81"
   }
 }
