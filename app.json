@@ -32,11 +32,7 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "Quickly generate React Native components with AI",
-    "extra": {
-      "eas": {
-        "projectId": "375060bc-d4c7-4d6c-8cbb-7279d5346c00"
-      }
-    },
+    
     "plugins": [
       "expo-localization",
       "expo-web-browser"
