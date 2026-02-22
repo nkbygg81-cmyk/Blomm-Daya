@@ -303,6 +303,14 @@ export function CartProvider({ children }: any) {
     AsyncStorage.multiRemove([CART_STORAGE_KEY, GIFTS_STORAGE_KEY]).catch(() => {});
   };
 
+  // Mark cart as converted when order is placed
+  const onOrderPlaced = useCallback(() => {
+    if (buyerDeviceId) {
+      markCartConverted({ buyerDeviceId }).catch(console.error);
+    }
+    clearCart();
+  }, [buyerDeviceId, markCartConverted]);
+
   const totalItems = useMemo(
     () => items.reduce((sum, item) => sum + item.qty, 0),
     [items]
