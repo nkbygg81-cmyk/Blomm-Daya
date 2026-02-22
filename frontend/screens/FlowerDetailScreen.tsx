@@ -28,12 +28,50 @@ type Props = {
   flower: Flower;
   onBack: () => void;
   onAskFlorist?: () => void;
+  onFlowerPress?: (flower: Flower) => void;
 };
 
-export function FlowerDetailScreen({ flower, onBack, onAskFlorist }: Props) {
+export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress }: Props) {
   const { addItem } = useCart();
   const { t, locale } = useTranslation();
+  const { colors: themeColors } = useTheme();
   const dateLocale = t("dateLocale");
+
+  // Wishlist state
+  const [buyerDeviceId, setBuyerDeviceId] = useState<string | null>(null);
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  
+  const toggleWishlist = useMutation(api.wishlist.toggleWishlist);
+  const wishlistData = useQuery(
+    api.wishlist.getWishlist,
+    buyerDeviceId ? { buyerDeviceId } : "skip"
+  );
+
+  useEffect(() => {
+    getBuyerDeviceId().then(setBuyerDeviceId);
+  }, []);
+
+  useEffect(() => {
+    if (wishlistData) {
+      setIsInWishlist(wishlistData.some(item => item.flowerId === flower.id));
+    }
+  }, [wishlistData, flower.id]);
+
+  const handleToggleWishlist = async () => {
+    if (!buyerDeviceId) return;
+    buttonPress();
+    try {
+      await toggleWishlist({
+        buyerDeviceId,
+        flowerId: flower.id,
+        flowerName: flower.name,
+        flowerPrice: flower.price,
+        flowerImage: flower.imageUrl || undefined,
+      });
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
 
   // Вибір правильного поля залежно від мови
   let name = flower.name;
