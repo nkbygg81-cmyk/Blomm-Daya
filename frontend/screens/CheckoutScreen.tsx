@@ -964,6 +964,43 @@ const styles = StyleSheet.create({
   deliveryTypeSubtextActive: {
     color: colors.primary,
   },
+  timeSlotButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: spacing.md,
+    gap: spacing.md,
+  },
+  timeSlotButtonSelected: {
+    borderColor: colors.primary,
+    backgroundColor: `${colors.primary}05`,
+  },
+  timeSlotContent: {
+    flex: 1,
+  },
+  timeSlotDate: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.text,
+  },
+  timeSlotLabel: {
+    fontSize: 14,
+    color: colors.muted,
+    marginTop: 2,
+  },
+  timeSlotFee: {
+    fontSize: 13,
+    color: colors.warning,
+    fontWeight: "500",
+    marginTop: 2,
+  },
+  timeSlotPlaceholder: {
+    fontSize: 15,
+    color: colors.muted,
+  },
   pickupNote: {
     flexDirection: "row",
     alignItems: "flex-start",
