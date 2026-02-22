@@ -528,7 +528,7 @@ function FloristTabs({ onLogout }: { onLogout: () => void }) {
     >
       <Tab.Screen name="Dashboard" component={FloristDashboardTab} options={{ title: t("tabs.dashboard") }} />
       <Tab.Screen name="Orders" component={FloristOrdersTab} options={{ title: t("tabs.orders") }} />
-      {featureFlags.consultations && (
+      {(featureFlags as any)?.consultations && (
       <Tab.Screen
         name="Consultations"
         options={{ title: t("tabs.consultations"), headerShown: false }}
@@ -539,7 +539,7 @@ function FloristTabs({ onLogout }: { onLogout: () => void }) {
             <Stack.Navigator id="ConsultationStack" screenOptions={{ headerShown: false }}>
                 <Stack.Screen
                   name="ConsultationDetail"
-                  options={{ animationEnabled: false }}
+                  options={{ animation: "none" }}
                 >
                   {() => (
                     <ConsultationChatScreen
