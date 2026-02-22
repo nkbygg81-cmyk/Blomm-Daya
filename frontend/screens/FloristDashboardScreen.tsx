@@ -493,6 +493,9 @@ actionButton: {
   marginBottom: spacing.lg,
   ...shadows.card,
 },
+analyticsButton: {
+  backgroundColor: colors.info,
+},
 actionButtonText: {
   color: colors.white,
   fontSize: 16,
