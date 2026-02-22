@@ -40,6 +40,8 @@ export function BuyerSettingsScreen({
   authToken,
 }: Props) {
   const { t, locale, changeLocale } = useTranslation();
+  const { colors: themeColors, isDark, mode, setMode, toggleTheme } = useTheme();
+  const featureFlags = useFeatureFlags();
   const deleteBuyerAccount = useMutation(api.accountDeletion.deleteBuyerAccount);
   const [deleting, setDeleting] = useState(false);
   const platformSettings = useQuery(api.admin.getPlatformSettings, {});
