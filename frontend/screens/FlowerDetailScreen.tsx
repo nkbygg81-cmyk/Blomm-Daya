@@ -86,9 +86,22 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress
   const ratingData = useQuery(api.reviews.getAverageRating, { flowerId: flower.id });
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={onBack}>
-        <Ionicons name="arrow-back" size={24} color={colors.text} />
+    <View style={[styles.container, { backgroundColor: themeColors.bg }]}>
+      <TouchableOpacity style={[styles.backButton, { backgroundColor: themeColors.white }]} onPress={onBack}>
+        <Ionicons name="arrow-back" size={24} color={themeColors.text} />
+      </TouchableOpacity>
+
+      {/* Wishlist button */}
+      <TouchableOpacity 
+        style={[styles.wishlistButton, { backgroundColor: themeColors.white }]} 
+        onPress={handleToggleWishlist}
+        data-testid="flower-detail-wishlist-btn"
+      >
+        <Ionicons 
+          name={isInWishlist ? "heart" : "heart-outline"} 
+          size={24} 
+          color={isInWishlist ? themeColors.danger : themeColors.text} 
+        />
       </TouchableOpacity>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -103,11 +116,11 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress
         <View style={styles.content}>
           <View style={styles.nameRow}>
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>{name}</Text>
+              <Text style={[styles.name, { color: themeColors.text }]}>{name}</Text>
               {ratingData && ratingData.count > 0 && (
                 <View style={styles.ratingBadge}>
                   <Ionicons name="star" size={16} color="#FFA500" />
-                  <Text style={styles.ratingText}>
+                  <Text style={[styles.ratingText, { color: themeColors.text }]}>
                     {ratingData.average.toFixed(1)} ({ratingData.count})
                   </Text>
                 </View>
@@ -115,25 +128,25 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress
             </View>
           </View>
           
-          <Text style={styles.price}>
+          <Text style={[styles.price, { color: themeColors.primary }]}>
             {flower.price} {flower.currency || "kr"}
           </Text>
 
           {description && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t("flowerDetail.description")}</Text>
-              <Text style={styles.description}>{description}</Text>
+              <Text style={[styles.sectionTitle, { color: themeColors.text }]}>{t("flowerDetail.description")}</Text>
+              <Text style={[styles.description, { color: themeColors.muted }]}>{description}</Text>
             </View>
           )}
 
           {/* Reviews Section */}
           {reviews && reviews.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t("flowerDetail.reviews")} ({reviews.length})</Text>
+              <Text style={[styles.sectionTitle, { color: themeColors.text }]}>{t("flowerDetail.reviews")} ({reviews.length})</Text>
               {reviews.map((review: any) => (
-                <View key={review.id} style={styles.reviewCard}>
+                <View key={review.id} style={[styles.reviewCard, { backgroundColor: themeColors.surface }]}>
                   <View style={styles.reviewHeader}>
-                    <Text style={styles.reviewAuthor}>{review.buyerName || t("flowerDetail.anonymous")}</Text>
+                    <Text style={[styles.reviewAuthor, { color: themeColors.text }]}>{review.buyerName || t("flowerDetail.anonymous")}</Text>
                     <View style={styles.reviewRating}>
                       {Array.from({ length: review.rating }).map((_, i) => (
                         <Ionicons key={i} name="star" size={14} color="#FFA500" />
@@ -141,9 +154,9 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress
                     </View>
                   </View>
                   {review.comment && (
-                    <Text style={styles.reviewComment}>{review.comment}</Text>
+                    <Text style={[styles.reviewComment, { color: themeColors.text }]}>{review.comment}</Text>
                   )}
-                  <Text style={styles.reviewDate}>
+                  <Text style={[styles.reviewDate, { color: themeColors.muted }]}>
                     {new Date(review.createdAt).toLocaleDateString(dateLocale)}
                   </Text>
                 </View>
@@ -163,7 +176,7 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress
             )}
 
             <TouchableOpacity
-              style={styles.addButton}
+              style={[styles.addButton, { backgroundColor: themeColors.primary }]}
               onPress={() => {
                 addItem({
                   id: flower.id,
@@ -173,12 +186,26 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress
                 });
                 onBack();
               }}
+              data-testid="flower-detail-add-to-cart"
             >
               <Ionicons name="cart" size={20} color={colors.white} />
               <Text style={styles.addButtonText}>{t("flowerDetail.addToCart")}</Text>
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Similar Products Section */}
+        <SimilarProductsSection 
+          flowerId={flower.id} 
+          onFlowerPress={(flowerId) => {
+            // Navigate to the similar flower
+            if (onFlowerPress) {
+              // We need to fetch the flower data first
+              // For now, just go back
+              onBack();
+            }
+          }}
+        />
       </ScrollView>
     </View>
   );
