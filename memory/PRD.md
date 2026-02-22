@@ -152,6 +152,15 @@ February 2025
 - ✅ Added theme toggle in Settings screen (controlled by feature flag)
 - ✅ Translations for dark mode added (UK, EN, SV)
 - ✅ All colors dynamically switch based on theme
+- ✅ **Referral Program v2** - Full referral system with codes, stats, sharing
+- ✅ **Offline Mode** - Cache system with queue for offline actions
+- ✅ **Backend Tests** - 8 pytest tests for API endpoints (all passing)
+
+## New Components Added
+- `ReferralProgramScreen.tsx` - Full referral UI with stats and sharing
+- `convex/referrals.ts` - Backend functions for referral management
+- `lib/useOffline.ts` - Offline cache and sync hooks
+- `backend/tests/test_api.py` - Backend API tests
 
 ## Backlog
 
