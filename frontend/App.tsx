@@ -51,7 +51,7 @@ import { SubscriptionScreen } from "./screens/SubscriptionScreen";
 import { FlowerCareTipsScreen } from "./screens/FlowerCareTipsScreen";
 import { LoyaltyScreen } from "./screens/LoyaltyScreen";
 import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen";
-import { AdminPanelScreen } from "./screens/AdminPanelScreen";
+import AdminPanelScreen from "./screens/AdminPanelScreen";
 import { OrderTrackingScreen } from "./screens/OrderTrackingScreen";
 
 const Tab = createBottomTabNavigator();
