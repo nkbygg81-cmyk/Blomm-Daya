@@ -300,6 +300,7 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
             onFloristsPress={() => navigation.navigate("Florists")}
             onRemindersPress={() => navigation.navigate("Reminders")}
             onGiftCertificatesPress={() => navigation.navigate("GiftCertificates")}
+            onAIChatPress={() => navigation.navigate("AIChat")}
           />
         )}
       </Stack.Screen>
