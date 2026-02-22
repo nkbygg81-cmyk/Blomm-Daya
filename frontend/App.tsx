@@ -156,7 +156,7 @@ function ShopStack() {
 
 function CartStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator id="CartStack" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="CartMain">
         {({ navigation }: { navigation: any }) => (
           <CartScreen onCheckout={() => navigation.navigate("Checkout")} />
