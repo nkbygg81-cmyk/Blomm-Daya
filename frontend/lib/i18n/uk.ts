@@ -904,4 +904,23 @@ export default {
     shareMessage: "Приєднуйся до Blomm-Daya! Використай мій код {{code}} та отримай {{bonus}} kr на перше замовлення квітів!",
     settingsSubtext: "Запрошуй друзів та отримуй бонуси",
   },
+
+  // Photo Editor
+  photoEditor: {
+    title: "Редактор фото",
+    reset: "Скинути",
+    save: "Зберегти",
+    adjust: "Налаштування",
+    presets: "Пресети",
+    brightness: "Яскравість",
+    contrast: "Контраст",
+    saturation: "Насиченість",
+    rotation: "Поворот",
+    presets: {
+      original: "Оригінал",
+      vibrant: "Яскравий",
+      warm: "Теплий",
+      natural: "Природний",
+    },
+  },
 };
