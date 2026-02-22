@@ -784,4 +784,91 @@ export default {
     networkError: "Anslutningsfel. Kontrollera din internet.",
     clearChat: "Rensa chatt",
   },
+
+  // Advanced Filters
+  filters: {
+    title: "Filter",
+    reset: "Återställ",
+    apply: "Tillämpa",
+    price: {
+      title: "Pris",
+      min: "Min",
+      max: "Max",
+    },
+    occasions: {
+      title: "Tillfälle",
+      birthday: "Födelsedag",
+      wedding: "Bröllop",
+      anniversary: "Årsdag",
+      romantic: "Romantik",
+      sympathy: "Sympati",
+      congratulations: "Grattis",
+      thankYou: "Tack",
+      newBaby: "Nyfött barn",
+    },
+    colors: {
+      title: "Färg",
+      red: "Röd",
+      pink: "Rosa",
+      white: "Vit",
+      yellow: "Gul",
+      orange: "Orange",
+      purple: "Lila",
+      blue: "Blå",
+      mixed: "Blandad",
+    },
+    rating: {
+      title: "Betyg",
+      any: "Alla",
+    },
+    sort: {
+      title: "Sortera",
+      relevance: "Relevans",
+      priceAsc: "Pris: Lågt till högt",
+      priceDesc: "Pris: Högt till lågt",
+      rating: "Betyg",
+      newest: "Nyast",
+    },
+    button: "Filter",
+    activeCount: "aktiva",
+  },
+
+  // Florist Analytics
+  floristAnalytics: {
+    title: "Analys",
+    period: {
+      week: "Vecka",
+      month: "Månad",
+      quarter: "Kvartal",
+      year: "År",
+    },
+    metrics: {
+      revenue: "Intäkter",
+      orders: "Beställningar",
+      avgOrder: "Snittorder",
+      conversion: "Konvertering",
+    },
+    charts: {
+      salesOverTime: "Försäljning över tid",
+      topProducts: "Topprodukter",
+      ordersByStatus: "Beställningar per status",
+    },
+    customers: {
+      title: "Kunder",
+      new: "Nya",
+      returning: "Återkommande",
+      ratio: "Förhållande",
+    },
+    comparison: {
+      title: "Jämförelse med föregående period",
+      growth: "Tillväxt",
+      decline: "Minskning",
+    },
+    export: {
+      title: "Exportera",
+      csv: "Ladda ner CSV",
+      pdf: "Ladda ner PDF",
+    },
+    noData: "Ingen data för denna period",
+  },
 };
