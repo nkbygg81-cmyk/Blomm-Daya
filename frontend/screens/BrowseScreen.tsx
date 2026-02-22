@@ -1135,6 +1135,9 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     ...shadows.card,
   },
+  imageContainer: {
+    position: "relative",
+  },
   image: {
     width: "100%",
     height: 148,
@@ -1143,6 +1146,20 @@ const styles = StyleSheet.create({
   imagePlaceholder: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  wishlistButton: {
+    position: "absolute",
+    top: spacing.sm,
+    right: spacing.sm,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  wishlistButtonActive: {
+    backgroundColor: "rgba(255,255,255,0.9)",
   },
   cardContent: {
     padding: spacing.sm,
