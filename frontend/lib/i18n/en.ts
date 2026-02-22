@@ -784,4 +784,91 @@ favorites: {
     networkError: "Connection error. Check your internet.",
     clearChat: "Clear chat",
   },
+
+  // Advanced Filters
+  filters: {
+    title: "Filters",
+    reset: "Reset",
+    apply: "Apply",
+    price: {
+      title: "Price",
+      min: "Min",
+      max: "Max",
+    },
+    occasions: {
+      title: "Occasion",
+      birthday: "Birthday",
+      wedding: "Wedding",
+      anniversary: "Anniversary",
+      romantic: "Romantic",
+      sympathy: "Sympathy",
+      congratulations: "Congratulations",
+      thankYou: "Thank You",
+      newBaby: "New Baby",
+    },
+    colors: {
+      title: "Color",
+      red: "Red",
+      pink: "Pink",
+      white: "White",
+      yellow: "Yellow",
+      orange: "Orange",
+      purple: "Purple",
+      blue: "Blue",
+      mixed: "Mixed",
+    },
+    rating: {
+      title: "Rating",
+      any: "Any",
+    },
+    sort: {
+      title: "Sort by",
+      relevance: "Relevance",
+      priceAsc: "Price: Low to High",
+      priceDesc: "Price: High to Low",
+      rating: "Rating",
+      newest: "Newest",
+    },
+    button: "Filters",
+    activeCount: "active",
+  },
+
+  // Florist Analytics
+  floristAnalytics: {
+    title: "Analytics",
+    period: {
+      week: "Week",
+      month: "Month",
+      quarter: "Quarter",
+      year: "Year",
+    },
+    metrics: {
+      revenue: "Revenue",
+      orders: "Orders",
+      avgOrder: "Avg Order",
+      conversion: "Conversion",
+    },
+    charts: {
+      salesOverTime: "Sales Over Time",
+      topProducts: "Top Products",
+      ordersByStatus: "Orders by Status",
+    },
+    customers: {
+      title: "Customers",
+      new: "New",
+      returning: "Returning",
+      ratio: "Ratio",
+    },
+    comparison: {
+      title: "Comparison with Previous Period",
+      growth: "Growth",
+      decline: "Decline",
+    },
+    export: {
+      title: "Export",
+      csv: "Download CSV",
+      pdf: "Download PDF",
+    },
+    noData: "No data for this period",
+  },
 };
