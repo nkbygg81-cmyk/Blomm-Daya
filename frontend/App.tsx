@@ -364,6 +364,16 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
           <GreetingCardScreen onBack={() => navigation.goBack()} />
         )}
       </Stack.Screen>
+      <Stack.Screen name="ProductBundles">
+        {({ navigation }: { navigation: any }) => (
+          <ProductBundlesScreen onBack={() => navigation.goBack()} />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="AIBouquetGenerator">
+        {({ navigation }: { navigation: any }) => (
+          <AIBouquetGeneratorScreen onBack={() => navigation.goBack()} />
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
