@@ -72,6 +72,12 @@ Added tables:
 - Updated BuyerSettingsScreen with Bundles and AI Bouquet menu items
 - Updated App.tsx with new Stack.Screen components
 
+### Deep Integrations (December 2025 - Session 2 Final)
+- **Similar Products in FlowerDetailScreen** - Shows recommendations below product details
+- **Wishlist button in FlowerDetailScreen** - Heart icon to save/unsave favorites
+- **Abandoned Cart in CartContext** - Auto-tracking cart state, marks as converted on order
+- **Time Slots in CheckoutScreen** - Modal picker with date/time selection, fee calculation
+
 ---
 
 ## December 2025 - Session 1
