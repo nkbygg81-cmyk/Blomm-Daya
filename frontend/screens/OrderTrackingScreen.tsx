@@ -199,6 +199,16 @@ export function OrderTrackingScreen({ orderId, onBack }: Props) {
           </View>
         </View>
 
+        {/* Live Courier Tracking */}
+        {tracking.order.status === "delivering" && (
+          <View style={styles.courierCard}>
+            <CourierTrackingIndicator 
+              orderId={orderId} 
+              onPress={() => setShowCourierTracking(true)}
+            />
+          </View>
+        )}
+
         {/* Photos from Florist */}
         {tracking.photos.length > 0 && (
           <View style={styles.photosCard}>
@@ -240,6 +250,19 @@ export function OrderTrackingScreen({ orderId, onBack }: Props) {
           </View>
         )}
       </ScrollView>
+
+      {/* Courier Tracking Modal */}
+      <Modal
+        visible={showCourierTracking}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowCourierTracking(false)}
+      >
+        <CourierTrackingScreen
+          orderId={orderId}
+          onBack={() => setShowCourierTracking(false)}
+        />
+      </Modal>
     </View>
   );
 }
