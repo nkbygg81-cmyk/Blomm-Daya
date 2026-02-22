@@ -350,6 +350,7 @@ function BuyerTabs({ onLogout, authToken }: { onLogout: () => void; authToken: s
   
   return (
     <Tab.Navigator
+      id="BuyerTabs"
       screenOptions={({ route }: { route: { name: string } }) => ({
         headerShown: true,
         tabBarActiveTintColor: colors.primary,
