@@ -753,10 +753,8 @@ function AppContent() {
     <NavigationContainer>
       {!hasSeenOnboarding ? (
         <OnboardingScreen onDone={handleOnboardingDone} />
-      ) : showAdmin ? (
-        <AdminPanelScreen onBack={() => setShowAdmin(false)} />
       ) : !userRole ? (
-        <RoleSelectionScreen onSelectRole={handleSelectRole} onAdminPress={() => setShowAdmin(true)} />
+        <RoleSelectionScreen onSelectRole={handleSelectRole} />
       ) : userRole === "buyer" ? (
         authToken ? (
           <BuyerTabs onLogout={handleBuyerLogout} authToken={authToken} />
