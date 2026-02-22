@@ -85,6 +85,7 @@ export function useFeatureFlags(): FeatureFlags {
     expressDelivery: getBoolFlag("feature_express_delivery", DEFAULT_FLAGS.expressDelivery),
     scheduledDelivery: getBoolFlag("feature_scheduled_delivery", DEFAULT_FLAGS.scheduledDelivery),
     reminders: getBoolFlag("feature_reminders", DEFAULT_FLAGS.reminders),
+    advancedFilters: getBoolFlag("feature_advanced_filters", DEFAULT_FLAGS.advancedFilters),
   };
 }
 
