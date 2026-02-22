@@ -527,7 +527,55 @@ export function CheckoutScreen({ onBack }: Props) {
           </View>
         </View>
 
-        <View style={styles.section}>
+        {/* Time Slot Selection */}
+        {deliveryType === "delivery" && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>
+              {t("deliverySlots.title")}
+            </Text>
+            
+            <TouchableOpacity
+              style={[
+                styles.timeSlotButton,
+                selectedTimeSlot && styles.timeSlotButtonSelected,
+              ]}
+              onPress={() => {
+                buttonPress();
+                setShowTimeSlotPicker(true);
+              }}
+            >
+              <Ionicons 
+                name="time-outline" 
+                size={24} 
+                color={selectedTimeSlot ? colors.primary : colors.muted} 
+              />
+              <View style={styles.timeSlotContent}>
+                {selectedTimeSlot ? (
+                  <>
+                    <Text style={styles.timeSlotDate}>
+                      {new Date(selectedTimeSlot.date).toLocaleDateString(locale === "uk" ? "uk-UA" : locale === "sv" ? "sv-SE" : "en-US", { weekday: "short", day: "numeric", month: "short" })}
+                    </Text>
+                    <Text style={styles.timeSlotLabel}>
+                      {selectedTimeSlot.label}
+                    </Text>
+                    {selectedTimeSlot.extraFee > 0 && (
+                      <Text style={styles.timeSlotFee}>
+                        +{formatPrice(selectedTimeSlot.extraFee)} kr
+                      </Text>
+                    )}
+                  </>
+                ) : (
+                  <Text style={styles.timeSlotPlaceholder}>
+                    {t("deliverySlots.selectTime")}
+                  </Text>
+                )}
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.muted} />
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <View style={styles.section}>>
           <Text style={styles.sectionTitle}>{t("checkout.address")}</Text>
 
           <View style={styles.deliveryNote}>
