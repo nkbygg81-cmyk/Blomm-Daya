@@ -407,6 +407,7 @@ function FloristOrdersTab({ route }: { route?: any }) {
 
 function FloristDashboardTab({ navigation }: { navigation: any }) {
   const [floristId, setFloristId] = useState<string | null>(null);
+  const [showAnalytics, setShowAnalytics] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -421,12 +422,22 @@ function FloristDashboardTab({ navigation }: { navigation: any }) {
     );
   }
 
+  if (showAnalytics) {
+    return (
+      <FloristAnalyticsScreen
+        floristId={floristId}
+        onBack={() => setShowAnalytics(false)}
+      />
+    );
+  }
+
   return (
     <FloristDashboardScreen
       floristId={floristId}
       onNavigateToOrders={(status?: string) => {
         navigation.navigate("Orders", status ? { initialStatus: status } : undefined);
       }}
+      onNavigateToAnalytics={() => setShowAnalytics(true)}
     />
   );
 }
