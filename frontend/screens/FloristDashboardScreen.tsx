@@ -354,7 +354,7 @@ onPress={() => onNavigateToOrders()}
 </TouchableOpacity>
 
 {/* Analytics Button */}
-{onNavigateToAnalytics && (
+{onNavigateToAnalytics && featureFlags.analytics && (
 <TouchableOpacity
 style={[styles.actionButton, styles.analyticsButton]}
 onPress={onNavigateToAnalytics}
