@@ -343,6 +343,11 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
           <RemindersScreen />
         )}
       </Stack.Screen>
+      <Stack.Screen name="GiftCertificates">
+        {({ navigation }: { navigation: any }) => (
+          <GiftCertificatesScreen onBack={() => navigation.goBack()} />
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
