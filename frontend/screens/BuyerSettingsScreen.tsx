@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert, Linking, Share, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Linking, Share, ScrollView, Switch } from "react-native";
 import { colors, spacing, radius, shadows } from "../lib/theme";
+import { useTheme } from "../lib/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "../lib/i18n/useTranslation";
@@ -7,6 +8,7 @@ import * as WebBrowser from "expo-web-browser";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useState } from "react";
+import { useFeatureFlags } from "../lib/useFeatureFlags";
 
 type Props = {
   onLogout: () => void | Promise<void>;
