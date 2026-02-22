@@ -130,11 +130,16 @@ export async function scheduleLocalNotification(
   data?: any,
   trigger?: Date | number
 ) {
+  const triggerInput = trigger
+    ? { 
+        type: Notifications.SchedulableTriggerInputTypes.DATE as const, 
+        date: trigger instanceof Date ? trigger : new Date(trigger) 
+      }
+    : null;
+    
   return await Notifications.scheduleNotificationAsync({
     content: { title, body, data, sound: true },
-    trigger: trigger
-      ? { type: "date" as const, date: trigger instanceof Date ? trigger : new Date(trigger) }
-      : null,
+    trigger: triggerInput,
   });
 }
 
