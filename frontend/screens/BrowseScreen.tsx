@@ -218,7 +218,7 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
         id: flower.id,
         name: flower.name,
         price: flower.price,
-        quantity: 1,
+        qty: 1,
         imageUrl: flower.imageUrl,
       });
     },
