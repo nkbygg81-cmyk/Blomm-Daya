@@ -60,7 +60,21 @@ Added tables:
 - courierTracking.*
 - reviewModeration.*
 
+### Frontend UI Components Created (December 2025 - Session 2 cont.)
+- `DeliveryTimeSlotsScreen.tsx` - Time slot picker with 7-day date selector
+- `ProductBundlesScreen.tsx` - Bundle display with discount badges
+- `AIBouquetGeneratorScreen.tsx` - AI-powered bouquet suggestions (5 styles)
+- `CourierTrackingScreen.tsx` - Live GPS tracking with ETA
+- `SimilarProductsSection.tsx` - Similar, Personalized, and Trending recommendations
+
+### Navigation Integration
+- Added routes: ProductBundles, AIBouquetGenerator
+- Updated BuyerSettingsScreen with Bundles and AI Bouquet menu items
+- Updated App.tsx with new Stack.Screen components
+
 ---
+
+## December 2025 - Session 1
 
 #### Wishlist (Список бажань)
 - Added heart button on product cards in BrowseScreen
