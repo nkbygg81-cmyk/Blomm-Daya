@@ -1,5 +1,5 @@
-import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View, StatusBar } from "react-native";
+import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "convex/react";
 
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { colors, spacing } from "./lib/theme";
+import { ThemeProvider, useTheme, lightColors, darkColors } from "./lib/ThemeContext";
 import { CartProvider } from "./lib/CartContext";
 import { registerForPushNotificationsAsync } from "./lib/notifications";
 import { getBuyerDeviceId } from "./lib/buyerDeviceId";
