@@ -22,6 +22,7 @@ export interface FeatureFlags {
   expressDelivery: boolean;
   scheduledDelivery: boolean;
   reminders: boolean;
+  advancedFilters: boolean;
 }
 
 const DEFAULT_FLAGS: FeatureFlags = {
