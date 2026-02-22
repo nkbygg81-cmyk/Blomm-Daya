@@ -180,6 +180,12 @@ export function BuyerSettingsScreen({
       onPress: onRemindersPress,
     },
     {
+      icon: "gift-outline",
+      label: t("giftCertificates.title"),
+      sublabel: t("settings.giftCertificatesSubtext"),
+      onPress: onGiftCertificatesPress,
+    },
+    {
       icon: "person-outline",
       label: t("settings.profile"),
       onPress: onProfilePress,
