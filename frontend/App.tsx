@@ -294,6 +294,8 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
             onRemindersPress={() => navigation.navigate("Reminders")}
             onGiftCertificatesPress={() => navigation.navigate("GiftCertificates")}
             onAIChatPress={() => navigation.navigate("AIChat")}
+            onWishlistPress={() => navigation.navigate("Wishlist")}
+            onGreetingCardsPress={() => navigation.navigate("GreetingCards")}
           />
         )}
       </Stack.Screen>
@@ -346,6 +348,16 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
       <Stack.Screen name="AIChat">
         {({ navigation }: { navigation: any }) => (
           <AIChatbotScreen onBack={() => navigation.goBack()} />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="Wishlist">
+        {({ navigation }: { navigation: any }) => (
+          <WishlistScreen onBack={() => navigation.goBack()} />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="GreetingCards">
+        {({ navigation }: { navigation: any }) => (
+          <GreetingCardScreen onBack={() => navigation.goBack()} />
         )}
       </Stack.Screen>
     </Stack.Navigator>
