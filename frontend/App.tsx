@@ -57,6 +57,9 @@ import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen
 import { OrderTrackingScreen } from "./screens/OrderTrackingScreen";
 import { GiftCertificatesScreen } from "./screens/GiftCertificatesScreen";
 import { AIChatbotScreen } from "./screens/AIChatbotScreen";
+import { WishlistScreen } from "./screens/WishlistScreen";
+import { GreetingCardScreen } from "./screens/GreetingCardScreen";
+import { PhotoReviewsComponent } from "./screens/PhotoReviewsScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
