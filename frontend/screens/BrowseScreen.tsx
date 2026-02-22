@@ -151,6 +151,9 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
     })();
   }, []);
 
+  // Fetch categories from database
+  const dbCategories = useQuery(api.categories.getActiveCategories, { type: "occasion" });
+
   const countries = useMemo(() => {
     if (!flowers) return [];
     const uniqueCountries = new Set(
@@ -172,13 +175,25 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
     return Array.from(uniqueCities).sort();
   }, [flowers, selectedCountry]);
 
-  const categories = [
-    { id: "birthday", label: t("categories.birthday"), icon: "gift-outline" },
-    { id: "wedding", label: t("categories.wedding"), icon: "heart-outline" },
-    { id: "sympathy", label: t("categories.sympathy"), icon: "flower-outline" },
-    { id: "anniversary", label: t("categories.anniversary"), icon: "wine-outline" },
-    { id: "romantic", label: t("categories.romantic"), icon: "rose-outline" },
-  ];
+  // Use categories from DB or fallback to hardcoded
+  const categories = useMemo(() => {
+    if (dbCategories && dbCategories.length > 0) {
+      return dbCategories.map((cat: any) => ({
+        id: cat.name.toLowerCase().replace(/\s+/g, "_"),
+        label: locale === "uk" ? cat.nameUk : locale === "sv" ? (cat.nameSv || cat.name) : cat.name,
+        icon: cat.icon || "flower-outline",
+        color: cat.color,
+      }));
+    }
+    // Fallback to hardcoded categories
+    return [
+      { id: "birthday", label: t("categories.birthday"), icon: "gift-outline" },
+      { id: "wedding", label: t("categories.wedding"), icon: "heart-outline" },
+      { id: "sympathy", label: t("categories.sympathy"), icon: "flower-outline" },
+      { id: "anniversary", label: t("categories.anniversary"), icon: "wine-outline" },
+      { id: "romantic", label: t("categories.romantic"), icon: "rose-outline" },
+    ];
+  }, [dbCategories, locale, t]);
 
   const filteredFlowers = useMemo(() => {
     if (!flowers) return [];
