@@ -42,6 +42,7 @@ const STATUS_COLORS: Record<string, string> = {
 export function OrderTrackingScreen({ orderId, onBack }: Props) {
   const { t } = useTranslation();
   const [refreshing, setRefreshing] = useState(false);
+  const [showCourierTracking, setShowCourierTracking] = useState(false);
 
   const tracking = useQuery(
     api.orderTracking.getOrderTracking,
