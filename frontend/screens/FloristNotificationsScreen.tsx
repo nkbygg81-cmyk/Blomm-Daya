@@ -139,7 +139,7 @@ export function FloristNotificationsScreen({ floristId }: Props) {
 
       {filteredOrders.length === 0 ? (
         <View style={styles.emptyState}>
-          <Ionicons name="inbox-outline" size={64} color={colors.muted} />
+          <Ionicons name="mail-open-outline" size={64} color={colors.muted} />
           <Text style={styles.emptyText}>Немає замовлень</Text>
         </View>
       ) : (
