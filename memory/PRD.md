@@ -28,6 +28,8 @@ Mobile flower shop application "Blomm-Daya" built with Expo/React Native and Con
 - [x] **Gift Certificates** - Purchase and redeem gift certificates
 - [x] **AI Chatbot** - LLM-powered assistant for flower recommendations
 - [x] **Feature Flags System** - Dynamic feature management via admin panel
+- [x] **Advanced Filters** - Price, occasion, color, rating, sorting filters for flower catalog (NEW)
+- [x] **Florist Analytics Dashboard** - Revenue, orders, top products, customer analytics (NEW)
 
 ### Web Admin Panel Features (convex/http.ts)
 - [x] Florist applications management
@@ -83,31 +85,27 @@ Mobile flower shop application "Blomm-Daya" built with Expo/React Native and Con
 - `convex/http.ts` - Web admin panel
 - `convex/admin.ts` - Admin backend functions
 - `lib/useFeatureFlags.ts` - Feature flags hook
+- `screens/AdvancedFiltersModal.tsx` - Advanced filters UI (NEW)
+- `screens/FloristAnalyticsScreen.tsx` - Analytics dashboard (NEW)
 
-## Feature Flags System
-Feature flags are stored in `platformSettings` table with keys prefixed `feature_`. 
+## New Features (February 2025)
 
-Available flags:
-- feature_subscriptions
-- feature_consultations
-- feature_gift_certificates
-- feature_ai_chat
-- feature_referral_program
-- feature_loyalty_program
-- feature_stories
-- feature_order_tracking
-- feature_reviews
-- feature_push_notifications
-- feature_promo_codes
-- feature_multi_language
-- feature_dark_mode
-- feature_offline_mode
-- feature_analytics
-- feature_calendar
-- feature_delivery_zones
-- feature_express_delivery
-- feature_scheduled_delivery
-- feature_reminders
+### Advanced Filters for Catalog
+- Price range slider (min/max)
+- Occasion filters: Birthday, Wedding, Anniversary, Romantic, Sympathy, Congratulations, Thank You, New Baby
+- Color filters: Red, Pink, White, Yellow, Orange, Purple, Blue, Mixed
+- Rating filter
+- Sorting: Relevance, Price (asc/desc), Rating, Newest
+
+### Florist Analytics Dashboard
+- Period selector: Week, Month, Quarter, Year
+- Key metrics: Revenue, Orders, Average Order, Delivery Rate
+- Growth comparison with previous period
+- Sales chart by time period
+- Orders by status breakdown
+- Top 5 products by revenue
+- Customer analysis: New vs Returning
+- Historical comparison
 
 ## Environment Variables
 - `EXPO_PUBLIC_CONVEX_URL` - Convex deployment URL
@@ -122,16 +120,14 @@ February 2025
 ## Backlog
 
 ### P1 - High Priority
-- [ ] Search and filters for flower catalog
 - [ ] Dark mode implementation
 
 ### P2 - Medium Priority
-- [ ] Expanded florist analytics
 - [ ] Performance optimizations
-
-### P3 - Low Priority
-- [ ] Referral program v2
 - [ ] Offline mode improvements
+
+### P3 - Low Priority  
+- [ ] Referral program v2
 - [ ] Test coverage improvements
 
 ## Known Issues
