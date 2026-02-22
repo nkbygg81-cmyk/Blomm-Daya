@@ -874,6 +874,22 @@ export function CheckoutScreen({ onBack }: Props) {
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* Time Slot Picker Modal */}
+      <Modal
+        visible={showTimeSlotPicker}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowTimeSlotPicker(false)}
+      >
+        <DeliveryTimeSlotsScreen
+          onSlotSelected={(slot) => {
+            setSelectedTimeSlot(slot);
+            setShowTimeSlotPicker(false);
+          }}
+          onBack={() => setShowTimeSlotPicker(false)}
+        />
+      </Modal>
     </View>
   );
 }
