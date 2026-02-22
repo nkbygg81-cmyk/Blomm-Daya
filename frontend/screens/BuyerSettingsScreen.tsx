@@ -283,24 +283,35 @@ export function BuyerSettingsScreen({
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>{t("settings.title")}</Text>
 
-      <View style={styles.menu}>
+      <View style={[styles.menu, { backgroundColor: themeColors.card, borderColor: themeColors.border }]}>
         {menuItems.map((item, index) => (
           <TouchableOpacity
             key={index}
             style={[
               styles.menuItem,
+              { borderBottomColor: themeColors.border },
               index === menuItems.length - 1 && styles.menuItemLast,
             ]}
             onPress={item.onPress}
+            activeOpacity={(item as any).hasSwitch ? 1 : 0.7}
           >
-            <Ionicons name={item.icon as any} size={24} color={item.color || colors.text} />
+            <Ionicons name={item.icon as any} size={24} color={item.color || themeColors.text} />
             <View style={styles.menuItemContent}>
-              <Text style={[styles.menuItemText, item.color && { color: item.color }]}>{item.label}</Text>
+              <Text style={[styles.menuItemText, { color: item.color || themeColors.text }]}>{item.label}</Text>
               {item.sublabel && (
-                <Text style={styles.menuItemSublabel}>{item.sublabel}</Text>
+                <Text style={[styles.menuItemSublabel, { color: themeColors.muted }]}>{item.sublabel}</Text>
               )}
             </View>
-            <Ionicons name="chevron-forward" size={20} color={colors.muted} />
+            {(item as any).hasSwitch ? (
+              <Switch
+                value={(item as any).switchValue}
+                onValueChange={(item as any).onSwitchChange}
+                trackColor={{ false: themeColors.border, true: themeColors.primary }}
+                thumbColor={themeColors.white}
+              />
+            ) : (
+              <Ionicons name="chevron-forward" size={20} color={themeColors.muted} />
+            )}
           </TouchableOpacity>
         ))}
       </View>
