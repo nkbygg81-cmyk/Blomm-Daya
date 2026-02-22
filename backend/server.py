@@ -36,6 +36,22 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# AI Chatbot Models
+class ChatMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # "user" or "assistant"
+    content: str
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+class ChatRequest(BaseModel):
+    session_id: str
+    message: str
+    
+class ChatResponse(BaseModel):
+    response: str
+    session_id: str
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
