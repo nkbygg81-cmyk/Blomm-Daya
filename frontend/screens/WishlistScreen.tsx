@@ -168,7 +168,6 @@ export function WishlistScreen({ onFlowerPress, onBack }: Props) {
     </View>
   );
 }
-}
 
 const styles = StyleSheet.create({
   container: {
