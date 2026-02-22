@@ -794,14 +794,19 @@ function AppContent() {
   );
 }
 
+// Initialize Convex client
+const convex = new ConvexReactClient("https://glad-bison-596.convex.cloud");
+
 export default function App() {
   return (
-    <SafeAreaProvider style={styles.safeArea}>
-      <CartProvider>
-        <AppContent />
-      </CartProvider>
-      <OfflineBanner />
-    </SafeAreaProvider>
+    <ConvexProvider client={convex}>
+      <SafeAreaProvider style={styles.safeArea}>
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
+        <OfflineBanner />
+      </SafeAreaProvider>
+    </ConvexProvider>
   );
 }
 
