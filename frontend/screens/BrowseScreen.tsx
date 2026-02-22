@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, Dimensions, Image, Modal } from "react-native";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { colors, spacing, radius, shadows } from "../lib/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,6 +12,7 @@ import { FloristStoriesBar } from "./FloristStoriesScreen";
 import { formatPrice } from "../lib/formatPrice";
 import { AdvancedFiltersModal, FilterState } from "./AdvancedFiltersModal";
 import { useFeatureFlags } from "../lib/useFeatureFlags";
+import { getBuyerDeviceId } from "../lib/buyerDeviceId";
 
 type PublicFlower = {
   id: string;
