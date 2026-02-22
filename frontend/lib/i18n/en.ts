@@ -770,4 +770,17 @@ favorites: {
       expired: "Expired",
     },
   },
+
+  // AI Chatbot
+  aiChat: {
+    title: "AI Assistant",
+    welcomeTitle: "Hello! I'm your AI assistant 🌸",
+    welcomeSubtitle: "I'll help you choose the perfect bouquet, tell you about flower care, and answer your questions",
+    quickQuestions: "Quick questions:",
+    inputPlaceholder: "Type a message...",
+    thinking: "Thinking...",
+    errorMessage: "Sorry, an error occurred. Please try again.",
+    networkError: "Connection error. Check your internet.",
+    clearChat: "Clear chat",
+  },
 };
