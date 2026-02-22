@@ -35,6 +35,7 @@ type CartContextType = {
   removeGift: (id: string) => void;
   updateGiftQty: (id: string, qty: number) => void;
   clearCart: () => void;
+  onOrderPlaced: () => void;
   totalItems: number;
   totalPrice: number;
 };
