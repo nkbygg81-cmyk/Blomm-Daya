@@ -60,6 +60,10 @@ import { AIChatbotScreen } from "./screens/AIChatbotScreen";
 import { WishlistScreen } from "./screens/WishlistScreen";
 import { GreetingCardScreen } from "./screens/GreetingCardScreen";
 import { PhotoReviewsComponent } from "./screens/PhotoReviewsScreen";
+import { DeliveryTimeSlotsScreen } from "./screens/DeliveryTimeSlotsScreen";
+import { ProductBundlesScreen } from "./screens/ProductBundlesScreen";
+import { AIBouquetGeneratorScreen } from "./screens/AIBouquetGeneratorScreen";
+import { CourierTrackingScreen } from "./screens/CourierTrackingScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
