@@ -323,6 +323,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+  courierCard: {
+    marginBottom: spacing.md,
+  },
   orderHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
