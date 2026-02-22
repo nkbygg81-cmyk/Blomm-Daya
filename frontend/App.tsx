@@ -298,6 +298,7 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
             onLoyaltyPress={() => navigation.navigate("Loyalty")}
             onFloristsPress={() => navigation.navigate("Florists")}
             onRemindersPress={() => navigation.navigate("Reminders")}
+            onGiftCertificatesPress={() => navigation.navigate("GiftCertificates")}
           />
         )}
       </Stack.Screen>
