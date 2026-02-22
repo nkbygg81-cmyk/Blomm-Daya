@@ -4015,6 +4015,7 @@ http.route({
       { key: "feature_express_delivery", name: "Експрес-доставка", description: "Доставка за 2 години", category: "Замовлення", icon: "⚡" },
       { key: "feature_scheduled_delivery", name: "Запланована доставка", description: "Вибір дати та часу доставки", category: "Замовлення", icon: "📆" },
       { key: "feature_reminders", name: "Нагадування про події", description: "Нагадування про дні народження тощо", category: "Покупці", icon: "⏰" },
+      { key: "feature_advanced_filters", name: "Розширені фільтри", description: "Фільтрація за ціною, кольором, приводом", category: "Покупці", icon: "🔍" },
     ];
 
     // Get current values
