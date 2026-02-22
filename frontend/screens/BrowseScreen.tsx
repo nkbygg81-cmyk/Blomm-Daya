@@ -10,6 +10,7 @@ import * as Location from "expo-location";
 import { buttonPress, buttonPressMedium } from "../lib/haptics";
 import { FloristStoriesBar } from "./FloristStoriesScreen";
 import { formatPrice } from "../lib/formatPrice";
+import { AdvancedFiltersModal, FilterState } from "./AdvancedFiltersModal";
 
 type PublicFlower = {
   id: string;
