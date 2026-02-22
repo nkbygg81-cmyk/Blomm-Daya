@@ -430,7 +430,7 @@ function FloristDashboardTab({ navigation }: { navigation: any }) {
 
 function FloristSettingsStack({ onLogout, floristId }: { onLogout: () => void; floristId: string }) {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator id="FloristSettingsStack" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SettingsMain">
         {({ navigation }: { navigation: any }) => (
           <FloristSettingsScreen
