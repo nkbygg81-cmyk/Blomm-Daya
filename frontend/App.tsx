@@ -97,16 +97,6 @@ function RoleSelectionScreen({
         <Text style={styles.roleButtonText}>{t("role.florist")}</Text>
         <Text style={styles.roleButtonSubtext}>{t("role.floristSubtext")}</Text>
       </TouchableOpacity>
-      {Platform.OS === "web" && (
-      <TouchableOpacity
-          style={{ marginTop: spacing.xl, padding: spacing.sm }}
-          onPress={onAdminPress}
-        >
-          <Text style={{ color: colors.muted, fontSize: 13, textAlign: "center" }}>
-            Admin Panel
-          </Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 }
