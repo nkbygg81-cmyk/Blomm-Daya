@@ -48,6 +48,7 @@ import { FloristConsultationsScreen } from "./screens/FloristConsultationsScreen
 import { FloristProfileScreen } from "./screens/FloristProfileScreen";
 import { FloristFinancialReportsScreen } from "./screens/FloristFinancialReportsScreen";
 import { FloristCalendarScreen } from "./screens/FloristCalendarScreen";
+import { FloristAnalyticsScreen } from "./screens/FloristAnalyticsScreen";
 import { SubscriptionScreen } from "./screens/SubscriptionScreen";
 import { FlowerCareTipsScreen } from "./screens/FlowerCareTipsScreen";
 import { LoyaltyScreen } from "./screens/LoyaltyScreen";
