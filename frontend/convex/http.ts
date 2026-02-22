@@ -1089,6 +1089,482 @@ http.route({
 });
 
 // ==========================================
+// ADMIN: Order Details
+// ==========================================
+http.route({
+  path: "/admin/orders/details",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+    const orderId = url.searchParams.get("id") ?? "";
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const order = await ctx.runQuery(api.admin.getOrderDetails, {
+      orderId: orderId as any,
+    });
+
+    if (!order) {
+      return htmlResponse('<h1>Замовлення не знайдено</h1>', 404);
+    }
+
+    const backUrl = `/admin/orders?p=${encodeURIComponent(pwd)}`;
+
+    const statusBadge = (s: string) => {
+      const colors: Record<string, string> = {
+        pending: "background:#fef3c7;color:#92400e",
+        confirmed: "background:#dbeafe;color:#1e40af",
+        preparing: "background:#e0e7ff;color:#3730a3",
+        ready: "background:#d1fae5;color:#065f46",
+        delivering: "background:#fce7f3;color:#9d174d",
+        delivered: "background:#dcfce7;color:#166534",
+        cancelled: "background:#fee2e2;color:#991b1b",
+      };
+      return `<span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;${colors[s] || "background:#e5e7eb;color:#374151"}">${s}</span>`;
+    };
+
+    const itemsHtml = (order.items || []).map((item: any) => `
+      <div style="display:flex;gap:16px;align-items:center;padding:12px;background:#f9fafb;border-radius:12px;margin-bottom:8px;">
+        ${item.imageUrl ? `<img src="${esc(item.imageUrl)}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;" />` : '<div style="width:60px;height:60px;background:#e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;">🌸</div>'}
+        <div style="flex:1;">
+          <div style="font-weight:600;">${esc(item.name)}</div>
+          <div style="font-size:13px;color:#6b7280;">Кількість: ${item.qty || item.quantity || 1}</div>
+        </div>
+        <div style="font-weight:700;color:#4f46e5;">${item.price} kr</div>
+      </div>
+    `).join("");
+
+    const html = `<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Деталі замовлення</title>
+  ${styles()}
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1>🧾 Деталі замовлення</h1>
+      <div style="margin-top:16px;">
+        <a href="${backUrl}" style="padding:10px 20px;background:#6b7280;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;display:inline-block;">← Назад до замовлень</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cardTop">
+        <h2 style="margin:0;">Замовлення #${esc(orderId.slice(-6))}</h2>
+        ${statusBadge(order.status)}
+      </div>
+      
+      <div class="grid" style="margin-top:20px;">
+        <div class="field"><div class="k">👤 Клієнт</div><div class="v">${esc(order.customerName)}</div></div>
+        <div class="field"><div class="k">📞 Телефон</div><div class="v">${esc(order.customerPhone)}</div></div>
+        <div class="field"><div class="k">📧 Email</div><div class="v">${esc(order.customerEmail || "—")}</div></div>
+        <div class="field"><div class="k">📍 Адреса</div><div class="v">${esc(order.deliveryAddress)}</div></div>
+        <div class="field"><div class="k">🚗 Тип доставки</div><div class="v">${order.deliveryType === "pickup" ? "🏪 Самовивіз" : "🚗 Доставка"}</div></div>
+        <div class="field"><div class="k">📅 Бажана дата</div><div class="v">${order.preferredDate ? formatDate(order.preferredDate) : "—"}</div></div>
+        <div class="field"><div class="k">⏰ Бажаний час</div><div class="v">${esc(order.preferredTime || "—")}</div></div>
+        <div class="field"><div class="k">💳 Оплата</div><div class="v">${order.paymentMethodType || "—"} ${order.paymentStatus === "paid" ? "✅ Оплачено" : "⏳ Очікується"}</div></div>
+        <div class="field"><div class="k">🌸 Флорист</div><div class="v">${esc(order.floristName || "Не призначено")}</div></div>
+        <div class="field"><div class="k">📝 Примітка</div><div class="v">${esc(order.note || "—")}</div></div>
+        <div class="field"><div class="k">📆 Створено</div><div class="v">${formatDate(order.createdAt)}</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 16px 0;">🛒 Товари (${(order.items || []).length})</h3>
+      ${itemsHtml || '<div class="empty">Немає товарів</div>'}
+      <div style="margin-top:20px;padding-top:16px;border-top:2px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:18px;font-weight:600;">Загальна сума:</span>
+        <span style="font-size:24px;font-weight:700;color:#4f46e5;">${order.total} kr</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+    return htmlResponse(html);
+  }),
+});
+
+// ==========================================
+// ADMIN: Export Orders CSV
+// ==========================================
+http.route({
+  path: "/admin/export/orders",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const orders = await ctx.runQuery(api.admin.listAllOrders, { limit: 10000 });
+
+    const headers = ["ID", "Статус", "Клієнт", "Телефон", "Email", "Адреса", "Тип доставки", "Сума", "Оплата", "Флорист", "Дата"];
+    const rows = orders.map((o: any) => [
+      o._id,
+      o.status,
+      o.customerName,
+      o.customerPhone,
+      o.customerEmail || "",
+      o.deliveryAddress,
+      o.deliveryType || "delivery",
+      o.total,
+      o.paymentStatus || "pending",
+      o.floristName || "",
+      new Date(o.createdAt).toISOString(),
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map(row => row.map((cell: any) => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+
+    return new (globalThis as any).Response(csvContent, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="orders_${new Date().toISOString().slice(0,10)}.csv"`,
+      },
+    });
+  }),
+});
+
+// ==========================================
+// ADMIN: Export Buyers CSV
+// ==========================================
+http.route({
+  path: "/admin/export/buyers",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const buyers = await ctx.runQuery(api.admin.listAllBuyers, { limit: 10000 });
+
+    const headers = ["ID", "Ім'я", "Email", "Телефон", "Замовлень", "Витрачено", "Статус", "Дата реєстрації"];
+    const rows = buyers.map((b: any) => [
+      b._id,
+      b.name || "",
+      b.email || "",
+      b.phone || "",
+      b.orderCount || 0,
+      b.totalSpent || 0,
+      b.blocked ? "Заблокований" : "Активний",
+      b.createdAt ? new Date(b.createdAt).toISOString() : "",
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map(row => row.map((cell: any) => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+
+    return new (globalThis as any).Response(csvContent, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="buyers_${new Date().toISOString().slice(0,10)}.csv"`,
+      },
+    });
+  }),
+});
+
+// ==========================================
+// ADMIN: Export Florists CSV  
+// ==========================================
+http.route({
+  path: "/admin/export/florists",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const florists = await ctx.runQuery(api.admin.listAllFlorists, {});
+
+    const headers = ["ID", "Назва", "Email", "Телефон", "Місто", "Країна", "Рейтинг", "Замовлень", "Дохід", "Статус", "Дата реєстрації"];
+    const rows = florists.map((f: any) => [
+      f._id,
+      f.shopName || f.name || "",
+      f.email || "",
+      f.phone || "",
+      f.city || "",
+      f.country || "",
+      f.rating || 0,
+      f.orderCount || 0,
+      f.totalRevenue || 0,
+      f.blocked ? "Заблокований" : (f.approved ? "Активний" : "На розгляді"),
+      f.createdAt ? new Date(f.createdAt).toISOString() : "",
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map(row => row.map((cell: any) => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+
+    return new (globalThis as any).Response(csvContent, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="florists_${new Date().toISOString().slice(0,10)}.csv"`,
+      },
+    });
+  }),
+});
+
+// ==========================================
+// ADMIN: All Florists List (Full Management)
+// ==========================================
+http.route({
+  path: "/admin/florists/all",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+    const search = url.searchParams.get("q") ?? "";
+    const statusFilter = url.searchParams.get("status") ?? "";
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    let florists = await ctx.runQuery(api.admin.listAllFlorists, {});
+    
+    // Apply filters
+    if (search) {
+      const q = search.toLowerCase();
+      florists = florists.filter((f: any) => 
+        (f.shopName || "").toLowerCase().includes(q) ||
+        (f.email || "").toLowerCase().includes(q) ||
+        (f.city || "").toLowerCase().includes(q)
+      );
+    }
+    if (statusFilter === "blocked") {
+      florists = florists.filter((f: any) => f.blocked);
+    } else if (statusFilter === "active") {
+      florists = florists.filter((f: any) => f.approved && !f.blocked);
+    } else if (statusFilter === "pending") {
+      florists = florists.filter((f: any) => !f.approved && !f.blocked);
+    }
+
+    const backUrl = `/admin?p=${encodeURIComponent(pwd)}`;
+
+    const statusBadge = (f: any) => {
+      if (f.blocked) return '<span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fee2e2;color:#991b1b;">Заблокований</span>';
+      if (f.approved) return '<span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#dcfce7;color:#166534;">Активний</span>';
+      return '<span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fef3c7;color:#92400e;">На розгляді</span>';
+    };
+
+    const floristsHtml = florists.map((f: any) => `
+      <div class="card" style="${f.blocked ? 'opacity:0.6;' : ''}">
+        <div class="cardTop">
+          <div style="display:flex;align-items:center;gap:12px;">
+            ${f.avatarUrl ? `<img src="${esc(f.avatarUrl)}" style="width:50px;height:50px;border-radius:50%;object-fit:cover;" />` : '<div style="width:50px;height:50px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:24px;">🌸</div>'}
+            <div>
+              <div class="title">${esc(f.shopName || f.name || "Без назви")}</div>
+              <div class="owner">${esc(f.email)}</div>
+            </div>
+          </div>
+          ${statusBadge(f)}
+        </div>
+        <div class="grid">
+          <div class="field"><div class="k">📞 Телефон</div><div class="v">${esc(f.phone || "—")}</div></div>
+          <div class="field"><div class="k">📍 Місто</div><div class="v">${esc(f.city || "—")}, ${esc(f.country || "—")}</div></div>
+          <div class="field"><div class="k">⭐ Рейтинг</div><div class="v">${f.rating ? f.rating.toFixed(1) : "—"}</div></div>
+          <div class="field"><div class="k">📦 Замовлень</div><div class="v">${f.orderCount || 0}</div></div>
+          <div class="field"><div class="k">💰 Дохід</div><div class="v">${f.totalRevenue || 0} kr</div></div>
+          <div class="field"><div class="k">📅 Реєстрація</div><div class="v">${f.createdAt ? formatDate(f.createdAt) : "—"}</div></div>
+        </div>
+        <div class="actions">
+          <a href="/admin/florists/details?p=${encodeURIComponent(pwd)}&id=${f._id}" class="btn" style="background:#4f46e5;">👁 Деталі</a>
+          <form method="POST" action="/admin/florists/block" style="display:inline;">
+            <input type="hidden" name="p" value="${esc(pwd)}" />
+            <input type="hidden" name="id" value="${f._id}" />
+            <input type="hidden" name="returnUrl" value="${esc(req.url)}" />
+            <button type="submit" class="btn" style="background:${f.blocked ? '#10b981' : '#ef4444'};">
+              ${f.blocked ? '✅ Розблокувати' : '🚫 Заблокувати'}
+            </button>
+          </form>
+        </div>
+      </div>
+    `).join("");
+
+    const html = `<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Управління флористами</title>
+  ${styles()}
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1>🌸 Управління флористами</h1>
+      <div class="sub">Всього флористів: ${florists.length}</div>
+      
+      <div class="toolbar">
+        <form method="GET" action="/admin/florists/all" style="display:flex;gap:10px;flex:1;flex-wrap:wrap;">
+          <input type="hidden" name="p" value="${esc(pwd)}" />
+          <input type="text" name="q" placeholder="Пошук по назві, email, місту..." value="${esc(search)}" style="flex:1;" />
+          <select name="status" onchange="this.form.submit()">
+            <option value="" ${statusFilter === "" ? "selected" : ""}>Всі статуси</option>
+            <option value="active" ${statusFilter === "active" ? "selected" : ""}>Активні</option>
+            <option value="pending" ${statusFilter === "pending" ? "selected" : ""}>На розгляді</option>
+            <option value="blocked" ${statusFilter === "blocked" ? "selected" : ""}>Заблоковані</option>
+          </select>
+          <button type="submit" style="padding:10px 20px;background:#4f46e5;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;">🔍 Шукати</button>
+        </form>
+      </div>
+      
+      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="${backUrl}" style="padding:10px 20px;background:#6b7280;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">← Назад</a>
+        <a href="/admin/export/florists?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#10b981;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">📥 Export CSV</a>
+      </div>
+    </div>
+
+    ${floristsHtml || '<div class="card"><div class="empty">🌸 Немає флористів</div></div>'}
+  </div>
+</body>
+</html>`;
+
+    return htmlResponse(html);
+  }),
+});
+
+// ==========================================
+// ADMIN: Florist Details
+// ==========================================
+http.route({
+  path: "/admin/florists/details",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+    const floristId = url.searchParams.get("id") ?? "";
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const florist = await ctx.runQuery(api.admin.getFloristDetails, {
+      floristId: floristId as any,
+    });
+
+    if (!florist) {
+      return htmlResponse('<h1>Флориста не знайдено</h1>', 404);
+    }
+
+    const backUrl = `/admin/florists/all?p=${encodeURIComponent(pwd)}`;
+
+    const statusBadge = (f: any) => {
+      if (f.blocked) return '<span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fee2e2;color:#991b1b;">Заблокований</span>';
+      if (f.approved) return '<span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#dcfce7;color:#166534;">Активний</span>';
+      return '<span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fef3c7;color:#92400e;">На розгляді</span>';
+    };
+
+    const html = `<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Профіль флориста</title>
+  ${styles()}
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1>🌸 Профіль флориста</h1>
+      <div style="margin-top:16px;">
+        <a href="${backUrl}" style="padding:10px 20px;background:#6b7280;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">← Назад</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:20px;">
+        ${florist.avatarUrl ? `<img src="${esc(florist.avatarUrl)}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;" />` : '<div style="width:100px;height:100px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:48px;">🌸</div>'}
+        <div>
+          <h2 style="margin:0;">${esc(florist.shopName || florist.name || "Без назви")}</h2>
+          ${statusBadge(florist)}
+        </div>
+      </div>
+      
+      <div class="grid">
+        <div class="field"><div class="k">📧 Email</div><div class="v">${esc(florist.email)}</div></div>
+        <div class="field"><div class="k">📞 Телефон</div><div class="v">${esc(florist.phone || "—")}</div></div>
+        <div class="field"><div class="k">📍 Адреса</div><div class="v">${esc(florist.address || "—")}</div></div>
+        <div class="field"><div class="k">🏙 Місто</div><div class="v">${esc(florist.city || "—")}, ${esc(florist.country || "—")}</div></div>
+        <div class="field"><div class="k">⭐ Рейтинг</div><div class="v">${florist.rating ? florist.rating.toFixed(1) + " (" + (florist.reviewCount || 0) + " відгуків)" : "Немає відгуків"}</div></div>
+        <div class="field"><div class="k">📦 Замовлень</div><div class="v">${florist.orderCount || 0}</div></div>
+        <div class="field"><div class="k">💰 Загальний дохід</div><div class="v">${florist.totalRevenue || 0} kr</div></div>
+        <div class="field"><div class="k">💳 Stripe</div><div class="v">${florist.stripeAccountId ? "✅ Підключено" : "❌ Не підключено"}</div></div>
+        <div class="field"><div class="k">📅 Реєстрація</div><div class="v">${florist.createdAt ? formatDate(florist.createdAt) : "—"}</div></div>
+      </div>
+
+      ${florist.bio ? `<div style="margin-top:20px;padding:16px;background:#f9fafb;border-radius:12px;"><strong>Про себе:</strong><br/>${esc(florist.bio)}</div>` : ''}
+
+      <div class="actions" style="margin-top:20px;">
+        <form method="POST" action="/admin/florists/block" style="display:inline;">
+          <input type="hidden" name="p" value="${esc(pwd)}" />
+          <input type="hidden" name="id" value="${florist._id}" />
+          <input type="hidden" name="returnUrl" value="${esc(req.url)}" />
+          <button type="submit" class="btn" style="background:${florist.blocked ? '#10b981' : '#ef4444'};">
+            ${florist.blocked ? '✅ Розблокувати' : '🚫 Заблокувати'}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+    return htmlResponse(html);
+  }),
+});
+
+// ==========================================
+// ADMIN: Block/Unblock Florist
+// ==========================================
+http.route({
+  path: "/admin/florists/block",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+    const id = (fd?.get?.("id") ?? "").toString();
+    const returnUrl = (fd?.get?.("returnUrl") ?? "").toString();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    await ctx.runMutation(api.admin.blockFlorist, {
+      floristId: id as any,
+    });
+
+    const fallbackUrl = `/admin/florists/all?p=${encodeURIComponent(pwd)}`;
+    return redirect(returnUrl || fallbackUrl);
+  }),
+});
+
+// ==========================================
 // ADMIN: Reviews Moderation
 // ==========================================
 http.route({
