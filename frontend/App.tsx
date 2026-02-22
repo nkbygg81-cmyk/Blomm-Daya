@@ -568,7 +568,6 @@ function AppContent() {
   const [floristId, setFloristId] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<"buyer" | "florist" | null>(null);
   const [showFloristRegistration, setShowFloristRegistration] = useState(false);
-  const [showAdmin, setShowAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState(true); // default true to avoid flash
   const { t } = useTranslation();
