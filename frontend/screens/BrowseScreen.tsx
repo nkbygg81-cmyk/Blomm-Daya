@@ -738,6 +738,15 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
           </View>
         </TouchableOpacity>
       </Modal>
+
+      {/* Advanced Filters Modal */}
+      <AdvancedFiltersModal
+        visible={showAdvancedFilters}
+        onClose={() => setShowAdvancedFilters(false)}
+        onApply={setAdvancedFilters}
+        initialFilters={advancedFilters}
+        maxPrice={maxPrice}
+      />
     </View>
   );
 }
