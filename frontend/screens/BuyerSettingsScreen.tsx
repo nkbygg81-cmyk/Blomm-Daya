@@ -189,6 +189,22 @@ export function BuyerSettingsScreen({
       switchValue: isDark,
       onSwitchChange: toggleTheme,
     }] : []),
+    // Wishlist
+    {
+      icon: "heart-outline",
+      label: t("wishlist.title"),
+      sublabel: t("wishlist.settingsSubtext"),
+      onPress: onWishlistPress,
+      color: themeColors.danger,
+    },
+    // Greeting Cards
+    {
+      icon: "card-outline",
+      label: t("greetingCards.title"),
+      sublabel: t("greetingCards.subtitle"),
+      onPress: onGreetingCardsPress,
+      color: themeColors.info,
+    },
     {
       icon: "storefront-outline",
       label: t("tabs.florists"),
