@@ -335,6 +335,7 @@ export function CartProvider({ children }: any) {
         removeGift,
         updateGiftQty,
         clearCart,
+        onOrderPlaced,
         totalItems,
         totalPrice,
       }}
