@@ -494,10 +494,8 @@ function FloristTabs({ onLogout }: { onLogout: () => void }) {
   
   return (
     <Tab.Navigator
+      id="FloristTabs"
       screenOptions={({ route }: { route: { name: string } }) => ({
-        headerShown: true,
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.muted,
         tabBarIcon: ({ color, size }: { color: string; size: number }) => {
           const name =
             route.name === "Dashboard"
