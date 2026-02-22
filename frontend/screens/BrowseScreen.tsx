@@ -365,21 +365,23 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
                 </TouchableOpacity>
               )}
               {/* Advanced Filters Button */}
-              <TouchableOpacity 
-                style={styles.filterButton}
-                onPress={() => {
-                  buttonPress();
-                  setShowAdvancedFilters(true);
-                }}
-                data-testid="advanced-filters-button"
-              >
-                <Ionicons name="options-outline" size={20} color={activeFiltersCount > 0 ? colors.white : colors.primary} />
-                {activeFiltersCount > 0 && (
-                  <View style={styles.filterBadge}>
-                    <Text style={styles.filterBadgeText}>{activeFiltersCount}</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
+              {featureFlags.advancedFilters && (
+                <TouchableOpacity 
+                  style={[styles.filterButton, activeFiltersCount > 0 && styles.filterButtonActive]}
+                  onPress={() => {
+                    buttonPress();
+                    setShowAdvancedFilters(true);
+                  }}
+                  data-testid="advanced-filters-button"
+                >
+                  <Ionicons name="options-outline" size={20} color={activeFiltersCount > 0 ? colors.white : colors.primary} />
+                  {activeFiltersCount > 0 && (
+                    <View style={styles.filterBadge}>
+                      <Text style={styles.filterBadgeText}>{activeFiltersCount}</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+              )}
             </View>
 
             {/* Quick Filter: Near Me */}
