@@ -522,7 +522,7 @@ function FloristTabs({ onLogout }: { onLogout: () => void }) {
         {({ navigation }: { navigation: any }) =>
           floristId ? (
             selectedConsultationId ? (
-              <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Navigator id="ConsultationStack" screenOptions={{ headerShown: false }}>
                 <Stack.Screen
                   name="ConsultationDetail"
                   options={{ animationEnabled: false }}
