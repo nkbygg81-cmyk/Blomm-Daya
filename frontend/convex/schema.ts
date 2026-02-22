@@ -694,4 +694,43 @@ export default defineSchema({
     .index("by_referrerId", ["referrerId"])
     .index("by_referralCode", ["referralCode"])
     .index("by_status", ["status"]),
+
+  /**
+   * Gift Certificates - Подарункові сертифікати
+   */
+  giftCertificates: defineTable({
+    code: v.string(),                              // Унікальний код сертифіката
+    initialAmount: v.number(),                     // Початкова сума
+    remainingAmount: v.number(),                   // Залишок
+    currency: v.string(),                          // Валюта (kr)
+    purchasedBy: v.optional(v.id("buyers")),       // Хто купив
+    purchasedByDeviceId: v.optional(v.string()),   // Device ID покупця
+    recipientEmail: v.optional(v.string()),        // Email отримувача
+    recipientName: v.optional(v.string()),         // Ім'я отримувача
+    message: v.optional(v.string()),               // Персональне повідомлення
+    status: v.union(
+      v.literal("active"),
+      v.literal("fully_redeemed"),
+      v.literal("expired")
+    ),
+    expiresAt: v.optional(v.number()),             // Термін дії
+    createdAt: v.number(),
+    redeemedAt: v.optional(v.number()),            // Коли використано повністю
+  })
+    .index("by_code", ["code"])
+    .index("by_purchasedBy", ["purchasedBy"])
+    .index("by_purchasedByDeviceId", ["purchasedByDeviceId"])
+    .index("by_status", ["status"]),
+
+  /**
+   * Gift Certificate Redemptions - Історія використання сертифікатів
+   */
+  giftCertificateRedemptions: defineTable({
+    certificateId: v.id("giftCertificates"),
+    orderId: v.id("buyerOrders"),
+    amount: v.number(),                            // Сума використана
+    redeemedAt: v.number(),
+  })
+    .index("by_certificateId", ["certificateId"])
+    .index("by_orderId", ["orderId"]),
 });
