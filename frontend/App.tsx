@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation, useQuery } from "convex/react";
 
+import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { colors, spacing } from "./lib/theme";
 import { CartProvider } from "./lib/CartContext";
 import { registerForPushNotificationsAsync } from "./lib/notifications";
