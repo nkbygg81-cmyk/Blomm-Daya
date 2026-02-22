@@ -285,7 +285,7 @@ function FloristsStack({ authToken }: { authToken: string }) {
 
 function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToken: string }) {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator id="SettingsStack" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SettingsMain">
         {({ navigation }: { navigation: any }) => (
           <BuyerSettingsScreen
