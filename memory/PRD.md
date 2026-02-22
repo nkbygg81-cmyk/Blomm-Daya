@@ -161,6 +161,7 @@ February 2025
 - `convex/referrals.ts` - Backend functions for referral management
 - `lib/useOffline.ts` - Offline cache and sync hooks
 - `backend/tests/test_api.py` - Backend API tests
+- `PhotoEditorModal.tsx` - Photo editor with crop, rotate, presets
 
 ## Backlog
 
