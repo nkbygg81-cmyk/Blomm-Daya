@@ -189,6 +189,7 @@ export default {
     storiesSubtext: "Публікуйте фото ваших робіт",
     floristsSubtext: "Спілкуйтесь з флористами",
     remindersSubtext: "Майбутні події",
+    giftCertificatesSubtext: "Подаруйте близьким квіти",
   },
 
   legal: {
