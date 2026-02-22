@@ -904,4 +904,23 @@ export default {
     shareMessage: "Gå med i Blomm-Daya! Använd min kod {{code}} och få {{bonus}} kr på din första blombeställning!",
     settingsSubtext: "Bjud in vänner och tjäna bonus",
   },
+
+  // Photo Editor
+  photoEditor: {
+    title: "Fotoredigerare",
+    reset: "Återställ",
+    save: "Spara",
+    adjust: "Justera",
+    presets: "Förval",
+    brightness: "Ljusstyrka",
+    contrast: "Kontrast",
+    saturation: "Mättnad",
+    rotation: "Rotation",
+    presets: {
+      original: "Original",
+      vibrant: "Livfull",
+      warm: "Varm",
+      natural: "Naturlig",
+    },
+  },
 };
