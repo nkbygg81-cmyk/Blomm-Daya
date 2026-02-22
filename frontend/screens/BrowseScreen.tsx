@@ -11,6 +11,7 @@ import { buttonPress, buttonPressMedium } from "../lib/haptics";
 import { FloristStoriesBar } from "./FloristStoriesScreen";
 import { formatPrice } from "../lib/formatPrice";
 import { AdvancedFiltersModal, FilterState } from "./AdvancedFiltersModal";
+import { useFeatureFlags } from "../lib/useFeatureFlags";
 
 type PublicFlower = {
   id: string;
