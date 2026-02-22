@@ -196,8 +196,16 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
           flower.description?.toLowerCase().includes(searchQuery.toLowerCase())
         : true;
       const matchesMode = viewMode === "catalog" ? true : flower.floristId != null;
-      return matchesSearch && matchesMode;
+      
+      // Apply price filter
+      const matchesPrice = flower.price >= advancedFilters.priceMin && flower.price <= advancedFilters.priceMax;
+      
+      // Apply rating filter (if available)
+      const matchesRating = advancedFilters.minRating === 0 || true; // We don't have rating on flowers yet
+      
+      return matchesSearch && matchesMode && matchesPrice && matchesRating;
     });
+    
     // Apply location filtering
     if (filterMode === "nearMe" && userLocation) {
       results = results
@@ -215,12 +223,76 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
       const matchesCity = selectedCity ? (flower: PublicFlower) => flower.floristCity === selectedCity : () => true;
       results = results.filter((flower: PublicFlower) => matchesCountry(flower) && matchesCity(flower));
     }
-    // Apply category/occasion filtering
-    if (selectedCategory) {
-      results = results.filter((flower: PublicFlower) => matchesCategory(flower, selectedCategory));
+    
+    // Apply category/occasion filtering (from advanced filters or categories)
+    const activeOccasions = advancedFilters.occasions.length > 0 ? advancedFilters.occasions : (selectedCategory ? [selectedCategory] : []);
+    if (activeOccasions.length > 0) {
+      results = results.filter((flower: PublicFlower) => 
+        activeOccasions.some(occasion => matchesCategory(flower, occasion))
+      );
     }
+    
+    // Apply color filtering (basic keyword matching)
+    if (advancedFilters.colors.length > 0) {
+      const colorKeywords: Record<string, string[]> = {
+        red: ["red", "червон", "röd"],
+        pink: ["pink", "рожев", "rosa"],
+        white: ["white", "біл", "vit"],
+        yellow: ["yellow", "жовт", "gul"],
+        orange: ["orange", "помаранч", "orange"],
+        purple: ["purple", "violet", "фіолетов", "lila"],
+        blue: ["blue", "синій", "блакит", "blå"],
+        mixed: ["mixed", "мікс", "mix", "assorted", "різнокольор"],
+      };
+      results = results.filter((flower: PublicFlower) => {
+        const haystack = `${flower.name} ${flower.description ?? ""}`.toLowerCase();
+        return advancedFilters.colors.some(color => {
+          const keywords = colorKeywords[color] || [];
+          return keywords.some(kw => haystack.includes(kw));
+        });
+      });
+    }
+    
+    // Apply sorting
+    switch (advancedFilters.sortBy) {
+      case "price_asc":
+        results = [...results].sort((a, b) => a.price - b.price);
+        break;
+      case "price_desc":
+        results = [...results].sort((a, b) => b.price - a.price);
+        break;
+      case "newest":
+        // Assuming newer items have higher IDs or we sort by some timestamp if available
+        results = [...results].reverse();
+        break;
+      case "rating":
+        // We don't have ratings on flowers yet, so keep original order
+        break;
+      default:
+        // relevance - keep original order
+        break;
+    }
+    
     return results;
-  }, [flowers, searchQuery, selectedCountry, selectedCity, viewMode, filterMode, userLocation, selectedCategory, locale]);
+  }, [flowers, searchQuery, selectedCountry, selectedCity, viewMode, filterMode, userLocation, selectedCategory, locale, advancedFilters]);
+
+  // Calculate active filters count
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (advancedFilters.priceMin > 0) count++;
+    if (advancedFilters.priceMax < 5000) count++;
+    count += advancedFilters.occasions.length;
+    count += advancedFilters.colors.length;
+    if (advancedFilters.minRating > 0) count++;
+    if (advancedFilters.sortBy !== "relevance") count++;
+    return count;
+  }, [advancedFilters]);
+
+  // Get max price for slider
+  const maxPrice = useMemo(() => {
+    if (!flowers || flowers.length === 0) return 5000;
+    return Math.max(...flowers.map((f: any) => f.price), 1000);
+  }, [flowers]);
 
   const handleAddToCart = useCallback(
     (flower: PublicFlower) => {
