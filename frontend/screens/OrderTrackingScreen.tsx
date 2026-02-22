@@ -5,7 +5,8 @@ import {
   ScrollView, 
   TouchableOpacity, 
   Image,
-  RefreshControl 
+  RefreshControl,
+  Modal,
 } from "react-native";
 import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
@@ -14,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
 import { useTranslation } from "../lib/i18n/useTranslation";
 import type { Id } from "../convex/_generated/dataModel";
+import { CourierTrackingIndicator, CourierTrackingScreen } from "./CourierTrackingScreen";
 
 type Props = {
   orderId: string;
