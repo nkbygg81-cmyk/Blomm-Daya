@@ -660,10 +660,30 @@ modalProgress: {
   fontSize: 12,
   color: colors.muted,
 },
+imagePreviewContainer: {
+  position: "relative",
+},
 modalImage: {
   width: "100%",
   height: 300,
   backgroundColor: colors.muted + "20",
+},
+editPhotoButton: {
+  position: "absolute",
+  bottom: spacing.md,
+  right: spacing.md,
+  flexDirection: "row",
+  alignItems: "center",
+  gap: spacing.xs,
+  backgroundColor: colors.primary,
+  paddingVertical: spacing.sm,
+  paddingHorizontal: spacing.md,
+  borderRadius: radius.md,
+},
+editPhotoButtonText: {
+  color: colors.white,
+  fontSize: 14,
+  fontWeight: "600",
 },
 modalForm: {
   padding: spacing.lg,
