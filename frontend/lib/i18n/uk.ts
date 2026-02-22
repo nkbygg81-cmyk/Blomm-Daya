@@ -784,4 +784,91 @@ export default {
     networkError: "Помилка з'єднання. Перевірте інтернет.",
     clearChat: "Очистити чат",
   },
+
+  // Advanced Filters
+  filters: {
+    title: "Фільтри",
+    reset: "Скинути",
+    apply: "Застосувати",
+    price: {
+      title: "Ціна",
+      min: "Мін",
+      max: "Макс",
+    },
+    occasions: {
+      title: "Привід",
+      birthday: "День народження",
+      wedding: "Весілля",
+      anniversary: "Річниця",
+      romantic: "Романтика",
+      sympathy: "Співчуття",
+      congratulations: "Вітання",
+      thankYou: "Подяка",
+      newBaby: "Новонароджений",
+    },
+    colors: {
+      title: "Колір",
+      red: "Червоний",
+      pink: "Рожевий",
+      white: "Білий",
+      yellow: "Жовтий",
+      orange: "Помаранчевий",
+      purple: "Фіолетовий",
+      blue: "Синій",
+      mixed: "Мікс",
+    },
+    rating: {
+      title: "Рейтинг",
+      any: "Будь-який",
+    },
+    sort: {
+      title: "Сортування",
+      relevance: "За релевантністю",
+      priceAsc: "Дешевші спочатку",
+      priceDesc: "Дорожчі спочатку",
+      rating: "За рейтингом",
+      newest: "Новинки",
+    },
+    button: "Фільтри",
+    activeCount: "активних",
+  },
+
+  // Florist Analytics
+  floristAnalytics: {
+    title: "Аналітика",
+    period: {
+      week: "Тиждень",
+      month: "Місяць",
+      quarter: "Квартал",
+      year: "Рік",
+    },
+    metrics: {
+      revenue: "Дохід",
+      orders: "Замовлень",
+      avgOrder: "Середній чек",
+      conversion: "Конверсія",
+    },
+    charts: {
+      salesOverTime: "Продажі за період",
+      topProducts: "Топ товарів",
+      ordersByStatus: "Замовлення за статусом",
+    },
+    customers: {
+      title: "Клієнти",
+      new: "Нові",
+      returning: "Повторні",
+      ratio: "Співвідношення",
+    },
+    comparison: {
+      title: "Порівняння з минулим періодом",
+      growth: "Зростання",
+      decline: "Спад",
+    },
+    export: {
+      title: "Експорт",
+      csv: "Завантажити CSV",
+      pdf: "Завантажити PDF",
+    },
+    noData: "Немає даних за цей період",
+  },
 };
