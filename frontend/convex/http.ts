@@ -4154,7 +4154,7 @@ http.route({
       "feature_push_notifications", "feature_promo_codes", "feature_multi_language",
       "feature_dark_mode", "feature_offline_mode", "feature_analytics",
       "feature_calendar", "feature_delivery_zones", "feature_express_delivery",
-      "feature_scheduled_delivery", "feature_reminders"
+      "feature_scheduled_delivery", "feature_reminders", "feature_advanced_filters"
     ];
 
     for (const key of featureKeys) {
@@ -4188,7 +4188,7 @@ http.route({
       "feature_push_notifications", "feature_promo_codes", "feature_multi_language",
       "feature_dark_mode", "feature_offline_mode", "feature_analytics",
       "feature_calendar", "feature_delivery_zones", "feature_express_delivery",
-      "feature_scheduled_delivery", "feature_reminders"
+      "feature_scheduled_delivery", "feature_reminders", "feature_advanced_filters"
     ];
 
     for (const key of featureKeys) {
