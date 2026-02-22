@@ -256,8 +256,7 @@ function FloristsStack({ authToken }: { authToken: string }) {
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="FloristsMain">
+    <Stack.Navigator id="FloristsStack" screenOptions={{ headerShown: false }}>
         {({ navigation }: { navigation: any }) => (
           <FloristSelectionScreen
             buyerId={buyer.id}
