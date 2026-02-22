@@ -27,7 +27,7 @@ onNavigateToOrders: (status?: string) => void;
 onNavigateToAnalytics?: () => void;
 };
 
-export function FloristDashboardScreen({ floristId, onNavigateToOrders }: Props) {
+export function FloristDashboardScreen({ floristId, onNavigateToOrders, onNavigateToAnalytics }: Props) {
 const { t } = useTranslation();
 
 const orders = useQuery(api.floristOrders.listForFlorist, { 
