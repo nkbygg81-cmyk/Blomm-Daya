@@ -174,6 +174,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  loading: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
