@@ -208,7 +208,8 @@ export default defineSchema({
    * Reviews for flowers/bouquets
    */
   reviews: defineTable(v.any())
-    .index("by_flowerId", ["flowerId"]),
+    .index("by_flowerId", ["flowerId"])
+    .index("by_orderId", ["orderId"]),
 
   /**
    * Reviews for florists
