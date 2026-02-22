@@ -350,6 +350,11 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
           <GiftCertificatesScreen onBack={() => navigation.goBack()} />
         )}
       </Stack.Screen>
+      <Stack.Screen name="AIChat">
+        {({ navigation }: { navigation: any }) => (
+          <AIChatbotScreen onBack={() => navigation.goBack()} />
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
