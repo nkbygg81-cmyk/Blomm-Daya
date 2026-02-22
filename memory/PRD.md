@@ -145,40 +145,92 @@ All features can be enabled/disabled from the admin panel at `/admin/features`.
 - `STRIPE_WEBHOOK_SECRET` - Stripe webhook signature
 
 ## Last Updated
-February 2025
+December 2025
 
-## Recent Changes (Latest Session)
-- ✅ Implemented Dark Mode with ThemeProvider
-- ✅ Added theme toggle in Settings screen (controlled by feature flag)
-- ✅ Translations for dark mode added (UK, EN, SV)
-- ✅ All colors dynamically switch based on theme
-- ✅ **Referral Program v2** - Full referral system with codes, stats, sharing
-- ✅ **Offline Mode** - Cache system with queue for offline actions
-- ✅ **Backend Tests** - 8 pytest tests for API endpoints (all passing)
+## Recent Changes (Latest Session - December 2025)
+### Phase 1 Implementation
+- ✅ **Wishlist (Список бажань)** - Full implementation
+  - Added heart button on product cards in BrowseScreen
+  - Created WishlistScreen with list view, add to cart, remove functionality
+  - Backend functions: getWishlist, toggleWishlist, removeFromWishlist, clearWishlist
+  - Integrated with Settings navigation
+  - Full dark mode support
+  
+- ✅ **AI Greeting Cards (Вітальні листівки)** - Full implementation
+  - Created GreetingCardScreen with occasion selection (8 occasions)
+  - Multi-language greeting templates (UK, EN, SV)
+  - Personalization with recipient/sender names
+  - Edit and regenerate functionality
+  - History of generated cards
+  - Backend functions: generateGreeting, updateGreetingText, getMyGreetingCards, getOccasions
+  
+- ✅ **Photo Reviews Component** - Created PhotoReviewsScreen
+  - Upload photos with reviews
+  - Rating system with stars
+  - Gallery view with fullscreen modal
+  - Pending moderation workflow
+  
+- ✅ **Navigation Integration**
+  - Added Wishlist and Greeting Cards to Settings menu
+  - Updated BuyerSettingsScreen props
 
-## New Components Added
-- `ReferralProgramScreen.tsx` - Full referral UI with stats and sharing
-- `convex/referrals.ts` - Backend functions for referral management
-- `lib/useOffline.ts` - Offline cache and sync hooks
-- `backend/tests/test_api.py` - Backend API tests
-- `PhotoEditorModal.tsx` - Photo editor with crop, rotate, presets
-- `convex/categories.ts` - Category management backend functions
-- Admin Categories Page (`/admin/categories`) - Full CRUD for categories
+### Translations Added
+- `wishlist.*` - All wishlist related strings
+- `greetingCards.*` - Greeting card strings including occasions
+- `photoReviews.*` - Photo reviews strings
+
+## New Components Added (December 2025)
+- `WishlistScreen.tsx` - Wishlist management with cart integration
+- `GreetingCardScreen.tsx` - AI-generated greeting cards
+- `PhotoReviewsScreen.tsx` - Photo reviews component and gallery
+- `convex/wishlist.ts` - Wishlist backend functions (existing)
+- `convex/greetingCards.ts` - Greeting cards backend functions (existing)
 
 ## Backlog
 
-### P1 - High Priority
-- [ ] Dark mode implementation
+### P0 - In Progress (Phase 1)
+- [x] Wishlist implementation
+- [x] AI Greeting Cards implementation  
+- [ ] Photo Reviews backend integration (currently using mock data)
 
-### P2 - Medium Priority
-- [ ] Performance optimizations
-- [ ] Offline mode improvements
+### P1 - Upcoming (Phase 2: Sales & Marketing)
+- [ ] Abandoned cart reminders
+- [ ] "Similar Products" AI recommendations
+- [ ] Product bundles
+- [ ] Holiday auto-reminders
+- [ ] Customer photo gallery
+- [ ] Gamification
+- [ ] Customer stories
+- [ ] Discount notifications
+
+### P1 - Delivery Improvements
+- [ ] Live courier tracking
+- [ ] Delivery time slot selection
+- [ ] Self-pickup option
+- [ ] Pickup point integration
+
+### P2 - AI & Automation
+- [ ] AI bouquet generator
+- [ ] AI review moderation
+
+### P2 - Social Features
+- [ ] Group orders
+- [ ] Share bouquet to social media
+- [ ] Public events
+
+### P2 - Florist Tools
+- [ ] Expanded analytics
+- [ ] Dynamic pricing
+- [ ] Inventory management
+- [ ] Florist CRM
 
 ### P3 - Low Priority  
-- [ ] Referral program v2
+- [ ] Performance optimizations
+- [ ] Offline mode improvements
 - [ ] Test coverage improvements
 
 ## Known Issues
 - Expo tunnel may fail due to ngrok issues (external dependency)
 - TypeScript errors in test files (missing Jest dev dependencies)
 - Image resizeMode deprecation warnings
+- Photo Reviews currently using mock data (needs full backend integration)
