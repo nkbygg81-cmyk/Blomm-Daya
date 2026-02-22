@@ -2,9 +2,14 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from "rea
 import { colors, spacing } from "../lib/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useCart } from "../lib/CartContext";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useTranslation } from "../lib/i18n/useTranslation";
+import { useTheme } from "../lib/ThemeContext";
+import { SimilarProductsSection } from "../components/SimilarProductsSection";
+import { useState, useEffect } from "react";
+import { getBuyerDeviceId } from "../lib/buyerDeviceId";
+import { buttonPress } from "../lib/haptics";
 
 type Flower = {
   id: string;
