@@ -28,8 +28,36 @@ Mobile flower shop application "Blomm-Daya" built with Expo/React Native and Con
 - [x] **Gift Certificates** - Purchase and redeem gift certificates
 - [x] **AI Chatbot** - LLM-powered assistant for flower recommendations
 - [x] **Feature Flags System** - Dynamic feature management via admin panel
-- [x] **Advanced Filters** - Price, occasion, color, rating, sorting filters for flower catalog (NEW)
-- [x] **Florist Analytics Dashboard** - Revenue, orders, top products, customer analytics (NEW)
+- [x] **Advanced Filters** - Price, occasion, color, rating, sorting filters
+- [x] **Florist Analytics Dashboard** - Revenue, orders, top products, customer analytics
+- [x] **Wishlist** - Save favorite flowers with heart button
+- [x] **AI Greeting Cards** - Generate personalized greeting messages
+- [x] **Photo Reviews** - Upload photos with reviews
+- [x] **Product Bundles** - Bundle deals with discounts
+- [x] **Delivery Time Slots** - Select delivery date/time
+- [x] **Similar Products** - AI-powered product recommendations
+- [x] **AI Bouquet Generator** - Describe and generate bouquet suggestions
+- [x] **AI Review Moderation** - Auto-moderate reviews for spam
+- [x] **Live Courier Tracking** - Real-time GPS tracking during delivery
+- [x] **Abandoned Cart** - Cart recovery tracking and reminders
+- [x] **Trending Products** - Show popular products on homepage
+- [x] **Personalized Recommendations** - Based on purchase history
+
+### Homepage Sections (BrowseScreen)
+- [x] Florist Stories
+- [x] Featured Bundles
+- [x] Trending Products
+- [x] Personalized Recommendations
+- [x] Search with Advanced Filters
+- [x] Category browsing
+- [x] Product grid with Wishlist hearts
+
+### Checkout Flow
+- [x] Delivery Type Selection (delivery/pickup)
+- [x] Time Slot Selection with extra fees
+- [x] Address with suggestions
+- [x] Promo codes
+- [x] Order Summary with all fees
 
 ### Web Admin Panel Features (convex/http.ts)
 - [x] Florist applications management
