@@ -986,4 +986,119 @@ export default {
     permissionNeeded: "Дозвіл потрібен",
     permissionMessage: "Дозвольте доступ до галереї для завантаження фото",
   },
+
+  // Abandoned Cart
+  abandonedCart: {
+    title: "Ви забули щось!",
+    subtitle: "У вашому кошику залишилися квіти",
+    returnToCart: "Повернутися до кошика",
+    continueShopping: "Продовжити покупки",
+    itemsLeft: "товарів у кошику",
+    specialOffer: "Спеціальна пропозиція",
+    discountMessage: "Завершіть замовлення зараз та отримайте знижку",
+  },
+
+  // Product Bundles
+  bundles: {
+    title: "Набори букетів",
+    subtitle: "Вигідні пропозиції",
+    save: "Економія",
+    originalPrice: "Звичайна ціна",
+    bundlePrice: "Ціна набору",
+    includes: "Включає",
+    items: "позицій",
+    addBundle: "Додати набір",
+    viewAll: "Всі набори",
+    featured: "Рекомендовані набори",
+    create: "Створити набір",
+    discount: "Знижка",
+  },
+
+  // Delivery Time Slots
+  deliverySlots: {
+    title: "Час доставки",
+    subtitle: "Оберіть зручний час",
+    selectDate: "Оберіть дату",
+    selectTime: "Оберіть час",
+    morning: "Ранок (9:00-12:00)",
+    afternoon: "День (12:00-15:00)",
+    evening: "Вечір (15:00-18:00)",
+    lateEvening: "Пізній вечір (18:00-21:00)",
+    express1h: "Експрес (протягом 1 години)",
+    express2h: "Експрес (протягом 2 годин)",
+    extraFee: "Додаткова плата",
+    unavailable: "Недоступно",
+    selected: "Обрано",
+    today: "Сьогодні",
+    tomorrow: "Завтра",
+  },
+
+  // Similar Products
+  similarProducts: {
+    title: "Схожі букети",
+    subtitle: "Вам також може сподобатися",
+    basedOn: "На основі",
+    yourPurchases: "Ваших покупок",
+    trending: "Популярне",
+    recommendations: "Рекомендації для вас",
+  },
+
+  // AI Bouquet Generator
+  aiBouquet: {
+    title: "AI Генератор букетів",
+    subtitle: "Опишіть ваш ідеальний букет",
+    placeholder: "Наприклад: романтичний букет з троянд для річниці...",
+    generate: "Згенерувати",
+    generating: "Генерую...",
+    selectStyle: "Оберіть стиль",
+    styles: {
+      classic: "Класичний",
+      modern: "Сучасний",
+      romantic: "Романтичний",
+      wild: "Польовий",
+      luxury: "Люкс",
+    },
+    budget: "Бюджет",
+    occasion: "Привід",
+    suggestions: "Пропозиції",
+    matchingProducts: "Підходящі букети",
+    noResults: "Не знайдено пропозицій",
+    tryAgain: "Спробуйте інший опис",
+  },
+
+  // Courier Tracking
+  courierTracking: {
+    title: "Відстеження доставки",
+    subtitle: "Слідкуйте за вашим замовленням",
+    courierOnTheWay: "Кур'єр в дорозі",
+    estimatedArrival: "Очікуваний час",
+    minutes: "хвилин",
+    distance: "Відстань",
+    km: "км",
+    courierName: "Ім'я кур'єра",
+    courierPhone: "Телефон кур'єра",
+    call: "Зателефонувати",
+    trackingActive: "Відстеження активне",
+    trackingInactive: "Відстеження неактивне",
+    startTracking: "Почати відстеження",
+    stopTracking: "Зупинити відстеження",
+    lastUpdate: "Останнє оновлення",
+  },
+
+  // Review Moderation
+  reviewModeration: {
+    title: "Модерація відгуків",
+    pending: "Очікують модерації",
+    approved: "Схвалені",
+    rejected: "Відхилені",
+    approve: "Схвалити",
+    reject: "Відхилити",
+    reason: "Причина",
+    autoScore: "Автоматична оцінка",
+    manualReview: "Ручна перевірка",
+    stats: "Статистика",
+    totalModerated: "Всього модеровано",
+    autoPassed: "Автосхвалено",
+    autoRejected: "Автовідхилено",
+  },
 };
