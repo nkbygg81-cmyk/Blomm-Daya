@@ -131,6 +131,45 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
     sortBy: "relevance",
   });
 
+  // Wishlist state
+  const [buyerDeviceId, setBuyerDeviceId] = useState<string | null>(null);
+  const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set());
+  
+  const toggleWishlist = useMutation(api.wishlist.toggleWishlist);
+  const wishlistData = useQuery(
+    api.wishlist.getWishlist,
+    buyerDeviceId ? { buyerDeviceId } : "skip"
+  );
+
+  // Initialize buyer device ID and wishlist
+  useEffect(() => {
+    getBuyerDeviceId().then(setBuyerDeviceId);
+  }, []);
+
+  // Sync wishlist IDs
+  useEffect(() => {
+    if (wishlistData) {
+      setWishlistIds(new Set(wishlistData.map(item => item.flowerId)));
+    }
+  }, [wishlistData]);
+
+  const handleToggleWishlist = useCallback(async (flower: PublicFlower) => {
+    if (!buyerDeviceId) return;
+    buttonPress();
+    try {
+      await toggleWishlist({
+        buyerDeviceId,
+        flowerId: flower.id,
+        flowerName: flower.name,
+        flowerPrice: flower.price,
+        flowerImage: flower.imageUrl || undefined,
+        floristName: flower.floristName,
+      });
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  }, [buyerDeviceId, toggleWishlist]);
+
   const flowers = useQuery(api.flowers.listPublicFlowersWithLocation, {});
   const florists = useQuery(api.florists.listByCountry, {
     country: selectedCountry || "Ukraine",
