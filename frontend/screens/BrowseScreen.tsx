@@ -407,6 +407,39 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
             {/* Florist Stories */}
             <FloristStoriesBar />
 
+            {/* Featured Bundles Section */}
+            <FeaturedBundlesSection 
+              onViewAll={() => {
+                // Navigate to bundles screen - handled by parent
+              }}
+              onBundlePress={(bundleId) => {
+                // Navigate to bundle detail - handled by parent
+              }}
+            />
+
+            {/* Trending Products Section */}
+            <TrendingProductsSection 
+              onFlowerPress={(flowerId) => {
+                const flower = flowers?.find((f: any) => f._id?.toString() === flowerId || f.id === flowerId);
+                if (flower) {
+                  onFlowerPress(flower as any);
+                }
+              }}
+            />
+
+            {/* Personalized Recommendations */}
+            {buyerDeviceId && (
+              <PersonalizedRecommendations 
+                buyerDeviceId={buyerDeviceId}
+                onFlowerPress={(flowerId) => {
+                  const flower = flowers?.find((f: any) => f._id?.toString() === flowerId || f.id === flowerId);
+                  if (flower) {
+                    onFlowerPress(flower as any);
+                  }
+                }}
+              />
+            )}
+
             {/* Search Bar */}
             <View style={styles.searchContainer}>
               <Ionicons name="search-outline" size={20} color={colors.muted} style={styles.searchIcon} />
