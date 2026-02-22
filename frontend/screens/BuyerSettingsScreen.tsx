@@ -210,6 +210,14 @@ export function BuyerSettingsScreen({
       onPress: onAIChatPress,
       color: themeColors.primary,
     },
+    // Referral Program - only show if feature is enabled
+    ...(featureFlags.referralProgram ? [{
+      icon: "people-outline" as const,
+      label: t("referral.title"),
+      sublabel: t("referral.settingsSubtext"),
+      onPress: onReferralPress,
+      color: themeColors.info,
+    }] : []),
     {
       icon: "person-outline",
       label: t("settings.profile"),
