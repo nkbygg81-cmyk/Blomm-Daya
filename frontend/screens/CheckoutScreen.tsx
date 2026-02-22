@@ -853,6 +853,18 @@ export function CheckoutScreen({ onBack }: Props) {
             </View>
           )}
           
+          {/* Time Slot Fee */}
+          {selectedTimeSlot && selectedTimeSlot.extraFee > 0 && (
+            <View style={styles.summaryItem}>
+              <Text style={styles.summaryItemText}>
+                {t("deliverySlots.extraFee")}
+              </Text>
+              <Text style={styles.summaryItemPrice}>
+                {formatPrice(selectedTimeSlot.extraFee)} kr
+              </Text>
+            </View>
+          )}
+          
           <View style={styles.summaryTotal}>
             <Text style={styles.summaryTotalText}>
               {t("checkout.totalLabel")}
