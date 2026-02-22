@@ -22,6 +22,7 @@ type Props = {
   onRemindersPress?: () => void;
   onGiftCertificatesPress?: () => void;
   onAIChatPress?: () => void;
+  onReferralPress?: () => void;
   authToken?: string;
 };
 
