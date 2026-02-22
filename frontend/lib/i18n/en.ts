@@ -191,6 +191,9 @@ floristsSubtext: "Chat with florists",
 remindersSubtext: "Upcoming events",
 giftCertificatesSubtext: "Gift flowers to loved ones",
 aiChatSubtext: "Help choosing a bouquet",
+darkMode: "Dark mode",
+darkModeOn: "On",
+darkModeOff: "Off",
 },
 
 legal: {
