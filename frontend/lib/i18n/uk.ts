@@ -911,12 +911,12 @@ export default {
     reset: "Скинути",
     save: "Зберегти",
     adjust: "Налаштування",
-    presets: "Пресети",
     brightness: "Яскравість",
     contrast: "Контраст",
     saturation: "Насиченість",
     rotation: "Поворот",
     presets: {
+      title: "Пресети",
       original: "Оригінал",
       vibrant: "Яскравий",
       warm: "Теплий",
