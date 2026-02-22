@@ -38,6 +38,7 @@ export function BuyerSettingsScreen({
   onRemindersPress,
   onGiftCertificatesPress,
   onAIChatPress,
+  onReferralPress,
   authToken,
 }: Props) {
   const { t, locale, changeLocale } = useTranslation();
