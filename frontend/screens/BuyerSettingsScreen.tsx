@@ -209,6 +209,22 @@ export function BuyerSettingsScreen({
       onPress: onGreetingCardsPress,
       color: themeColors.info,
     },
+    // Product Bundles
+    {
+      icon: "gift-outline",
+      label: t("bundles.title"),
+      sublabel: t("bundles.subtitle"),
+      onPress: onBundlesPress,
+      color: themeColors.warning,
+    },
+    // AI Bouquet Generator
+    {
+      icon: "color-wand-outline",
+      label: t("aiBouquet.title"),
+      sublabel: t("aiBouquet.subtitle"),
+      onPress: onAIBouquetPress,
+      color: themeColors.success,
+    },
     {
       icon: "storefront-outline",
       label: t("tabs.florists"),
@@ -222,7 +238,7 @@ export function BuyerSettingsScreen({
       onPress: onRemindersPress,
     },
     {
-      icon: "gift-outline",
+      icon: "ribbon-outline",
       label: t("giftCertificates.title"),
       sublabel: t("settings.giftCertificatesSubtext"),
       onPress: onGiftCertificatesPress,
