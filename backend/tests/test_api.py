@@ -39,8 +39,8 @@ class TestChatEndpoint:
     def test_chat_with_empty_message(self):
         """Test chat endpoint with empty message."""
         response = client.post("/api/chat", json={"message": ""})
-        # Should still work but may return error about empty message
-        assert response.status_code in [200, 400, 500]
+        # Empty message should return 422 validation error
+        assert response.status_code == 422
 
     def test_chat_message_structure(self):
         """Test that chat request has correct structure."""
