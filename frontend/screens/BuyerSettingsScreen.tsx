@@ -188,6 +188,13 @@ export function BuyerSettingsScreen({
       onPress: onGiftCertificatesPress,
     },
     {
+      icon: "sparkles-outline",
+      label: t("aiChat.title"),
+      sublabel: t("settings.aiChatSubtext"),
+      onPress: onAIChatPress,
+      color: colors.primary,
+    },
+    {
       icon: "person-outline",
       label: t("settings.profile"),
       onPress: onProfilePress,
