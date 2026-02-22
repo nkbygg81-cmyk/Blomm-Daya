@@ -810,4 +810,127 @@ export default defineSchema({
   })
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_orderId", ["orderId"]),
+
+  // Abandoned Carts for recovery reminders
+  abandonedCarts: defineTable({
+    buyerDeviceId: v.string(),
+    items: v.array(v.object({
+      flowerId: v.string(),
+      name: v.string(),
+      price: v.number(),
+      imageUrl: v.optional(v.string()),
+      qty: v.number(),
+    })),
+    total: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    reminderSent: v.boolean(),
+    reminderSentAt: v.optional(v.number()),
+    converted: v.boolean(),
+    convertedAt: v.optional(v.number()),
+  })
+    .index("by_buyerDeviceId", ["buyerDeviceId"])
+    .index("by_converted", ["converted"]),
+
+  // Product Bundles
+  productBundles: defineTable({
+    name: v.string(),
+    nameUk: v.optional(v.string()),
+    nameSv: v.optional(v.string()),
+    description: v.optional(v.string()),
+    descriptionUk: v.optional(v.string()),
+    descriptionSv: v.optional(v.string()),
+    imageUrl: v.optional(v.string()),
+    items: v.array(v.object({
+      flowerId: v.string(),
+      flowerName: v.string(),
+      quantity: v.number(),
+    })),
+    originalPrice: v.number(),
+    bundlePrice: v.number(),
+    discountPercent: v.number(),
+    currency: v.optional(v.string()),
+    floristId: v.optional(v.id("florists")),
+    active: v.boolean(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_floristId", ["floristId"])
+    .index("by_active", ["active"]),
+
+  // Delivery Time Slots configuration
+  deliveryTimeSlots: defineTable({
+    floristId: v.id("florists"),
+    id: v.string(),
+    startTime: v.string(),
+    endTime: v.string(),
+    label: v.string(),
+    labelUk: v.optional(v.string()),
+    labelSv: v.optional(v.string()),
+    extraFee: v.number(),
+    active: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_floristId", ["floristId"]),
+
+  // Delivery Slot Bookings
+  deliverySlotBookings: defineTable({
+    orderId: v.id("buyerOrders"),
+    floristId: v.optional(v.id("florists")),
+    date: v.string(),
+    slotId: v.string(),
+    extraFee: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_orderId", ["orderId"])
+    .index("by_date", ["date"])
+    .index("by_floristId", ["floristId"]),
+
+  // AI Bouquet Requests
+  aiBouquetRequests: defineTable({
+    buyerDeviceId: v.string(),
+    prompt: v.string(),
+    style: v.optional(v.string()),
+    occasion: v.optional(v.string()),
+    budget: v.optional(v.number()),
+    colors: v.optional(v.array(v.string())),
+    status: v.string(),
+    resultCount: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_buyerDeviceId", ["buyerDeviceId"]),
+
+  // Review Moderations
+  reviewModerations: defineTable({
+    reviewId: v.string(),
+    reviewType: v.string(),
+    passed: v.boolean(),
+    reason: v.optional(v.string()),
+    score: v.number(),
+    autoModerated: v.boolean(),
+    moderatedAt: v.number(),
+    manuallyReviewed: v.optional(v.boolean()),
+    moderatorNote: v.optional(v.string()),
+    manualReviewedAt: v.optional(v.number()),
+  })
+    .index("by_reviewId", ["reviewId"])
+    .index("by_passed", ["passed"]),
+
+  // Courier Locations for live tracking
+  courierLocations: defineTable({
+    orderId: v.id("buyerOrders"),
+    floristId: v.id("florists"),
+    lat: v.number(),
+    lon: v.number(),
+    heading: v.optional(v.number()),
+    speed: v.optional(v.number()),
+    estimatedArrival: v.optional(v.number()),
+    isActive: v.boolean(),
+    courierName: v.optional(v.string()),
+    courierPhone: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_orderId", ["orderId"])
+    .index("by_floristId", ["floristId"]),
 });
