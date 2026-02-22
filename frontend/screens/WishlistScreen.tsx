@@ -55,7 +55,6 @@ export function WishlistScreen({ onFlowerPress, onBack }: Props) {
       name: item.flowerName,
       price: item.flowerPrice,
       imageUrl: item.flowerImage,
-      floristName: item.floristName,
     });
   };
 
