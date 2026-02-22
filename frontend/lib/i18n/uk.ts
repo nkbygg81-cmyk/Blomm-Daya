@@ -190,6 +190,7 @@ export default {
     floristsSubtext: "Спілкуйтесь з флористами",
     remindersSubtext: "Майбутні події",
     giftCertificatesSubtext: "Подаруйте близьким квіти",
+    aiChatSubtext: "Допомога з вибором букета",
   },
 
   legal: {
