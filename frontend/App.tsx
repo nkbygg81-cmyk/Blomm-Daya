@@ -178,7 +178,7 @@ function OrdersStack() {
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator id="OrdersStack" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="OrdersMain">
         {({ navigation }: { navigation: any }) => (
           <OrderHistoryScreen
