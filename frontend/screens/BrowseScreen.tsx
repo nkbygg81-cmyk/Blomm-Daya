@@ -117,6 +117,16 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
   const [showCityPicker, setShowCityPicker] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
   const [filterMode, setFilterMode] = useState<"nearMe" | "byLocation">("nearMe");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [advancedFilters, setAdvancedFilters] = useState<FilterState>({
+    priceMin: 0,
+    priceMax: 5000,
+    categories: [],
+    occasions: [],
+    colors: [],
+    minRating: 0,
+    sortBy: "relevance",
+  });
 
   const flowers = useQuery(api.flowers.listPublicFlowersWithLocation, {});
   const florists = useQuery(api.florists.listByCountry, {
