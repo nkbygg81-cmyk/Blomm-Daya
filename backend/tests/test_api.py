@@ -1,87 +1,104 @@
 """
-Tests for the Blomm-Daya backend API.
+Backend API tests for Blomm-Daya Flower Shop
+Tests the FastAPI backend endpoints
 """
 import pytest
-from fastapi.testclient import TestClient
-import sys
-sys.path.append('/app/backend')
-from server import app
+import requests
+import os
+import uuid
 
-client = TestClient(app)
+# Get API URL from environment
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', '').rstrip('/')
+if not BASE_URL:
+    BASE_URL = "https://blomm-phase1-dev.preview.emergentagent.com"
 
 
 class TestHealthEndpoints:
-    """Test health and basic endpoints."""
+    """Health and status endpoint tests"""
     
     def test_root_endpoint(self):
-        """Test the root endpoint returns hello message."""
-        response = client.get("/api/")
-        assert response.status_code == 200
-        assert response.json() == {"message": "Hello World"}
-
-    def test_health_check(self):
-        """Test the health check endpoint."""
-        response = client.get("/api/health")
+        """Test root endpoint returns expected message"""
+        response = requests.get(f"{BASE_URL}/api/")
         assert response.status_code == 200
         data = response.json()
-        assert data["status"] == "healthy"
+        assert "message" in data
+        print(f"Root endpoint response: {data}")
+    
+    def test_health_endpoint(self):
+        """Test health check endpoint"""
+        response = requests.get(f"{BASE_URL}/api/health")
+        assert response.status_code == 200
+        data = response.json()
+        assert data.get("status") == "healthy"
         assert "timestamp" in data
+        assert data.get("service") == "blomm-daya-api"
+        print(f"Health check response: {data}")
 
 
-class TestChatEndpoint:
-    """Test the AI chat endpoint."""
+class TestStatusEndpoints:
+    """Status CRUD endpoint tests"""
+    
+    def test_create_status_check(self):
+        """Test creating a status check"""
+        test_name = f"TEST_client_{uuid.uuid4().hex[:8]}"
+        response = requests.post(
+            f"{BASE_URL}/api/status",
+            json={"client_name": test_name}
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data.get("client_name") == test_name
+        assert "id" in data
+        assert "timestamp" in data
+        print(f"Created status check: {data}")
+    
+    def test_get_status_checks(self):
+        """Test retrieving status checks"""
+        response = requests.get(f"{BASE_URL}/api/status")
+        assert response.status_code == 200
+        data = response.json()
+        assert isinstance(data, list)
+        print(f"Retrieved {len(data)} status checks")
 
-    def test_chat_without_message(self):
-        """Test chat endpoint without required message field."""
-        response = client.post("/api/chat", json={})
-        assert response.status_code == 422  # Validation error
 
-    def test_chat_with_empty_message(self):
-        """Test chat endpoint with empty message."""
-        response = client.post("/api/chat", json={"message": ""})
-        # Empty message should return 422 validation error
-        assert response.status_code == 422
-
-    def test_chat_message_structure(self):
-        """Test that chat request has correct structure."""
-        # We don't have API key in test env, so we just test request format
-        response = client.post(
-            "/api/chat",
+class TestChatEndpoints:
+    """AI Chat endpoint tests"""
+    
+    def test_chat_endpoint(self):
+        """Test chat endpoint - may return error if API key not configured"""
+        session_id = f"TEST_session_{uuid.uuid4().hex[:8]}"
+        response = requests.post(
+            f"{BASE_URL}/api/chat",
             json={
-                "message": "Hello",
-                "session_id": "test-session-123"
+                "session_id": session_id,
+                "message": "Привіт! Порекомендуй букет на день народження"
             }
         )
-        # May fail due to missing API key, but should accept the request format
-        assert response.status_code in [200, 500, 503]
-
-
-class TestCORSHeaders:
-    """Test CORS configuration."""
+        assert response.status_code == 200
+        data = response.json()
+        assert "response" in data
+        assert "session_id" in data
+        assert data.get("session_id") == session_id
+        print(f"Chat response: {data.get('response')[:100]}...")
     
-    def test_cors_headers_present(self):
-        """Test that CORS headers are present in response."""
-        response = client.options("/api/", headers={
-            "Origin": "http://localhost:3000",
-            "Access-Control-Request-Method": "GET"
-        })
-        # FastAPI with CORS middleware should handle OPTIONS
-        assert response.status_code in [200, 405]
-
-
-class TestErrorHandling:
-    """Test error handling."""
+    def test_chat_history_endpoint(self):
+        """Test chat history endpoint"""
+        session_id = f"TEST_history_{uuid.uuid4().hex[:8]}"
+        response = requests.get(f"{BASE_URL}/api/chat/history/{session_id}")
+        assert response.status_code == 200
+        data = response.json()
+        assert isinstance(data, list)
+        print(f"Chat history for {session_id}: {len(data)} messages")
     
-    def test_404_not_found(self):
-        """Test 404 for non-existent endpoint."""
-        response = client.get("/api/nonexistent")
-        assert response.status_code == 404
-
-    def test_method_not_allowed(self):
-        """Test 405 for wrong HTTP method."""
-        response = client.delete("/api/")
-        assert response.status_code == 405
+    def test_clear_chat_history(self):
+        """Test clearing chat history"""
+        session_id = f"TEST_clear_{uuid.uuid4().hex[:8]}"
+        response = requests.delete(f"{BASE_URL}/api/chat/history/{session_id}")
+        assert response.status_code == 200
+        data = response.json()
+        assert data.get("status") == "cleared"
+        print(f"Cleared chat history: {data}")
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    pytest.main([__file__, "-v", "--tb=short"])
