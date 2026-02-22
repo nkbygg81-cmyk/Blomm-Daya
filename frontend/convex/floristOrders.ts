@@ -113,7 +113,7 @@ export const getOrderDetails = query({
       deliveryAddress: order.deliveryAddress,
       deliveryType: order.deliveryType ?? "delivery",
       note: order.note ?? null,
-      status: order.status,
+      status: order.status as "pending" | "confirmed" | "delivered" | "cancelled",
       items: order.items.map((item: any) => ({
         ...item,
         imageUrl: item.imageUrl ?? null,
