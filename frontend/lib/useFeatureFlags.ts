@@ -78,11 +78,11 @@ export function useFeatureFlags(): FeatureFlags {
     darkMode: getBoolFlag("feature_dark_mode", DEFAULT_FLAGS.darkMode),
     offlineMode: getBoolFlag("feature_offline_mode", DEFAULT_FLAGS.offlineMode),
     analytics: getBoolFlag("feature_analytics", DEFAULT_FLAGS.analytics),
-    calendar: settingsMap.get("feature_calendar") ?? DEFAULT_FLAGS.calendar,
-    deliveryZones: settingsMap.get("feature_delivery_zones") ?? DEFAULT_FLAGS.deliveryZones,
-    expressDelivery: settingsMap.get("feature_express_delivery") ?? DEFAULT_FLAGS.expressDelivery,
-    scheduledDelivery: settingsMap.get("feature_scheduled_delivery") ?? DEFAULT_FLAGS.scheduledDelivery,
-    reminders: settingsMap.get("feature_reminders") ?? DEFAULT_FLAGS.reminders,
+    calendar: getBoolFlag("feature_calendar", DEFAULT_FLAGS.calendar),
+    deliveryZones: getBoolFlag("feature_delivery_zones", DEFAULT_FLAGS.deliveryZones),
+    expressDelivery: getBoolFlag("feature_express_delivery", DEFAULT_FLAGS.expressDelivery),
+    scheduledDelivery: getBoolFlag("feature_scheduled_delivery", DEFAULT_FLAGS.scheduledDelivery),
+    reminders: getBoolFlag("feature_reminders", DEFAULT_FLAGS.reminders),
   };
 }
 
