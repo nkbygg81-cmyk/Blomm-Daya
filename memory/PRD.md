@@ -107,6 +107,35 @@ Mobile flower shop application "Blomm-Daya" built with Expo/React Native and Con
 - Top 5 products by revenue
 - Customer analysis: New vs Returning
 - Historical comparison
+- **Controlled by feature flag**: `feature_analytics`
+
+## Feature Flags System
+All features can be enabled/disabled from the admin panel at `/admin/features`.
+
+### Available Feature Flags (21 total):
+| Flag | Description | Category |
+|------|-------------|----------|
+| `feature_subscriptions` | Підписки на квіти | Покупці |
+| `feature_consultations` | Консультації з флористами | Комунікація |
+| `feature_gift_certificates` | Подарункові сертифікати | Покупці |
+| `feature_ai_chat` | AI Чат-бот | AI |
+| `feature_referral_program` | Реферальна програма | Маркетинг |
+| `feature_loyalty_program` | Програма лояльності | Маркетинг |
+| `feature_stories` | Stories флористів | Флористи |
+| `feature_order_tracking` | Трекінг замовлень | Замовлення |
+| `feature_reviews` | Відгуки | Покупці |
+| `feature_push_notifications` | Push-сповіщення | Комунікація |
+| `feature_promo_codes` | Промокоди | Маркетинг |
+| `feature_multi_language` | Багатомовність | Система |
+| `feature_dark_mode` | Темна тема | Система |
+| `feature_offline_mode` | Офлайн режим | Система |
+| `feature_analytics` | Аналітика для флористів | Флористи |
+| `feature_calendar` | Календар замовлень | Флористи |
+| `feature_delivery_zones` | Зони доставки | Замовлення |
+| `feature_express_delivery` | Експрес-доставка | Замовлення |
+| `feature_scheduled_delivery` | Запланована доставка | Замовлення |
+| `feature_reminders` | Нагадування про події | Покупці |
+| `feature_advanced_filters` | Розширені фільтри | Покупці |
 
 ## Environment Variables
 - `EXPO_PUBLIC_CONVEX_URL` - Convex deployment URL
