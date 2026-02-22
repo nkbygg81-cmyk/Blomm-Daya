@@ -133,7 +133,7 @@ export async function scheduleLocalNotification(
   return await Notifications.scheduleNotificationAsync({
     content: { title, body, data, sound: true },
     trigger: trigger
-      ? { date: trigger instanceof Date ? trigger : new Date(trigger) }
+      ? { type: "date" as const, date: trigger instanceof Date ? trigger : new Date(trigger) }
       : null,
   });
 }
