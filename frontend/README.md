@@ -1,50 +1,86 @@
-# Welcome to your Expo app 👋
+# Blomm Daya
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native application built with Expo for connecting flower buyers with local florists.
 
-## Get started
+## Setup Instructions
 
-1. Install dependencies
+### Prerequisites
 
-   ```bash
-   npm install
-   ```
+- Node.js (v16 or higher)
+- npm or yarn
+- Expo CLI
 
-2. Start the app
+### Installation
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+1. Clone the repository:
 ```bash
-npm run reset-project
+git clone <repository-url>
+cd Blomm-Daya
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Learn more
+3. Configure environment variables:
 
-To learn more about developing your project with Expo, look at the following resources:
+Copy the `.env.example` file to `.env`:
+```bash
+cp .env.example .env
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Edit the `.env` file and replace `your_convex_url_here` with your actual Convex URL:
+```env
+EXPO_PUBLIC_CONVEX_URL=https://your-convex-project.convex.cloud
+```
 
-## Join the community
+**Important:** The `.env` file should never be committed to git. It's already included in `.gitignore`.
 
-Join our community of developers creating universal apps.
+### Running the Application
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+After setting up the environment variables, you can start the development server:
+
+```bash
+npm start
+```
+
+**Note:** After creating or modifying the `.env` file, you need to restart the Expo dev server for the changes to take effect.
+
+### Running on Different Platforms
+
+- **iOS:** `npm run ios`
+- **Android:** `npm run android`
+- **Web:** `npm run web`
+
+### Running Tests
+
+```bash
+npm test
+```
+
+### Environment Variables
+
+This project uses the following environment variables:
+
+- `EXPO_PUBLIC_CONVEX_URL` - The URL for your Convex backend (required)
+
+In Expo, environment variables must start with `EXPO_PUBLIC_` to be accessible in client-side code.
+
+## Project Structure
+
+- `/screens` - React Native screen components
+- `/lib` - Utility functions and shared components
+- `/convex` - Convex backend functions
+- `/__tests__` - Test files
+
+## Contributing
+
+1. Create a new branch for your feature
+2. Make your changes
+3. Ensure all tests pass
+4. Submit a pull request
+
+## License
+
+Private project - All rights reserved
