@@ -112,7 +112,7 @@ function ShopStack() {
   const [selectedFlower, setSelectedFlower] = useState<any>(null);
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator id="ShopStack" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Browse">
         {({ navigation }: { navigation: any }) => (
           <BrowseScreen
