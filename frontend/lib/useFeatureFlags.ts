@@ -46,6 +46,7 @@ const DEFAULT_FLAGS: FeatureFlags = {
   expressDelivery: false,
   scheduledDelivery: true,
   reminders: true,
+  advancedFilters: true,
 };
 
 // Hook for reading feature flags from Convex
