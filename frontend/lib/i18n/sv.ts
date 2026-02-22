@@ -986,4 +986,119 @@ export default {
     permissionNeeded: "Tillstånd krävs",
     permissionMessage: "Tillåt åtkomst till galleriet för att ladda upp foton",
   },
+
+  // Abandoned Cart
+  abandonedCart: {
+    title: "Du glömde något!",
+    subtitle: "Det finns blommor kvar i din kundvagn",
+    returnToCart: "Tillbaka till kundvagn",
+    continueShopping: "Fortsätt handla",
+    itemsLeft: "varor i kundvagnen",
+    specialOffer: "Specialerbjudande",
+    discountMessage: "Slutför din beställning nu och få rabatt",
+  },
+
+  // Product Bundles
+  bundles: {
+    title: "Bukettpaket",
+    subtitle: "Bra erbjudanden",
+    save: "Spara",
+    originalPrice: "Ordinarie pris",
+    bundlePrice: "Paketpris",
+    includes: "Inkluderar",
+    items: "artiklar",
+    addBundle: "Lägg till paket",
+    viewAll: "Visa alla paket",
+    featured: "Utvalda paket",
+    create: "Skapa paket",
+    discount: "Rabatt",
+  },
+
+  // Delivery Time Slots
+  deliverySlots: {
+    title: "Leveranstid",
+    subtitle: "Välj lämplig tid",
+    selectDate: "Välj datum",
+    selectTime: "Välj tid",
+    morning: "Morgon (9:00-12:00)",
+    afternoon: "Eftermiddag (12:00-15:00)",
+    evening: "Kväll (15:00-18:00)",
+    lateEvening: "Sen kväll (18:00-21:00)",
+    express1h: "Express (inom 1 timme)",
+    express2h: "Express (inom 2 timmar)",
+    extraFee: "Extra avgift",
+    unavailable: "Ej tillgänglig",
+    selected: "Vald",
+    today: "Idag",
+    tomorrow: "Imorgon",
+  },
+
+  // Similar Products
+  similarProducts: {
+    title: "Liknande buketter",
+    subtitle: "Du kanske också gillar",
+    basedOn: "Baserat på",
+    yourPurchases: "Dina köp",
+    trending: "Trendande",
+    recommendations: "Rekommendationer för dig",
+  },
+
+  // AI Bouquet Generator
+  aiBouquet: {
+    title: "AI Bukettgenerator",
+    subtitle: "Beskriv din perfekta bukett",
+    placeholder: "T.ex.: romantisk rosbukett för årsdag...",
+    generate: "Generera",
+    generating: "Genererar...",
+    selectStyle: "Välj stil",
+    styles: {
+      classic: "Klassisk",
+      modern: "Modern",
+      romantic: "Romantisk",
+      wild: "Vild",
+      luxury: "Lyx",
+    },
+    budget: "Budget",
+    occasion: "Tillfälle",
+    suggestions: "Förslag",
+    matchingProducts: "Matchande buketter",
+    noResults: "Inga förslag hittades",
+    tryAgain: "Prova en annan beskrivning",
+  },
+
+  // Courier Tracking
+  courierTracking: {
+    title: "Leveransspårning",
+    subtitle: "Spåra din beställning",
+    courierOnTheWay: "Kuriren är på väg",
+    estimatedArrival: "Beräknad ankomst",
+    minutes: "minuter",
+    distance: "Avstånd",
+    km: "km",
+    courierName: "Kurirens namn",
+    courierPhone: "Kurirens telefon",
+    call: "Ring",
+    trackingActive: "Spårning aktiv",
+    trackingInactive: "Spårning inaktiv",
+    startTracking: "Starta spårning",
+    stopTracking: "Stoppa spårning",
+    lastUpdate: "Senaste uppdatering",
+  },
+
+  // Review Moderation
+  reviewModeration: {
+    title: "Recensionsgranskning",
+    pending: "Väntar på granskning",
+    approved: "Godkänd",
+    rejected: "Avvisad",
+    approve: "Godkänn",
+    reject: "Avvisa",
+    reason: "Anledning",
+    autoScore: "Automatiskt betyg",
+    manualReview: "Manuell granskning",
+    stats: "Statistik",
+    totalModerated: "Totalt granskade",
+    autoPassed: "Automatiskt godkända",
+    autoRejected: "Automatiskt avvisade",
+  },
 };
