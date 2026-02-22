@@ -351,6 +351,18 @@ onPress={() => onNavigateToOrders()}
 <Text style={styles.actionButtonText}>{t("floristDashboard.allOrders")}</Text>
 </TouchableOpacity>
 
+{/* Analytics Button */}
+{onNavigateToAnalytics && (
+<TouchableOpacity
+style={[styles.actionButton, styles.analyticsButton]}
+onPress={onNavigateToAnalytics}
+data-testid="analytics-button"
+>
+<Ionicons name="analytics" size={24} color={colors.white} />
+<Text style={styles.actionButtonText}>{t("floristAnalytics.title")}</Text>
+</TouchableOpacity>
+)}
+
 {/* Photo Details Modal */}
 <Modal
   visible={showPhotoModal}
