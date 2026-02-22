@@ -190,6 +190,7 @@ storiesSubtext: "Share photos of your work",
 floristsSubtext: "Chat with florists",
 remindersSubtext: "Upcoming events",
 giftCertificatesSubtext: "Gift flowers to loved ones",
+aiChatSubtext: "Help choosing a bouquet",
 },
 
 legal: {
