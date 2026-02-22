@@ -54,6 +54,7 @@ import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen
 import AdminPanelScreen from "./screens/AdminPanelScreen";
 import { OrderTrackingScreen } from "./screens/OrderTrackingScreen";
 import { GiftCertificatesScreen } from "./screens/GiftCertificatesScreen";
+import { AIChatbotScreen } from "./screens/AIChatbotScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
