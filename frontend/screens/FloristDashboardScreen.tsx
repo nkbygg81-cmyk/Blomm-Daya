@@ -30,6 +30,7 @@ onNavigateToAnalytics?: () => void;
 
 export function FloristDashboardScreen({ floristId, onNavigateToOrders, onNavigateToAnalytics }: Props) {
 const { t } = useTranslation();
+const featureFlags = useFeatureFlags();
 
 const orders = useQuery(api.floristOrders.listForFlorist, { 
 floristId: floristId as any 
