@@ -300,6 +300,8 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
             onAIChatPress={() => navigation.navigate("AIChat")}
             onWishlistPress={() => navigation.navigate("Wishlist")}
             onGreetingCardsPress={() => navigation.navigate("GreetingCards")}
+            onBundlesPress={() => navigation.navigate("ProductBundles")}
+            onAIBouquetPress={() => navigation.navigate("AIBouquetGenerator")}
           />
         )}
       </Stack.Screen>
