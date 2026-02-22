@@ -16,6 +16,7 @@ export const colors = {
   error: "#EF4444",
   overlayDark: "rgba(0, 0, 0, 0.5)",
   shadow: "rgba(0, 0, 0, 0.12)",
+  surface: "#F3F4F6",
 };
 
 export const spacing = {
@@ -27,10 +28,12 @@ export const spacing = {
 };
 
 export const radius = {
+  xs: 4,
   sm: 8,
   md: 12,
   lg: 16,
   xl: 20,
+  full: 9999,
 };
 
 export const shadows = {
