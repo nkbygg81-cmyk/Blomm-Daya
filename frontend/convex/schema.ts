@@ -22,7 +22,11 @@ export default defineSchema({
     isActive: v.optional(v.boolean()),
     createdAt: v.optional(v.number()),
     updatedAt: v.optional(v.number()),
-  }),
+    rating: v.optional(v.number()),
+    category: v.optional(v.string()),
+    floristId: v.optional(v.id("florists")),
+  })
+    .index("by_floristId", ["floristId"]),
   orders: defineTable(v.any()),
   importantDates: defineTable(v.any()),
   
