@@ -139,6 +139,12 @@ export function CartProvider({ children }: any) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [gifts, setGifts] = useState<GiftItem[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [buyerDeviceId, setBuyerDeviceId] = useState<string | null>(null);
+
+  // Abandoned cart tracking
+  const saveCartState = useMutation(api.abandonedCarts.saveCartState);
+  const markCartConverted = useMutation(api.abandonedCarts.markCartConverted);
+  const abandonedCartTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Toast state
   const [toastVisible, setToastVisible] = useState(false);
@@ -146,6 +152,11 @@ export function CartProvider({ children }: any) {
   const [toastImage, setToastImage] = useState<string | null>(null);
   const translateY = useRef(new Animated.Value(-100)).current;
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Get buyer device ID
+  useEffect(() => {
+    getBuyerDeviceId().then(setBuyerDeviceId);
+  }, []);
 
   // Load cart from AsyncStorage on mount
   useEffect(() => {
@@ -172,6 +183,41 @@ export function CartProvider({ children }: any) {
     if (!loaded) return;
     AsyncStorage.setItem(GIFTS_STORAGE_KEY, JSON.stringify(gifts)).catch(() => {});
   }, [gifts, loaded]);
+
+  // Track abandoned cart - debounced to avoid too many API calls
+  useEffect(() => {
+    if (!loaded || !buyerDeviceId) return;
+
+    // Clear existing timer
+    if (abandonedCartTimer.current) {
+      clearTimeout(abandonedCartTimer.current);
+    }
+
+    // Debounce cart state saving (wait 5 seconds after last change)
+    abandonedCartTimer.current = setTimeout(() => {
+      const total = items.reduce((sum, item) => sum + item.price * item.qty, 0) +
+                   gifts.reduce((sum, gift) => sum + gift.price * gift.qty, 0);
+      
+      // Save cart state to backend for abandoned cart tracking
+      saveCartState({
+        buyerDeviceId,
+        items: items.map(item => ({
+          flowerId: item.id,
+          name: item.name,
+          price: item.price,
+          imageUrl: item.imageUrl || undefined,
+          qty: item.qty,
+        })),
+        total,
+      }).catch(console.error);
+    }, 5000);
+
+    return () => {
+      if (abandonedCartTimer.current) {
+        clearTimeout(abandonedCartTimer.current);
+      }
+    };
+  }, [items, gifts, loaded, buyerDeviceId, saveCartState]);
 
   const showToast = useCallback(
     (name: string, imageUrl: string | null) => {
