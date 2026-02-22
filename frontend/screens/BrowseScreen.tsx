@@ -13,6 +13,9 @@ import { formatPrice } from "../lib/formatPrice";
 import { AdvancedFiltersModal, FilterState } from "./AdvancedFiltersModal";
 import { useFeatureFlags } from "../lib/useFeatureFlags";
 import { getBuyerDeviceId } from "../lib/buyerDeviceId";
+import { TrendingProductsSection, PersonalizedRecommendations } from "../components/SimilarProductsSection";
+import { FeaturedBundlesSection } from "./ProductBundlesScreen";
+import { useTheme } from "../lib/ThemeContext";
 
 type PublicFlower = {
   id: string;
