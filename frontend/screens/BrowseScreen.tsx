@@ -362,6 +362,22 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
                   <Ionicons name="close-circle" size={20} color={colors.muted} />
                 </TouchableOpacity>
               )}
+              {/* Advanced Filters Button */}
+              <TouchableOpacity 
+                style={styles.filterButton}
+                onPress={() => {
+                  buttonPress();
+                  setShowAdvancedFilters(true);
+                }}
+                data-testid="advanced-filters-button"
+              >
+                <Ionicons name="options-outline" size={20} color={activeFiltersCount > 0 ? colors.white : colors.primary} />
+                {activeFiltersCount > 0 && (
+                  <View style={styles.filterBadge}>
+                    <Text style={styles.filterBadgeText}>{activeFiltersCount}</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
             </View>
 
             {/* Quick Filter: Near Me */}
