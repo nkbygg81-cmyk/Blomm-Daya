@@ -57,22 +57,27 @@ export function useFeatureFlags(): FeatureFlags {
 
   const settingsMap = new Map(settings.map((s: any) => [s.key, s.value]));
 
+  const getBoolFlag = (key: string, defaultVal: boolean): boolean => {
+    const val = settingsMap.get(key);
+    return typeof val === "boolean" ? val : defaultVal;
+  };
+
   return {
-    subscriptions: settingsMap.get("feature_subscriptions") ?? DEFAULT_FLAGS.subscriptions,
-    consultations: settingsMap.get("feature_consultations") ?? DEFAULT_FLAGS.consultations,
-    giftCertificates: settingsMap.get("feature_gift_certificates") ?? DEFAULT_FLAGS.giftCertificates,
-    aiChat: settingsMap.get("feature_ai_chat") ?? DEFAULT_FLAGS.aiChat,
-    referralProgram: settingsMap.get("feature_referral_program") ?? DEFAULT_FLAGS.referralProgram,
-    loyaltyProgram: settingsMap.get("feature_loyalty_program") ?? DEFAULT_FLAGS.loyaltyProgram,
-    stories: settingsMap.get("feature_stories") ?? DEFAULT_FLAGS.stories,
-    orderTracking: settingsMap.get("feature_order_tracking") ?? DEFAULT_FLAGS.orderTracking,
-    reviews: settingsMap.get("feature_reviews") ?? DEFAULT_FLAGS.reviews,
-    pushNotifications: settingsMap.get("feature_push_notifications") ?? DEFAULT_FLAGS.pushNotifications,
-    promoCodes: settingsMap.get("feature_promo_codes") ?? DEFAULT_FLAGS.promoCodes,
-    multiLanguage: settingsMap.get("feature_multi_language") ?? DEFAULT_FLAGS.multiLanguage,
-    darkMode: settingsMap.get("feature_dark_mode") ?? DEFAULT_FLAGS.darkMode,
-    offlineMode: settingsMap.get("feature_offline_mode") ?? DEFAULT_FLAGS.offlineMode,
-    analytics: settingsMap.get("feature_analytics") ?? DEFAULT_FLAGS.analytics,
+    subscriptions: getBoolFlag("feature_subscriptions", DEFAULT_FLAGS.subscriptions),
+    consultations: getBoolFlag("feature_consultations", DEFAULT_FLAGS.consultations),
+    giftCertificates: getBoolFlag("feature_gift_certificates", DEFAULT_FLAGS.giftCertificates),
+    aiChat: getBoolFlag("feature_ai_chat", DEFAULT_FLAGS.aiChat),
+    referralProgram: getBoolFlag("feature_referral_program", DEFAULT_FLAGS.referralProgram),
+    loyaltyProgram: getBoolFlag("feature_loyalty_program", DEFAULT_FLAGS.loyaltyProgram),
+    stories: getBoolFlag("feature_stories", DEFAULT_FLAGS.stories),
+    orderTracking: getBoolFlag("feature_order_tracking", DEFAULT_FLAGS.orderTracking),
+    reviews: getBoolFlag("feature_reviews", DEFAULT_FLAGS.reviews),
+    pushNotifications: getBoolFlag("feature_push_notifications", DEFAULT_FLAGS.pushNotifications),
+    promoCodes: getBoolFlag("feature_promo_codes", DEFAULT_FLAGS.promoCodes),
+    multiLanguage: getBoolFlag("feature_multi_language", DEFAULT_FLAGS.multiLanguage),
+    darkMode: getBoolFlag("feature_dark_mode", DEFAULT_FLAGS.darkMode),
+    offlineMode: getBoolFlag("feature_offline_mode", DEFAULT_FLAGS.offlineMode),
+    analytics: getBoolFlag("feature_analytics", DEFAULT_FLAGS.analytics),
     calendar: settingsMap.get("feature_calendar") ?? DEFAULT_FLAGS.calendar,
     deliveryZones: settingsMap.get("feature_delivery_zones") ?? DEFAULT_FLAGS.deliveryZones,
     expressDelivery: settingsMap.get("feature_express_delivery") ?? DEFAULT_FLAGS.expressDelivery,
