@@ -24,6 +24,7 @@ type SelectedAsset = {
 type Props = {
 floristId: string;
 onNavigateToOrders: (status?: string) => void;
+onNavigateToAnalytics?: () => void;
 };
 
 export function FloristDashboardScreen({ floristId, onNavigateToOrders }: Props) {
