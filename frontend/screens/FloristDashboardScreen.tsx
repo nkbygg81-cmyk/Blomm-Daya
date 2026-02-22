@@ -47,6 +47,7 @@ const deletePortfolioPhoto = useMutation(api.florists.deletePortfolioPhoto);
 
 const [uploading, setUploading] = useState(false);
 const [showPhotoModal, setShowPhotoModal] = useState(false);
+const [showPhotoEditor, setShowPhotoEditor] = useState(false);
 const [photoUri, setPhotoUri] = useState<string | null>(null);
 const [photoAssetId, setPhotoAssetId] = useState<string | null>(null);
 const [photoDescription, setPhotoDescription] = useState("");
@@ -56,12 +57,24 @@ const [pendingIndex, setPendingIndex] = useState(0);
 
 const resetPhotoModal = () => {
   setShowPhotoModal(false);
+  setShowPhotoEditor(false);
   setPhotoUri(null);
   setPhotoAssetId(null);
   setPhotoDescription("");
   setPhotoPrice("");
   setPendingAssets([]);
   setPendingIndex(0);
+};
+
+const handleEditPhoto = () => {
+  if (photoUri) {
+    setShowPhotoEditor(true);
+  }
+};
+
+const handlePhotoEdited = (editedUri: string) => {
+  setPhotoUri(editedUri);
+  setShowPhotoEditor(false);
 };
 
 const pendingCount = orders?.filter((o: any) => o.status === "pending").length || 0;
