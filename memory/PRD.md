@@ -162,6 +162,8 @@ February 2025
 - `lib/useOffline.ts` - Offline cache and sync hooks
 - `backend/tests/test_api.py` - Backend API tests
 - `PhotoEditorModal.tsx` - Photo editor with crop, rotate, presets
+- `convex/categories.ts` - Category management backend functions
+- Admin Categories Page (`/admin/categories`) - Full CRUD for categories
 
 ## Backlog
 
