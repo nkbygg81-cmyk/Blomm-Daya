@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
@@ -16,23 +17,33 @@ import { useTranslation } from "../lib/i18n/useTranslation";
 import { buttonPress } from "../lib/haptics";
 import { formatPrice } from "../lib/formatPrice";
 import { useCart } from "../lib/CartContext";
+import { useState, useEffect } from "react";
+import { getBuyerDeviceId } from "../lib/buyerDeviceId";
 
 type Props = {
-  buyerDeviceId: string;
   onFlowerPress?: (flowerId: string) => void;
   onBack?: () => void;
 };
 
-export function WishlistScreen({ buyerDeviceId, onFlowerPress, onBack }: Props) {
+export function WishlistScreen({ onFlowerPress, onBack }: Props) {
   const { t } = useTranslation();
   const { colors: themeColors } = useTheme();
   const { addItem } = useCart();
+  const [buyerDeviceId, setBuyerDeviceId] = useState<string | null>(null);
 
-  const wishlist = useQuery(api.wishlist.getWishlist, { buyerDeviceId });
+  useEffect(() => {
+    getBuyerDeviceId().then(setBuyerDeviceId);
+  }, []);
+
+  const wishlist = useQuery(
+    api.wishlist.getWishlist,
+    buyerDeviceId ? { buyerDeviceId } : "skip"
+  );
   const removeFromWishlist = useMutation(api.wishlist.removeFromWishlist);
   const clearWishlist = useMutation(api.wishlist.clearWishlist);
 
   const handleRemove = async (flowerId: string) => {
+    if (!buyerDeviceId) return;
     buttonPress();
     await removeFromWishlist({ buyerDeviceId, flowerId });
   };
@@ -49,6 +60,7 @@ export function WishlistScreen({ buyerDeviceId, onFlowerPress, onBack }: Props) 
   };
 
   const handleClearAll = () => {
+    if (!buyerDeviceId) return;
     Alert.alert(
       t("wishlist.clearTitle"),
       t("wishlist.clearMessage"),
@@ -67,7 +79,7 @@ export function WishlistScreen({ buyerDeviceId, onFlowerPress, onBack }: Props) 
   };
 
   const renderItem = ({ item }: { item: any }) => (
-    <View style={[styles.card, { backgroundColor: themeColors.card, borderColor: themeColors.border }]}>
+    <View style={[styles.card, { backgroundColor: themeColors.card, borderColor: themeColors.border }]} data-testid={`wishlist-item-${item.flowerId}`}>
       <TouchableOpacity
         style={styles.cardContent}
         onPress={() => onFlowerPress?.(item.flowerId)}
@@ -98,12 +110,14 @@ export function WishlistScreen({ buyerDeviceId, onFlowerPress, onBack }: Props) 
         <TouchableOpacity
           style={[styles.actionBtn, styles.cartBtn, { backgroundColor: themeColors.primary }]}
           onPress={() => handleAddToCart(item)}
+          data-testid={`add-cart-${item.flowerId}`}
         >
           <Ionicons name="cart-outline" size={20} color={themeColors.white} />
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionBtn, styles.removeBtn, { backgroundColor: themeColors.danger + "20" }]}
           onPress={() => handleRemove(item.flowerId)}
+          data-testid={`remove-wishlist-${item.flowerId}`}
         >
           <Ionicons name="heart-dislike-outline" size={20} color={themeColors.danger} />
         </TouchableOpacity>
@@ -119,17 +133,25 @@ export function WishlistScreen({ buyerDeviceId, onFlowerPress, onBack }: Props) 
     </View>
   );
 
+  if (!buyerDeviceId) {
+    return (
+      <View style={[styles.container, styles.loading, { backgroundColor: themeColors.bg }]}>
+        <ActivityIndicator size="large" color={themeColors.primary} />
+      </View>
+    );
+  }
+
   return (
-    <View style={[styles.container, { backgroundColor: themeColors.bg }]}>
+    <View style={[styles.container, { backgroundColor: themeColors.bg }]} data-testid="wishlist-screen">
       <View style={[styles.header, { borderBottomColor: themeColors.border }]}>
         {onBack && (
-          <TouchableOpacity onPress={onBack} style={styles.backBtn}>
+          <TouchableOpacity onPress={onBack} style={styles.backBtn} data-testid="wishlist-back-btn">
             <Ionicons name="arrow-back" size={24} color={themeColors.text} />
           </TouchableOpacity>
         )}
         <Text style={[styles.title, { color: themeColors.text }]}>{t("wishlist.title")}</Text>
         {wishlist && wishlist.length > 0 && (
-          <TouchableOpacity onPress={handleClearAll} style={styles.clearBtn}>
+          <TouchableOpacity onPress={handleClearAll} style={styles.clearBtn} data-testid="clear-wishlist-btn">
             <Text style={[styles.clearText, { color: themeColors.danger }]}>{t("wishlist.clearAll")}</Text>
           </TouchableOpacity>
         )}
@@ -145,6 +167,7 @@ export function WishlistScreen({ buyerDeviceId, onFlowerPress, onBack }: Props) 
       />
     </View>
   );
+}
 }
 
 const styles = StyleSheet.create({
