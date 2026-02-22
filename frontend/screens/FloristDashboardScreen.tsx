@@ -463,6 +463,16 @@ keyboardType="decimal-pad"
 </View>
 </View>
 </Modal>
+
+{/* Photo Editor Modal */}
+{photoUri && (
+  <PhotoEditorModal
+    visible={showPhotoEditor}
+    imageUri={photoUri}
+    onClose={() => setShowPhotoEditor(false)}
+    onSave={handlePhotoEdited}
+  />
+)}
 </ScrollView>
 );
 }
