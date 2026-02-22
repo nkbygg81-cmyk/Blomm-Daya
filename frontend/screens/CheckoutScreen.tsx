@@ -10,6 +10,7 @@ import {
   Linking,
   ActivityIndicator,
   Keyboard,
+  Modal,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { colors, spacing } from "../lib/theme";
@@ -22,6 +23,7 @@ import { useTranslation } from "../lib/i18n/useTranslation";
 import { buttonPress, buttonPressHeavy, notificationSuccess } from "../lib/haptics";
 import { maybeRequestReview } from "../lib/rateApp";
 import { formatPrice } from "../lib/formatPrice";
+import { DeliveryTimeSlotsScreen } from "./DeliveryTimeSlotsScreen";
 
 type Props = {
   onBack: () => void;
