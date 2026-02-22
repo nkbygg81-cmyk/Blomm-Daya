@@ -1,8 +1,66 @@
 # Blomm-Daya Changelog
 
-## December 2025
+## December 2025 - Session 2
 
-### Phase 1 Features Implementation
+### Phase 2-5 Backend Implementation (ALL REQUESTED FEATURES)
+
+#### 1. Photo Reviews Backend (P0)
+- `convex/photoReviews.ts` - Full CRUD operations
+- Functions: submitPhotoReview, getFloristPhotoReviews, getMyPhotoReviews, getPendingPhotoReviews, approvePhotoReview, rejectPhotoReview, getPhotoReviewStats
+
+#### 2. Abandoned Cart System (P1)
+- `convex/abandonedCarts.ts` - Cart tracking & recovery
+- Functions: saveCartState, markCartConverted, getAbandonedCart, getCartsForReminder, markReminderSent, getAbandonedCartStats, cleanupOldCarts
+
+#### 3. Product Bundles (P1)
+- `convex/productBundles.ts` - Bundle management
+- Functions: getActiveBundles, getBundle, createBundle, updateBundle, deleteBundle, getFeaturedBundles
+
+#### 4. Delivery Time Slots (P1)
+- `convex/deliveryTimeSlots.ts` - Time slot selection
+- Functions: getAvailableSlots, bookDeliverySlot, getOrderDeliverySlot, configureFloristSlots, getFloristSlots
+- Default slots: Morning, Afternoon, Evening, Late Evening, Express 1h, Express 2h
+
+#### 5. AI Similar Products (P1)
+- `convex/similarProducts.ts` - Product recommendations
+- Functions: getSimilarProducts, getPersonalizedRecommendations, getTrendingProducts
+- Scoring: Category match (+30), Price range (+25), Same florist (+15), Rating (+10)
+
+#### 6. AI Bouquet Generator (P2)
+- `convex/aiBouquetGenerator.ts` - AI-powered bouquet suggestions
+- Functions: saveBouquetRequest, getBouquetStyles, generateBouquetSuggestions, getMyBouquetRequests
+- Styles: Classic, Modern, Romantic, Wild, Luxury
+
+#### 7. AI Review Moderation (P2)
+- `convex/aiReviewModeration.ts` - Automated review moderation
+- Functions: autoModerateText, autoModerateReview, getPendingReviews, manualApproveReview, manualRejectReview, getModerationStats
+- Auto-checks: Banned words, excessive caps, URLs, phone numbers, spam patterns
+
+#### 8. Live Courier Tracking (P1)
+- `convex/courierTracking.ts` - Real-time delivery tracking
+- Functions: updateCourierLocation, getCourierLocation, startDeliveryTracking, stopDeliveryTracking, getActiveDeliveries, calculateETA
+- ETA calculation using Haversine formula
+
+### Database Schema Updates
+Added tables:
+- abandonedCarts
+- productBundles
+- deliveryTimeSlots
+- deliverySlotBookings
+- aiBouquetRequests
+- reviewModerations
+- courierLocations
+
+### Translations Added (UK, EN, SV)
+- abandonedCart.*
+- bundles.*
+- deliverySlots.*
+- similarProducts.*
+- aiBouquet.*
+- courierTracking.*
+- reviewModeration.*
+
+---
 
 #### Wishlist (Список бажань)
 - Added heart button on product cards in BrowseScreen
