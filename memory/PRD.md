@@ -96,6 +96,7 @@ Mobile flower shop application "Blomm-Daya" built with Expo/React Native and Con
 - Color filters: Red, Pink, White, Yellow, Orange, Purple, Blue, Mixed
 - Rating filter
 - Sorting: Relevance, Price (asc/desc), Rating, Newest
+- **Controlled by feature flag**: `feature_advanced_filters`
 
 ### Florist Analytics Dashboard
 - Period selector: Week, Month, Quarter, Year
