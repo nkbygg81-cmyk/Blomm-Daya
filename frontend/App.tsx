@@ -794,15 +794,50 @@ function AppContent() {
 // Initialize Convex client
 const convex = new ConvexReactClient("https://glad-bison-596.convex.cloud");
 
-export default function App() {
+// Theme-aware navigation themes
+function getNavigationTheme(isDark: boolean) {
+  const baseTheme = isDark ? DarkTheme : DefaultTheme;
+  const themeColors = isDark ? darkColors : lightColors;
+  
+  return {
+    ...baseTheme,
+    colors: {
+      ...baseTheme.colors,
+      primary: themeColors.primary,
+      background: themeColors.background,
+      card: themeColors.card,
+      text: themeColors.text,
+      border: themeColors.border,
+    },
+  };
+}
+
+function ThemedApp() {
+  const { colors: themeColors, isDark } = useTheme();
+  const navigationTheme = getNavigationTheme(isDark);
+
   return (
-    <ConvexProvider client={convex}>
-      <SafeAreaProvider style={styles.safeArea}>
+    <>
+      <StatusBar 
+        barStyle={isDark ? "light-content" : "dark-content"} 
+        backgroundColor={themeColors.background}
+      />
+      <SafeAreaProvider style={{ flex: 1, backgroundColor: themeColors.bg }}>
         <CartProvider>
           <AppContent />
         </CartProvider>
         <OfflineBanner />
       </SafeAreaProvider>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <ConvexProvider client={convex}>
+      <ThemeProvider>
+        <ThemedApp />
+      </ThemeProvider>
     </ConvexProvider>
   );
 }
