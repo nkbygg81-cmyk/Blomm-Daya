@@ -265,6 +265,8 @@ export default {
     storiesSubtext: "Dela foton av ditt arbete",
     floristsSubtext: "Chatta med florister",
     remindersSubtext: "Kommande händelser",
+    giftCertificatesSubtext: "Ge blommor till nära och kära",
+    aiChatSubtext: "Hjälp med att välja bukett",
   },
 
   legal: {
