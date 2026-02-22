@@ -44,6 +44,15 @@ export function CheckoutScreen({ onBack }: Props) {
   const [pendingSessionId, setPendingSessionId] = useState<string | null>(null);
   const [deliveryType, setDeliveryType] = useState<"delivery" | "pickup">("delivery");
   
+  // Time slot state
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<{
+    date: string;
+    slotId: string;
+    label: string;
+    extraFee: number;
+  } | null>(null);
+  const [showTimeSlotPicker, setShowTimeSlotPicker] = useState(false);
+  
   // Delivery calculation state
   const [deliveryInfo, setDeliveryInfo] = useState<any>(null);
   const [calculatingDelivery, setCalculatingDelivery] = useState(false);
