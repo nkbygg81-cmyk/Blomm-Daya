@@ -275,6 +275,9 @@ export default {
     remindersSubtext: "Kommande händelser",
     giftCertificatesSubtext: "Ge blommor till nära och kära",
     aiChatSubtext: "Hjälp med att välja bukett",
+    darkMode: "Mörkt läge",
+    darkModeOn: "På",
+    darkModeOff: "Av",
   },
 
   legal: {
