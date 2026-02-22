@@ -5,9 +5,12 @@ export const useTranslation = () => {
   const [locale, setLocaleState] = useState(getLocale());
 
   useEffect(() => {
-    return subscribeLocale((nextLocale) => {
+    const unsubscribe = subscribeLocale((nextLocale) => {
       setLocaleState(nextLocale);
     });
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const t = (key: string, options?: any) => {
