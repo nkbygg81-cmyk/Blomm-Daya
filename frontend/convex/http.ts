@@ -4588,4 +4588,316 @@ http.route({
   }),
 });
 
+
+// Categories Management Page
+http.route({
+  path: "/admin/categories",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+    const typeFilter = (url.searchParams.get("type") ?? "all").toLowerCase();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    // Get all categories
+    const categories = await ctx.runQuery(api.categories.getAllCategories, {});
+
+    // Filter by type
+    const filteredCategories = typeFilter === "all" 
+      ? categories 
+      : categories.filter((c: any) => c.type === typeFilter);
+
+    // Count by type
+    const counts = {
+      all: categories.length,
+      occasion: categories.filter((c: any) => c.type === "occasion").length,
+      flower: categories.filter((c: any) => c.type === "flower").length,
+      gift: categories.filter((c: any) => c.type === "gift").length,
+    };
+
+    const categoryCards = filteredCategories.map((cat: any) => `
+      <div class="category-card ${cat.active ? '' : 'inactive'}">
+        <div class="category-header">
+          <div class="category-icon" style="background-color: ${cat.color || '#8B5CF6'}20; color: ${cat.color || '#8B5CF6'}">
+            <span style="font-size: 24px;">🏷️</span>
+          </div>
+          <div class="category-info">
+            <h3>${cat.name}</h3>
+            <p class="uk-name">${cat.nameUk}</p>
+            ${cat.nameSv ? `<p class="sv-name">${cat.nameSv}</p>` : ''}
+          </div>
+          <div class="category-status">
+            <span class="badge ${cat.active ? 'active' : 'inactive'}">${cat.active ? '✅ Активна' : '⏸️ Вимкнена'}</span>
+            <span class="type-badge ${cat.type}">${cat.type === 'occasion' ? '🎉 Привід' : cat.type === 'flower' ? '🌸 Квіти' : '🎁 Подарунки'}</span>
+          </div>
+        </div>
+        <div class="category-actions">
+          <form method="POST" action="/admin/categories/toggle?p=${encodeURIComponent(pwd)}" style="display:inline;">
+            <input type="hidden" name="p" value="${pwd}" />
+            <input type="hidden" name="id" value="${cat._id}" />
+            <button type="submit" class="btn ${cat.active ? 'btn-warning' : 'btn-success'}">
+              ${cat.active ? '⏸️ Вимкнути' : '▶️ Увімкнути'}
+            </button>
+          </form>
+          <form method="POST" action="/admin/categories/delete?p=${encodeURIComponent(pwd)}" style="display:inline;" onsubmit="return confirm('Видалити категорію ${cat.name}?')">
+            <input type="hidden" name="p" value="${pwd}" />
+            <input type="hidden" name="id" value="${cat._id}" />
+            <button type="submit" class="btn btn-danger">🗑️ Видалити</button>
+          </form>
+        </div>
+      </div>
+    `).join('');
+
+    const html = `<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Категорії | Blomm-Daya Admin</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { font-size: 28px; margin-bottom: 8px; color: #1e293b; }
+    .subtitle { color: #64748b; margin-bottom: 24px; }
+    .nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .tabs a { padding: 10px 20px; background: #e2e8f0; color: #475569; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    .tabs a.active { background: #059669; color: white; }
+    .tabs a:hover { background: #cbd5e1; }
+    .tabs a.active:hover { background: #047857; }
+    
+    .actions-bar { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .btn { padding: 10px 16px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; }
+    .btn-primary { background: #8B5CF6; color: white; }
+    .btn-primary:hover { background: #7C3AED; }
+    .btn-success { background: #10B981; color: white; }
+    .btn-success:hover { background: #059669; }
+    .btn-warning { background: #F59E0B; color: white; }
+    .btn-warning:hover { background: #D97706; }
+    .btn-danger { background: #EF4444; color: white; }
+    .btn-danger:hover { background: #DC2626; }
+    
+    .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 16px; }
+    .category-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .category-card.inactive { opacity: 0.6; }
+    .category-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+    .category-icon { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .category-info { flex: 1; }
+    .category-info h3 { font-size: 18px; color: #1e293b; margin-bottom: 4px; }
+    .category-info .uk-name { color: #059669; font-size: 14px; }
+    .category-info .sv-name { color: #0284c7; font-size: 13px; }
+    .category-status { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .badge.active { background: #D1FAE5; color: #065F46; }
+    .badge.inactive { background: #FEE2E2; color: #991B1B; }
+    .type-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .type-badge.occasion { background: #FEF3C7; color: #92400E; }
+    .type-badge.flower { background: #FCE7F3; color: #9D174D; }
+    .type-badge.gift { background: #DBEAFE; color: #1E40AF; }
+    .category-actions { display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+    .category-actions .btn { font-size: 12px; padding: 8px 12px; }
+    
+    .add-form { background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .add-form h2 { font-size: 18px; margin-bottom: 16px; color: #1e293b; }
+    .form-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    .form-group { flex: 1; min-width: 150px; }
+    .form-group label { display: block; font-size: 13px; color: #64748b; margin-bottom: 4px; font-weight: 600; }
+    .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: #8B5CF6; }
+    
+    .empty { text-align: center; padding: 60px 20px; color: #64748b; }
+    .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .stat { background: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .stat-value { font-size: 28px; font-weight: 700; color: #1e293b; }
+    .stat-label { font-size: 13px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏷️ Категорії</h1>
+    <p class="subtitle">Керування категоріями квітів та приводів</p>
+
+    <div class="nav">
+      <a href="/admin?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#8B5CF6;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;">← Назад</a>
+      <form method="POST" action="/admin/categories/seed?p=${encodeURIComponent(pwd)}" style="display:inline;">
+        <input type="hidden" name="p" value="${pwd}" />
+        <button type="submit" class="btn btn-primary">🌱 Заповнити базові категорії</button>
+      </form>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">${counts.all}</div>
+        <div class="stat-label">Всього</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">${counts.occasion}</div>
+        <div class="stat-label">🎉 Приводи</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">${counts.flower}</div>
+        <div class="stat-label">🌸 Квіти</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">${counts.gift}</div>
+        <div class="stat-label">🎁 Подарунки</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <a class="${typeFilter === 'all' ? 'active' : ''}" href="/admin/categories?p=${encodeURIComponent(pwd)}&type=all">Всі (${counts.all})</a>
+      <a class="${typeFilter === 'occasion' ? 'active' : ''}" href="/admin/categories?p=${encodeURIComponent(pwd)}&type=occasion">🎉 Приводи (${counts.occasion})</a>
+      <a class="${typeFilter === 'flower' ? 'active' : ''}" href="/admin/categories?p=${encodeURIComponent(pwd)}&type=flower">🌸 Квіти (${counts.flower})</a>
+      <a class="${typeFilter === 'gift' ? 'active' : ''}" href="/admin/categories?p=${encodeURIComponent(pwd)}&type=gift">🎁 Подарунки (${counts.gift})</a>
+    </div>
+
+    <div class="add-form">
+      <h2>➕ Додати нову категорію</h2>
+      <form method="POST" action="/admin/categories/add?p=${encodeURIComponent(pwd)}">
+        <input type="hidden" name="p" value="${pwd}" />
+        <div class="form-row">
+          <div class="form-group">
+            <label>Назва (EN)</label>
+            <input type="text" name="name" required placeholder="Birthday" />
+          </div>
+          <div class="form-group">
+            <label>Назва (UK)</label>
+            <input type="text" name="nameUk" required placeholder="День народження" />
+          </div>
+          <div class="form-group">
+            <label>Назва (SV)</label>
+            <input type="text" name="nameSv" placeholder="Födelsedag" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Тип</label>
+            <select name="type" required>
+              <option value="occasion">🎉 Привід</option>
+              <option value="flower">🌸 Квіти</option>
+              <option value="gift">🎁 Подарунки</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Іконка (Ionicons)</label>
+            <input type="text" name="icon" placeholder="gift-outline" />
+          </div>
+          <div class="form-group">
+            <label>Колір</label>
+            <input type="color" name="color" value="#8B5CF6" />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success">✓ Додати категорію</button>
+      </form>
+    </div>
+
+    <div class="categories-grid">
+      ${categoryCards || '<div class="empty">📭 Немає категорій. Натисніть "Заповнити базові категорії" щоб почати.</div>'}
+    </div>
+  </div>
+</body>
+</html>`;
+
+    return htmlResponse(html);
+  }),
+});
+
+// Seed categories
+http.route({
+  path: "/admin/categories/seed",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    await ctx.runMutation(api.categories.seedCategories, {});
+    return redirect(`/admin/categories?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// Add category
+http.route({
+  path: "/admin/categories/add",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const name = (fd?.get?.("name") ?? "").toString().trim();
+    const nameUk = (fd?.get?.("nameUk") ?? "").toString().trim();
+    const nameSv = (fd?.get?.("nameSv") ?? "").toString().trim() || undefined;
+    const type = (fd?.get?.("type") ?? "occasion").toString() as "flower" | "gift" | "occasion";
+    const icon = (fd?.get?.("icon") ?? "").toString().trim() || undefined;
+    const color = (fd?.get?.("color") ?? "").toString().trim() || undefined;
+
+    if (name && nameUk) {
+      await ctx.runMutation(api.categories.addCategory, {
+        name,
+        nameUk,
+        nameSv,
+        type,
+        icon,
+        color,
+      });
+    }
+
+    return redirect(`/admin/categories?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// Toggle category
+http.route({
+  path: "/admin/categories/toggle",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const id = (fd?.get?.("id") ?? "").toString().trim();
+    if (id) {
+      await ctx.runMutation(api.categories.toggleCategory, { id: id as any });
+    }
+
+    return redirect(`/admin/categories?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// Delete category
+http.route({
+  path: "/admin/categories/delete",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const id = (fd?.get?.("id") ?? "").toString().trim();
+    if (id) {
+      await ctx.runMutation(api.categories.deleteCategory, { id: id as any });
+    }
+
+    return redirect(`/admin/categories?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
 export default http;
