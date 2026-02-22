@@ -999,7 +999,8 @@ http.route({
           <div class="field"><div class="k">Дата</div><div class="v">${formatDate(o.createdAt)}</div></div>
         </div>
         <div class="actions">
-          <form method="POST" action="/admin/orders/status" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a href="/admin/orders/details?p=${encodeURIComponent(pwd)}&id=${o._id}" class="btn" style="background:#4f46e5;width:auto;padding:10px 20px;">👁 Деталі</a>
+          <form method="POST" action="/admin/orders/status" style="display:flex;gap:8px;flex-wrap:wrap;flex:1;">
             <input type="hidden" name="p" value="${esc(pwd)}" />
             <input type="hidden" name="id" value="${o._id}" />
             <input type="hidden" name="returnUrl" value="${esc(req.url)}" />
@@ -1036,6 +1037,11 @@ http.route({
     <div class="top">
       <h1>📦 Управління замовленнями</h1>
       <div class="sub">Всього замовлень: ${orders.length}</div>
+      
+      <div style="margin:16px 0;display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="/admin/export/orders?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#10b981;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">📥 Export CSV</a>
+        <a href="/admin/export/buyers?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#6366f1;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">📥 Export Покупців</a>
+      </div>
       
       <div class="toolbar">
         <form method="GET" action="/admin/orders" style="display:flex;gap:10px;flex:1;flex-wrap:wrap;">
