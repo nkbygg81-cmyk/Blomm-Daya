@@ -852,6 +852,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "700",
   },
+  filterButtonActive: {
+    backgroundColor: colors.primary,
+  },
   nearMeButton: {
     flexDirection: "row",
     alignItems: "center",
