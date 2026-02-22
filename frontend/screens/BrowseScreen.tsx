@@ -108,6 +108,7 @@ const matchesCategory = (flower: PublicFlower, categoryId: string): boolean => {
 export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
   const { t, locale } = useTranslation();
   const { addItem } = useCart();
+  const featureFlags = useFeatureFlags();
   const [viewMode, setViewMode] = useState<"catalog" | "florist">("catalog");
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
