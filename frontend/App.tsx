@@ -175,17 +175,37 @@ function CartStack() {
 
 function OrdersStack() {
   const [careTipsFlowers, setCareTipsFlowers] = useState<string[]>([]);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="OrdersMain">
         {({ navigation }: { navigation: any }) => (
           <OrderHistoryScreen
+            onOrderPress={(orderId: string) => {
+              setSelectedOrderId(orderId);
+              navigation.navigate("OrderTracking");
+            }}
             onCareTips={(flowerNames: string[]) => {
               setCareTipsFlowers(flowerNames);
               navigation.navigate("CareTips");
             }}
           />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="OrderTracking">
+        {({ navigation }: { navigation: any }) => (
+          selectedOrderId ? (
+            <OrderTrackingScreen
+              orderId={selectedOrderId}
+              onBack={() => {
+                setSelectedOrderId(null);
+                navigation.goBack();
+              }}
+            />
+          ) : (
+            <View />
+          )
         )}
       </Stack.Screen>
       <Stack.Screen name="CareTips">
