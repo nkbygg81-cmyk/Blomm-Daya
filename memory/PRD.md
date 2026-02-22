@@ -147,6 +147,12 @@ All features can be enabled/disabled from the admin panel at `/admin/features`.
 ## Last Updated
 February 2025
 
+## Recent Changes (Latest Session)
+- ✅ Implemented Dark Mode with ThemeProvider
+- ✅ Added theme toggle in Settings screen (controlled by feature flag)
+- ✅ Translations for dark mode added (UK, EN, SV)
+- ✅ All colors dynamically switch based on theme
+
 ## Backlog
 
 ### P1 - High Priority
