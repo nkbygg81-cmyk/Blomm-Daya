@@ -52,7 +52,6 @@ import { SubscriptionScreen } from "./screens/SubscriptionScreen";
 import { FlowerCareTipsScreen } from "./screens/FlowerCareTipsScreen";
 import { LoyaltyScreen } from "./screens/LoyaltyScreen";
 import { FloristStoriesManageScreen } from "./screens/FloristStoriesManageScreen";
-import AdminPanelScreen from "./screens/AdminPanelScreen";
 import { OrderTrackingScreen } from "./screens/OrderTrackingScreen";
 import { GiftCertificatesScreen } from "./screens/GiftCertificatesScreen";
 import { AIChatbotScreen } from "./screens/AIChatbotScreen";
