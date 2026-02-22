@@ -8,6 +8,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as MediaLibrary from "expo-media-library";
 import { useTranslation } from "../lib/i18n/useTranslation";
+import { useFeatureFlags } from "../lib/useFeatureFlags";
 
 type PortfolioPhoto = {
   _id: string;
