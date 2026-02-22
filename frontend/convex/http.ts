@@ -474,6 +474,7 @@ http.route({
         </form>
         <a href="${exportUrl}" class="btnExport">💾 Export CSV</a>
         <a href="${floristsUrl}" class="btnFlorists">👥 Флористи</a>
+        <a href="/admin/florists/all?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#9333ea;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">👥 Всі флористи</a>
         <a href="${catalogUrl}" style="padding:10px 20px;background:#ec4899;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">🌸 Каталог</a>
         <a href="${analyticsUrl}" style="padding:10px 20px;background:#f59e0b;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">📊 Аналітика</a>
         <a href="${ordersUrl}" style="padding:10px 20px;background:#3b82f6;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">📦 Замовлення</a>
