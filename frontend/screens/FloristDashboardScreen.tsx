@@ -404,7 +404,17 @@ data-testid="analytics-button"
 </View>
 
 {photoUri && (
-<Image source={{ uri: photoUri }} style={styles.modalImage} />
+<View style={styles.imagePreviewContainer}>
+  <Image source={{ uri: photoUri }} style={styles.modalImage} />
+  <TouchableOpacity
+    style={styles.editPhotoButton}
+    onPress={handleEditPhoto}
+    data-testid="edit-photo-button"
+  >
+    <Ionicons name="create-outline" size={20} color={colors.white} />
+    <Text style={styles.editPhotoButtonText}>{t("photoEditor.title")}</Text>
+  </TouchableOpacity>
+</View>
 )}
 
 <ScrollView style={styles.modalForm}>
