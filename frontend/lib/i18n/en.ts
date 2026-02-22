@@ -904,4 +904,23 @@ favorites: {
     shareMessage: "Join Blomm-Daya! Use my code {{code}} and get {{bonus}} kr on your first flower order!",
     settingsSubtext: "Invite friends and earn bonuses",
   },
+
+  // Photo Editor
+  photoEditor: {
+    title: "Photo Editor",
+    reset: "Reset",
+    save: "Save",
+    adjust: "Adjust",
+    presets: "Presets",
+    brightness: "Brightness",
+    contrast: "Contrast",
+    saturation: "Saturation",
+    rotation: "Rotation",
+    presets: {
+      original: "Original",
+      vibrant: "Vibrant",
+      warm: "Warm",
+      natural: "Natural",
+    },
+  },
 };
