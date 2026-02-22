@@ -911,12 +911,12 @@ favorites: {
     reset: "Reset",
     save: "Save",
     adjust: "Adjust",
-    presets: "Presets",
     brightness: "Brightness",
     contrast: "Contrast",
     saturation: "Saturation",
     rotation: "Rotation",
     presets: {
+      title: "Presets",
       original: "Original",
       vibrant: "Vibrant",
       warm: "Warm",
