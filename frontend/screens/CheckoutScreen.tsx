@@ -255,7 +255,9 @@ export function CheckoutScreen({ onBack }: Props) {
     }
   }, [addressQuery]);
 
-  const finalTotal = (promoDiscount?.final != null ? promoDiscount.final : totalPrice) + (deliveryType === "delivery" && deliveryInfo?.deliveryFee ? deliveryInfo.deliveryFee : 0);
+  const finalTotal = (promoDiscount?.final != null ? promoDiscount.final : totalPrice) 
+    + (deliveryType === "delivery" && deliveryInfo?.deliveryFee ? deliveryInfo.deliveryFee : 0)
+    + (selectedTimeSlot?.extraFee || 0);
 
   const handleSubmit = async () => {
     if (!name.trim() || !phone.trim() || !address.trim() || !postalCode.trim()) {
