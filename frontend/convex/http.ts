@@ -497,6 +497,7 @@ http.route({
         <a href="/admin/reports?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#b45309;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">📊 Звіти</a>
         <a href="/admin/sla?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#dc2626;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">⏱️ SLA</a>
         <a href="/admin/ratings?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#a16207;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">⚠️ Рейтинги</a>
+        <a href="/admin/features?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#7c3aed;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;">🚀 Features</a>
       </div>
 
       <div class="tabs">
