@@ -62,10 +62,8 @@ const Stack = createStackNavigator();
 
 function RoleSelectionScreen({
   onSelectRole,
-  onAdminPress,
 }: {
   onSelectRole: (role: "buyer" | "florist") => void;
-  onAdminPress: () => void;
 }) {
   const { t } = useTranslation();
   
