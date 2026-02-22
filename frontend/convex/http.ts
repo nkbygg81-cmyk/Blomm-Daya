@@ -3975,6 +3975,233 @@ http.route({ path: "/admin/referrals/settings", method: "POST", handler: httpAct
 })});
 
 // ==========================================
+// ADMIN: Feature Flags Management
+// ==========================================
+http.route({
+  path: "/admin/features",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    // Get all feature flags from platformSettings
+    const allSettings = await ctx.runQuery(api.admin.getAllSettings, {});
+    
+    // Define all available feature flags with descriptions
+    const featureDefinitions = [
+      { key: "feature_subscriptions", name: "Підписки на квіти", description: "Дозволити покупцям підписуватися на регулярну доставку", category: "Покупці", icon: "📦" },
+      { key: "feature_consultations", name: "Консультації з флористами", description: "Чат-консультації між покупцями та флористами", category: "Комунікація", icon: "💬" },
+      { key: "feature_gift_certificates", name: "Подарункові сертифікати", description: "Можливість купувати та дарувати сертифікати", category: "Покупці", icon: "🎁" },
+      { key: "feature_ai_chat", name: "AI Чат-бот", description: "AI-асистент для допомоги з вибором букетів", category: "AI", icon: "🤖" },
+      { key: "feature_referral_program", name: "Реферальна програма", description: "Бонуси за запрошення друзів", category: "Маркетинг", icon: "👥" },
+      { key: "feature_loyalty_program", name: "Програма лояльності", description: "Накопичення балів та знижки", category: "Маркетинг", icon: "⭐" },
+      { key: "feature_stories", name: "Stories флористів", description: "Флористи можуть публікувати stories", category: "Флористи", icon: "📸" },
+      { key: "feature_order_tracking", name: "Трекінг замовлень", description: "Відстеження статусу доставки в реальному часі", category: "Замовлення", icon: "🚚" },
+      { key: "feature_reviews", name: "Відгуки", description: "Покупці можуть залишати відгуки", category: "Покупці", icon: "⭐" },
+      { key: "feature_push_notifications", name: "Push-сповіщення", description: "Сповіщення про замовлення та акції", category: "Комунікація", icon: "🔔" },
+      { key: "feature_promo_codes", name: "Промокоди", description: "Система знижкових кодів", category: "Маркетинг", icon: "🏷️" },
+      { key: "feature_multi_language", name: "Багатомовність", description: "Підтримка UK/EN/SV мов", category: "Система", icon: "🌍" },
+      { key: "feature_dark_mode", name: "Темна тема", description: "Темний режим інтерфейсу", category: "Система", icon: "🌙" },
+      { key: "feature_offline_mode", name: "Офлайн режим", description: "Робота без інтернету", category: "Система", icon: "📴" },
+      { key: "feature_analytics", name: "Аналітика для флористів", description: "Детальна статистика продажів", category: "Флористи", icon: "📊" },
+      { key: "feature_calendar", name: "Календар замовлень", description: "Календарний вигляд замовлень", category: "Флористи", icon: "📅" },
+      { key: "feature_delivery_zones", name: "Зони доставки", description: "Налаштування зон та цін доставки", category: "Замовлення", icon: "🗺️" },
+      { key: "feature_express_delivery", name: "Експрес-доставка", description: "Доставка за 2 години", category: "Замовлення", icon: "⚡" },
+      { key: "feature_scheduled_delivery", name: "Запланована доставка", description: "Вибір дати та часу доставки", category: "Замовлення", icon: "📆" },
+      { key: "feature_reminders", name: "Нагадування про події", description: "Нагадування про дні народження тощо", category: "Покупці", icon: "⏰" },
+    ];
+
+    // Get current values
+    const settingsMap = new Map(allSettings.map((s: any) => [s.key, s.value]));
+
+    // Group by category
+    const categories = [...new Set(featureDefinitions.map(f => f.category))];
+
+    const featuresHtml = categories.map(cat => {
+      const features = featureDefinitions.filter(f => f.category === cat);
+      return `
+        <div class="card">
+          <h3 style="margin:0 0 16px 0;color:#4f46e5;">${cat}</h3>
+          ${features.map(f => {
+            const isEnabled = settingsMap.get(f.key) === true;
+            return `
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;background:#f9fafb;border-radius:12px;margin-bottom:8px;">
+                <div style="display:flex;align-items:center;gap:12px;flex:1;">
+                  <span style="font-size:24px;">${f.icon}</span>
+                  <div>
+                    <div style="font-weight:600;">${f.name}</div>
+                    <div style="font-size:13px;color:#6b7280;">${f.description}</div>
+                  </div>
+                </div>
+                <form method="POST" action="/admin/features/toggle" style="margin:0;">
+                  <input type="hidden" name="p" value="${esc(pwd)}" />
+                  <input type="hidden" name="key" value="${f.key}" />
+                  <input type="hidden" name="value" value="${isEnabled ? 'false' : 'true'}" />
+                  <button type="submit" style="padding:10px 24px;border:none;border-radius:999px;font-weight:700;cursor:pointer;transition:all 0.2s;${isEnabled 
+                    ? 'background:#dcfce7;color:#166534;' 
+                    : 'background:#fee2e2;color:#991b1b;'}">
+                    ${isEnabled ? '✅ Увімкнено' : '❌ Вимкнено'}
+                  </button>
+                </form>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }).join("");
+
+    // Count enabled features
+    const enabledCount = featureDefinitions.filter(f => settingsMap.get(f.key) === true).length;
+
+    const html = `<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Feature Flags</title>
+  ${styles()}
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1>🚀 Feature Flags</h1>
+      <div class="sub">Керування функціями платформи</div>
+      
+      <div style="display:flex;gap:16px;margin:20px 0;flex-wrap:wrap;">
+        <div style="padding:20px;background:#dcfce7;border-radius:16px;text-align:center;min-width:120px;">
+          <div style="font-size:32px;font-weight:700;color:#166534;">${enabledCount}</div>
+          <div style="font-size:14px;color:#166534;">Увімкнено</div>
+        </div>
+        <div style="padding:20px;background:#fee2e2;border-radius:16px;text-align:center;min-width:120px;">
+          <div style="font-size:32px;font-weight:700;color:#991b1b;">${featureDefinitions.length - enabledCount}</div>
+          <div style="font-size:14px;color:#991b1b;">Вимкнено</div>
+        </div>
+        <div style="padding:20px;background:#e0e7ff;border-radius:16px;text-align:center;min-width:120px;">
+          <div style="font-size:32px;font-weight:700;color:#3730a3;">${featureDefinitions.length}</div>
+          <div style="font-size:14px;color:#3730a3;">Всього</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="/admin?p=${encodeURIComponent(pwd)}" style="padding:10px 20px;background:#6b7280;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;">← Назад</a>
+        <form method="POST" action="/admin/features/enable-all" style="display:inline;">
+          <input type="hidden" name="p" value="${esc(pwd)}" />
+          <button type="submit" style="padding:10px 20px;background:#10b981;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;">✅ Увімкнути все</button>
+        </form>
+        <form method="POST" action="/admin/features/disable-all" style="display:inline;">
+          <input type="hidden" name="p" value="${esc(pwd)}" />
+          <button type="submit" style="padding:10px 20px;background:#ef4444;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;">❌ Вимкнути все</button>
+        </form>
+      </div>
+    </div>
+
+    ${featuresHtml}
+  </div>
+</body>
+</html>`;
+
+    return htmlResponse(html);
+  }),
+});
+
+// Toggle single feature
+http.route({
+  path: "/admin/features/toggle",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+    const key = (fd?.get?.("key") ?? "").toString();
+    const value = (fd?.get?.("value") ?? "").toString() === "true";
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    await ctx.runMutation(api.admin.updateSetting, {
+      key,
+      value,
+      description: `Feature flag: ${key}`,
+    });
+
+    return redirect(`/admin/features?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// Enable all features
+http.route({
+  path: "/admin/features/enable-all",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const featureKeys = [
+      "feature_subscriptions", "feature_consultations", "feature_gift_certificates",
+      "feature_ai_chat", "feature_referral_program", "feature_loyalty_program",
+      "feature_stories", "feature_order_tracking", "feature_reviews",
+      "feature_push_notifications", "feature_promo_codes", "feature_multi_language",
+      "feature_dark_mode", "feature_offline_mode", "feature_analytics",
+      "feature_calendar", "feature_delivery_zones", "feature_express_delivery",
+      "feature_scheduled_delivery", "feature_reminders"
+    ];
+
+    for (const key of featureKeys) {
+      await ctx.runMutation(api.admin.updateSetting, {
+        key,
+        value: true,
+        description: `Feature flag: ${key}`,
+      });
+    }
+
+    return redirect(`/admin/features?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// Disable all features
+http.route({
+  path: "/admin/features/disable-all",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const featureKeys = [
+      "feature_subscriptions", "feature_consultations", "feature_gift_certificates",
+      "feature_ai_chat", "feature_referral_program", "feature_loyalty_program",
+      "feature_stories", "feature_order_tracking", "feature_reviews",
+      "feature_push_notifications", "feature_promo_codes", "feature_multi_language",
+      "feature_dark_mode", "feature_offline_mode", "feature_analytics",
+      "feature_calendar", "feature_delivery_zones", "feature_express_delivery",
+      "feature_scheduled_delivery", "feature_reminders"
+    ];
+
+    for (const key of featureKeys) {
+      await ctx.runMutation(api.admin.updateSetting, {
+        key,
+        value: false,
+        description: `Feature flag: ${key}`,
+      });
+    }
+
+    return redirect(`/admin/features?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// ==========================================
 // ADMIN: SLA Monitoring
 // ==========================================
 http.route({
