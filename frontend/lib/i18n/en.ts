@@ -986,4 +986,119 @@ favorites: {
     permissionNeeded: "Permission needed",
     permissionMessage: "Allow access to gallery to upload photos",
   },
+
+  // Abandoned Cart
+  abandonedCart: {
+    title: "You forgot something!",
+    subtitle: "There are flowers left in your cart",
+    returnToCart: "Return to cart",
+    continueShopping: "Continue shopping",
+    itemsLeft: "items in cart",
+    specialOffer: "Special offer",
+    discountMessage: "Complete your order now and get a discount",
+  },
+
+  // Product Bundles
+  bundles: {
+    title: "Bouquet Bundles",
+    subtitle: "Great deals",
+    save: "Save",
+    originalPrice: "Original price",
+    bundlePrice: "Bundle price",
+    includes: "Includes",
+    items: "items",
+    addBundle: "Add bundle",
+    viewAll: "View all bundles",
+    featured: "Featured bundles",
+    create: "Create bundle",
+    discount: "Discount",
+  },
+
+  // Delivery Time Slots
+  deliverySlots: {
+    title: "Delivery Time",
+    subtitle: "Select convenient time",
+    selectDate: "Select date",
+    selectTime: "Select time",
+    morning: "Morning (9:00-12:00)",
+    afternoon: "Afternoon (12:00-15:00)",
+    evening: "Evening (15:00-18:00)",
+    lateEvening: "Late evening (18:00-21:00)",
+    express1h: "Express (within 1 hour)",
+    express2h: "Express (within 2 hours)",
+    extraFee: "Extra fee",
+    unavailable: "Unavailable",
+    selected: "Selected",
+    today: "Today",
+    tomorrow: "Tomorrow",
+  },
+
+  // Similar Products
+  similarProducts: {
+    title: "Similar Bouquets",
+    subtitle: "You might also like",
+    basedOn: "Based on",
+    yourPurchases: "Your purchases",
+    trending: "Trending",
+    recommendations: "Recommendations for you",
+  },
+
+  // AI Bouquet Generator
+  aiBouquet: {
+    title: "AI Bouquet Generator",
+    subtitle: "Describe your perfect bouquet",
+    placeholder: "E.g.: romantic rose bouquet for anniversary...",
+    generate: "Generate",
+    generating: "Generating...",
+    selectStyle: "Select style",
+    styles: {
+      classic: "Classic",
+      modern: "Modern",
+      romantic: "Romantic",
+      wild: "Wild",
+      luxury: "Luxury",
+    },
+    budget: "Budget",
+    occasion: "Occasion",
+    suggestions: "Suggestions",
+    matchingProducts: "Matching bouquets",
+    noResults: "No suggestions found",
+    tryAgain: "Try a different description",
+  },
+
+  // Courier Tracking
+  courierTracking: {
+    title: "Delivery Tracking",
+    subtitle: "Track your order",
+    courierOnTheWay: "Courier on the way",
+    estimatedArrival: "Estimated arrival",
+    minutes: "minutes",
+    distance: "Distance",
+    km: "km",
+    courierName: "Courier name",
+    courierPhone: "Courier phone",
+    call: "Call",
+    trackingActive: "Tracking active",
+    trackingInactive: "Tracking inactive",
+    startTracking: "Start tracking",
+    stopTracking: "Stop tracking",
+    lastUpdate: "Last update",
+  },
+
+  // Review Moderation
+  reviewModeration: {
+    title: "Review Moderation",
+    pending: "Pending moderation",
+    approved: "Approved",
+    rejected: "Rejected",
+    approve: "Approve",
+    reject: "Reject",
+    reason: "Reason",
+    autoScore: "Auto score",
+    manualReview: "Manual review",
+    stats: "Statistics",
+    totalModerated: "Total moderated",
+    autoPassed: "Auto approved",
+    autoRejected: "Auto rejected",
+  },
 };
