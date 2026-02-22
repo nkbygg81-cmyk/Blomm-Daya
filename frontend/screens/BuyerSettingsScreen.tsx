@@ -173,6 +173,16 @@ export function BuyerSettingsScreen({
       sublabel: locale === "sv" ? "Svenska" : locale === "en" ? "English" : "Українська",
       onPress: handleLanguageChange,
     },
+    // Dark mode toggle - only show if feature is enabled
+    ...(featureFlags.darkMode ? [{
+      icon: isDark ? "moon" : "moon-outline",
+      label: t("settings.darkMode"),
+      sublabel: isDark ? t("settings.darkModeOn") : t("settings.darkModeOff"),
+      onPress: toggleTheme,
+      hasSwitch: true,
+      switchValue: isDark,
+      onSwitchChange: toggleTheme,
+    }] : []),
     {
       icon: "storefront-outline",
       label: t("tabs.florists"),
@@ -196,7 +206,7 @@ export function BuyerSettingsScreen({
       label: t("aiChat.title"),
       sublabel: t("settings.aiChatSubtext"),
       onPress: onAIChatPress,
-      color: colors.primary,
+      color: themeColors.primary,
     },
     {
       icon: "person-outline",
