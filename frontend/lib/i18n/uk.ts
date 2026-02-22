@@ -191,6 +191,9 @@ export default {
     remindersSubtext: "Майбутні події",
     giftCertificatesSubtext: "Подаруйте близьким квіти",
     aiChatSubtext: "Допомога з вибором букета",
+    darkMode: "Темна тема",
+    darkModeOn: "Увімкнено",
+    darkModeOff: "Вимкнено",
   },
 
   legal: {
