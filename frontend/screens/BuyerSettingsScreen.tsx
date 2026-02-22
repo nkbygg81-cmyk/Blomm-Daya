@@ -23,6 +23,8 @@ type Props = {
   onGiftCertificatesPress?: () => void;
   onAIChatPress?: () => void;
   onReferralPress?: () => void;
+  onWishlistPress?: () => void;
+  onGreetingCardsPress?: () => void;
   authToken?: string;
 };
 
@@ -39,6 +41,8 @@ export function BuyerSettingsScreen({
   onGiftCertificatesPress,
   onAIChatPress,
   onReferralPress,
+  onWishlistPress,
+  onGreetingCardsPress,
   authToken,
 }: Props) {
   const { t, locale, changeLocale } = useTranslation();
