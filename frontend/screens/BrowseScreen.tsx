@@ -617,31 +617,54 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
             </View>
           </View>
         }
-        renderItem={({ item }: { item: PublicFlower }) => (
+        renderItem={({ item }: { item: PublicFlower }) => {
+          const isInWishlist = wishlistIds.has(item.id);
+          return (
           <TouchableOpacity
             style={styles.card}
             onPress={() => {
               buttonPress();
               onFlowerPress(item);
             }}
+            data-testid={`flower-card-${item.id}`}
           >
-            {item.imageUrl && !brokenImages[item.id] ? (
-              <Image
-                source={{ uri: item.imageUrl }}
-                style={styles.image}
-                resizeMode="cover"
-                onError={() => {
-                  setBrokenImages((prev: Record<string, true>) => ({
-                    ...prev,
-                    [item.id]: true,
-                  }));
+            <View style={styles.imageContainer}>
+              {item.imageUrl && !brokenImages[item.id] ? (
+                <Image
+                  source={{ uri: item.imageUrl }}
+                  style={styles.image}
+                  resizeMode="cover"
+                  onError={() => {
+                    setBrokenImages((prev: Record<string, true>) => ({
+                      ...prev,
+                      [item.id]: true,
+                    }));
+                  }}
+                />
+              ) : (
+                <View style={[styles.image, styles.imagePlaceholder]}>
+                  <Ionicons name="flower-outline" size={40} color={colors.muted} />
+                </View>
+              )}
+              {/* Wishlist Heart Button */}
+              <TouchableOpacity
+                style={[
+                  styles.wishlistButton,
+                  isInWishlist && styles.wishlistButtonActive,
+                ]}
+                onPress={(e: any) => {
+                  e.stopPropagation();
+                  handleToggleWishlist(item);
                 }}
-              />
-            ) : (
-              <View style={[styles.image, styles.imagePlaceholder]}>
-                <Ionicons name="flower-outline" size={40} color={colors.muted} />
-              </View>
-            )}
+                data-testid={`wishlist-btn-${item.id}`}
+              >
+                <Ionicons
+                  name={isInWishlist ? "heart" : "heart-outline"}
+                  size={18}
+                  color={isInWishlist ? colors.danger : colors.white}
+                />
+              </TouchableOpacity>
+            </View>
             <View style={styles.cardContent}>
               <Text style={styles.name} numberOfLines={1}>
                 {item.name}
@@ -661,13 +684,15 @@ export function BrowseScreen({ onFlowerPress, onAIPress }: Props) {
                     e.stopPropagation();
                     handleAddToCart(item);
                   }}
+                  data-testid={`add-to-cart-btn-${item.id}`}
                 >
                   <Ionicons name="add" size={20} color={colors.white} />
                 </TouchableOpacity>
               </View>
             </View>
           </TouchableOpacity>
-        )}
+        );
+        }}
         ListEmptyComponent={
           <View style={styles.empty}>
             <Ionicons name="flower-outline" size={64} color={colors.muted} />
