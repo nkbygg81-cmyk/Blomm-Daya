@@ -911,12 +911,12 @@ export default {
     reset: "Återställ",
     save: "Spara",
     adjust: "Justera",
-    presets: "Förval",
     brightness: "Ljusstyrka",
     contrast: "Kontrast",
     saturation: "Mättnad",
     rotation: "Rotation",
     presets: {
+      title: "Förval",
       original: "Original",
       vibrant: "Livfull",
       warm: "Varm",
