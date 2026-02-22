@@ -738,4 +738,76 @@ export default defineSchema({
   })
     .index("by_certificateId", ["certificateId"])
     .index("by_orderId", ["orderId"]),
+
+  /**
+   * Wishlist - Список бажань
+   */
+  wishlist: defineTable({
+    buyerDeviceId: v.string(),
+    flowerId: v.string(),
+    flowerName: v.string(),
+    flowerPrice: v.number(),
+    flowerImage: v.optional(v.string()),
+    floristName: v.optional(v.string()),
+    addedAt: v.number(),
+  })
+    .index("by_buyerDeviceId", ["buyerDeviceId"]),
+
+  /**
+   * Photo Reviews - Фото відгуки
+   */
+  photoReviews: defineTable({
+    orderId: v.id("buyerOrders"),
+    buyerDeviceId: v.string(),
+    buyerName: v.optional(v.string()),
+    floristId: v.id("florists"),
+    imageUrl: v.string(),
+    caption: v.optional(v.string()),
+    rating: v.number(),
+    status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
+    createdAt: v.number(),
+    approvedAt: v.optional(v.number()),
+  })
+    .index("by_floristId", ["floristId"])
+    .index("by_status", ["status"])
+    .index("by_buyerDeviceId", ["buyerDeviceId"]),
+
+  /**
+   * Discount Notifications - Сповіщення про знижки
+   */
+  discountNotifications: defineTable({
+    title: v.string(),
+    titleUk: v.string(),
+    titleSv: v.optional(v.string()),
+    message: v.string(),
+    messageUk: v.string(),
+    messageSv: v.optional(v.string()),
+    discountPercent: v.optional(v.number()),
+    promoCode: v.optional(v.string()),
+    imageUrl: v.optional(v.string()),
+    targetCategory: v.optional(v.string()),
+    startsAt: v.number(),
+    endsAt: v.number(),
+    active: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_active", ["active"])
+    .index("by_endsAt", ["endsAt"]),
+
+  /**
+   * AI Greeting Cards - AI листівки
+   */
+  greetingCards: defineTable({
+    orderId: v.optional(v.id("buyerOrders")),
+    buyerDeviceId: v.string(),
+    occasion: v.string(),
+    recipientName: v.string(),
+    senderName: v.optional(v.string()),
+    generatedText: v.string(),
+    customText: v.optional(v.string()),
+    language: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_buyerDeviceId", ["buyerDeviceId"])
+    .index("by_orderId", ["orderId"]),
 });
