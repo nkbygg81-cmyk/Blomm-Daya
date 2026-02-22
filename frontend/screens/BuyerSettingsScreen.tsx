@@ -263,25 +263,25 @@ export function BuyerSettingsScreen({
       icon: "swap-horizontal-outline",
       label: t("settings.switchToFlorist"),
       onPress: handleSwitchToFlorist,
-      color: colors.success,
+      color: themeColors.success,
     },
     {
       icon: "log-out-outline",
       label: t("settings.logout"),
       onPress: handleLogout,
-      color: colors.danger,
+      color: themeColors.danger,
     },
     {
       icon: "trash-outline",
       label: deleting ? t("settings.deleting") : t("settings.deleteAccount"),
       onPress: deleting ? undefined : handleDeleteAccount,
-      color: colors.danger,
+      color: themeColors.danger,
     },
   ].filter((i) => !!i.onPress);
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>{t("settings.title")}</Text>
+    <ScrollView style={[styles.container, { backgroundColor: themeColors.bg }]} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+      <Text style={[styles.title, { color: themeColors.text }]}>{t("settings.title")}</Text>
 
       <View style={[styles.menu, { backgroundColor: themeColors.card, borderColor: themeColors.border }]}>
         {menuItems.map((item, index) => (
