@@ -9,6 +9,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import * as MediaLibrary from "expo-media-library";
 import { useTranslation } from "../lib/i18n/useTranslation";
 import { useFeatureFlags } from "../lib/useFeatureFlags";
+import { PhotoEditorModal } from "./PhotoEditorModal";
 
 type PortfolioPhoto = {
   _id: string;
