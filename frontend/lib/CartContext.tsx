@@ -185,11 +185,40 @@ export function CartProvider({ children }: any) {
     AsyncStorage.setItem(GIFTS_STORAGE_KEY, JSON.stringify(gifts)).catch(() => {});
   }, [gifts, loaded]);
 
-  // Track abandoned cart - DISABLED temporarily
-  // useEffect(() => {
-  //   if (!loaded || !buyerDeviceId || !saveCartStateMutation) return;
-  //   // ... abandoned cart logic
-  // }, [items, gifts, loaded, buyerDeviceId, saveCartStateMutation]);
+  // Track abandoned cart - debounced to avoid too many API calls
+  useEffect(() => {
+    if (!loaded || !buyerDeviceId) return;
+
+    // Clear existing timer
+    if (abandonedCartTimer.current) {
+      clearTimeout(abandonedCartTimer.current);
+    }
+
+    // Debounce cart state saving (wait 5 seconds after last change)
+    abandonedCartTimer.current = setTimeout(() => {
+      const total = items.reduce((sum, item) => sum + item.price * item.qty, 0) +
+                   gifts.reduce((sum, gift) => sum + gift.price * gift.qty, 0);
+      
+      // Save cart state to backend for abandoned cart tracking
+      saveCartStateMutation({
+        buyerDeviceId,
+        items: items.map(item => ({
+          flowerId: item.id,
+          name: item.name,
+          price: item.price,
+          imageUrl: item.imageUrl || undefined,
+          qty: item.qty,
+        })),
+        total,
+      }).catch(() => {}); // Silently fail if backend unavailable
+    }, 5000);
+
+    return () => {
+      if (abandonedCartTimer.current) {
+        clearTimeout(abandonedCartTimer.current);
+      }
+    };
+  }, [items, gifts, loaded, buyerDeviceId, saveCartStateMutation]);
 
   const showToast = useCallback(
     (name: string, imageUrl: string | null) => {
