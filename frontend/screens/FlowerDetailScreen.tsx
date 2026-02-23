@@ -7,6 +7,7 @@ import { api } from "../convex/_generated/api";
 import { useTranslation } from "../lib/i18n/useTranslation";
 import { useTheme } from "../lib/ThemeContext";
 import { SimilarProductsSection } from "../components/SimilarProductsSection";
+import { SocialSharingButton, SocialShareBar } from "../components/SocialSharing";
 import { useState, useEffect } from "react";
 import { getBuyerDeviceId } from "../lib/buyerDeviceId";
 import { buttonPress } from "../lib/haptics";
