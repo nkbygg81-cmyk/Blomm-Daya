@@ -27,6 +27,8 @@ type Props = {
   onGreetingCardsPress?: () => void;
   onBundlesPress?: () => void;
   onAIBouquetPress?: () => void;
+  onGamificationPress?: () => void;
+  onGalleryPress?: () => void;
   authToken?: string;
 };
 
