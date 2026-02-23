@@ -550,6 +550,90 @@ export const getPlatformSettings = query({
   },
 });
 
+// Get platform settings
+export const getSettings = query({
+  args: {},
+  returns: v.object({
+    platformCommission: v.number(),
+    minimumOrderValue: v.number(),
+    deliveryFee: v.number(),
+    maintenanceMode: v.boolean(),
+    loyaltyEnabled: v.boolean(),
+  }),
+  handler: async (ctx) => {
+    const getSetting = async (key: string, defaultValue: any) => {
+      const setting = await ctx.db
+        .query("platformSettings")
+        .withIndex("by_key", (q) => q.eq("key", key))
+        .first();
+      return setting?.value ?? defaultValue;
+    };
+
+    return {
+      platformCommission: await getSetting("platformCommission", 15),
+      minimumOrderValue: await getSetting("minimumOrderValue", 0),
+      deliveryFee: await getSetting("deliveryFee", 0),
+      maintenanceMode: await getSetting("maintenanceMode", false),
+      loyaltyEnabled: await getSetting("loyaltyEnabled", true),
+    };
+  },
+});
+
+// Alias for updatePlatformSettings
+export const updateSettings = mutation({
+  args: {
+    platformCommission: v.optional(v.number()),
+    minimumOrderValue: v.optional(v.number()),
+    deliveryFee: v.optional(v.number()),
+    maintenanceMode: v.optional(v.boolean()),
+    loyaltyEnabled: v.optional(v.boolean()),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const now = Date.now();
+
+    const upsert = async (key: string, value: unknown) => {
+      const existing = await ctx.db
+        .query("platformSettings")
+        .withIndex("by_key", (q) => q.eq("key", key))
+        .first();
+
+      if (existing) {
+        await ctx.db.patch(existing._id, {
+          value,
+          updatedAt: now,
+          updatedBy: "admin",
+        });
+      } else {
+        await ctx.db.insert("platformSettings", {
+          key,
+          value,
+          updatedAt: now,
+          updatedBy: "admin",
+        });
+      }
+    };
+
+    if (args.platformCommission !== undefined) {
+      await upsert("platformCommission", Math.max(0, Math.min(50, args.platformCommission)));
+    }
+    if (args.minimumOrderValue !== undefined) {
+      await upsert("minimumOrderValue", Math.max(0, Math.round(args.minimumOrderValue)));
+    }
+    if (args.deliveryFee !== undefined) {
+      await upsert("deliveryFee", Math.max(0, Math.round(args.deliveryFee)));
+    }
+    if (args.maintenanceMode !== undefined) {
+      await upsert("maintenanceMode", !!args.maintenanceMode);
+    }
+    if (args.loyaltyEnabled !== undefined) {
+      await upsert("loyaltyEnabled", args.loyaltyEnabled);
+    }
+
+    return null;
+  },
+});
+
 export const updatePlatformSettings = mutation({
   args: {
     platformCommission: v.number(),
