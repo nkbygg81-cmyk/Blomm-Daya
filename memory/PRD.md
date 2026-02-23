@@ -264,3 +264,9 @@ Added 7 new tables in `convex/schema.ts`:
 - TypeScript errors in test files (missing Jest dev dependencies)
 - Image resizeMode deprecation warnings
 - Photo Reviews currently using mock data (needs full backend integration)
+
+## Resolved Issues (Session 3 - December 2025)
+- ✅ **FIXED: Critical Build Failure** - App was unbuildable due to missing `react-native-worklets` dependency
+  - Error: `Cannot find module 'react-native-worklets/plugin'`
+  - Solution: Added `react-native-worklets@0.7.4` and `react-native-worklets-core@1.6.3`
+  - App now builds and runs correctly on web platform
