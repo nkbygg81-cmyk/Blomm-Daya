@@ -203,17 +203,51 @@ export function PhotoEditorModal({ visible, imageUri, onClose, onSave }: Props) 
 
         {/* Image Preview */}
         <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: previewUri }}
-            style={[
-              styles.image,
-              {
-                // Visual preview of adjustments (actual manipulation on save)
-                opacity: 1 + brightness,
-              },
-            ]}
-            resizeMode="contain"
-          />
+          <View style={styles.imageWrapper}>
+            <Image
+              source={{ uri: previewUri }}
+              style={[
+                styles.image,
+                {
+                  // Visual preview of adjustments (actual manipulation on save)
+                  opacity: 1 + brightness,
+                  transform: [{ scale: zoom }],
+                },
+              ]}
+              resizeMode="contain"
+            />
+          </View>
+          
+          {/* Zoom controls */}
+          <View style={[styles.zoomControls, { backgroundColor: themeColors.card }]}>
+            <TouchableOpacity
+              style={[styles.zoomButton, zoom <= MIN_ZOOM && styles.zoomButtonDisabled]}
+              onPress={handleZoomOut}
+              disabled={zoom <= MIN_ZOOM}
+              data-testid="zoom-out-btn"
+            >
+              <Ionicons 
+                name="remove" 
+                size={24} 
+                color={zoom <= MIN_ZOOM ? themeColors.muted : themeColors.primary} 
+              />
+            </TouchableOpacity>
+            <Text style={[styles.zoomText, { color: themeColors.text }]}>
+              {Math.round(zoom * 100)}%
+            </Text>
+            <TouchableOpacity
+              style={[styles.zoomButton, zoom >= MAX_ZOOM && styles.zoomButtonDisabled]}
+              onPress={handleZoomIn}
+              disabled={zoom >= MAX_ZOOM}
+              data-testid="zoom-in-btn"
+            >
+              <Ionicons 
+                name="add" 
+                size={24} 
+                color={zoom >= MAX_ZOOM ? themeColors.muted : themeColors.primary} 
+              />
+            </TouchableOpacity>
+          </View>
           
           {/* Rotate button overlay */}
           <TouchableOpacity
