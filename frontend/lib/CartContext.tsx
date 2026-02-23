@@ -187,7 +187,7 @@ export function CartProvider({ children }: any) {
 
   // Track abandoned cart - debounced to avoid too many API calls
   useEffect(() => {
-    if (!loaded || !buyerDeviceId) return;
+    if (!loaded || !buyerDeviceId || items.length === 0) return;
 
     // Clear existing timer
     if (abandonedCartTimer.current) {
