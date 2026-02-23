@@ -915,6 +915,9 @@ favorites: {
     contrast: "Contrast",
     saturation: "Saturation",
     rotation: "Rotation",
+    zoom: "Zoom",
+    zoomIn: "Zoom In",
+    zoomOut: "Zoom Out",
     presets: {
       title: "Presets",
       original: "Original",
