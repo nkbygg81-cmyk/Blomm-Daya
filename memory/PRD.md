@@ -211,6 +211,16 @@ December 2025
 - `convex/aiBouquetGenerator.ts` - AI bouquet suggestions
 - `convex/aiReviewModeration.ts` - Auto-moderation
 - `convex/courierTracking.ts` - Live GPS tracking
+- `convex/files.ts` - File upload management (Session 3)
+- `convex/selfPickup.ts` - Pickup points CRUD (Session 3)
+- `convex/gamification.ts` - Badges, levels, XP, leaderboard (Session 3)
+- `convex/customerGallery.ts` - Photo gallery with moderation (Session 3)
+
+### Frontend Screens Created (Session 3)
+- `screens/buyer/GamificationScreen.tsx` - Achievements, badges, levels, XP
+- `screens/buyer/CustomerGalleryScreen.tsx` - Public photo gallery with moderation
+- `components/SelfPickupSelector.tsx` - Pickup point selection widget
+- `components/SocialSharing.tsx` - Share to Facebook, Telegram, Viber, Instagram
 
 ### Database Schema Updates
 Added 7 new tables in `convex/schema.ts`:
