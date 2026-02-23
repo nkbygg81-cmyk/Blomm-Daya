@@ -21,6 +21,7 @@ import { useTranslation } from "../lib/i18n/useTranslation";
 import { buttonPress } from "../lib/haptics";
 import { getBuyerDeviceId } from "../lib/buyerDeviceId";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
 type PhotoReview = {
   _id: string;
@@ -28,7 +29,7 @@ type PhotoReview = {
   caption?: string;
   rating: number;
   buyerName?: string;
-  status: "pending" | "approved" | "rejected";
+  status?: string;
   createdAt: number;
 };
 
@@ -50,17 +51,19 @@ export function PhotoReviewsComponent({ floristId, orderId, onBack, showAddRevie
   const [showAddModal, setShowAddModal] = useState(showAddReview);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
 
-  // For now, use a mock query since we need to implement the backend function
-  const [photoReviews, setPhotoReviews] = useState<PhotoReview[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // Real data from Convex
+  const photoReviews = useQuery(
+    api.photoReviews.getFloristPhotoReviews,
+    floristId ? { floristId: floristId as any, limit: 50 } : "skip"
+  );
+  
+  const submitPhotoReviewMutation = useMutation(api.photoReviews.submitPhotoReview);
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+
+  const isLoading = photoReviews === undefined;
 
   useEffect(() => {
     getBuyerDeviceId().then(setBuyerDeviceId);
-    // Simulate loading approved reviews
-    setTimeout(() => {
-      setPhotoReviews([]);
-      setIsLoading(false);
-    }, 500);
   }, []);
 
   const requestPermission = async () => {
