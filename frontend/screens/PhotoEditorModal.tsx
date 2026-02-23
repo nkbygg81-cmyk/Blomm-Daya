@@ -74,10 +74,28 @@ export function PhotoEditorModal({ visible, imageUri, onClose, onSave }: Props) 
   const [brightness, setBrightness] = useState(0);
   const [contrast, setContrast] = useState(1);
   const [saturation, setSaturation] = useState(1);
+  const [zoom, setZoom] = useState(1);
   const [activePreset, setActivePreset] = useState<string>("original");
   const [activeTab, setActiveTab] = useState<"adjust" | "presets">("adjust");
   const [processing, setProcessing] = useState(false);
   const [previewUri, setPreviewUri] = useState(imageUri);
+
+  // Zoom constraints
+  const MIN_ZOOM = 0.5;
+  const MAX_ZOOM = 3;
+  const ZOOM_STEP = 0.25;
+
+  // Zoom in
+  const handleZoomIn = useCallback(() => {
+    buttonPress();
+    setZoom((prev) => Math.min(prev + ZOOM_STEP, MAX_ZOOM));
+  }, []);
+
+  // Zoom out
+  const handleZoomOut = useCallback(() => {
+    buttonPress();
+    setZoom((prev) => Math.max(prev - ZOOM_STEP, MIN_ZOOM));
+  }, []);
 
   // Reset all adjustments
   const handleReset = useCallback(() => {
@@ -86,6 +104,7 @@ export function PhotoEditorModal({ visible, imageUri, onClose, onSave }: Props) 
     setBrightness(0);
     setContrast(1);
     setSaturation(1);
+    setZoom(1);
     setActivePreset("original");
     setPreviewUri(imageUri);
   }, [imageUri]);
