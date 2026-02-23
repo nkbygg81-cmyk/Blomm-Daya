@@ -318,15 +318,38 @@ export default defineSchema({
     userId: v.string(), // buyerId or floristId
     userType: v.union(v.literal("buyer"), v.literal("florist")),
     token: v.string(),
-    platform: v.union(v.literal("ios"), v.literal("android")),
+    platform: v.union(v.literal("ios"), v.literal("android"), v.literal("web")),
     enabled: v.boolean(),
     createdAt: v.number(),
     updatedAt: v.number(),
+    // For abandoned cart notifications
+    buyerDeviceId: v.optional(v.string()),
+    pushToken: v.optional(v.string()),
+    isActive: v.optional(v.boolean()),
   })
     .index("by_userId", ["userId"])
     .index("by_userId_userType", ["userId", "userType"])
     .index("by_userId_userType_enabled", ["userId", "userType", "enabled"])
-    .index("by_token", ["token"]),
+    .index("by_token", ["token"])
+    .index("by_buyerDeviceId", ["buyerDeviceId"]),
+
+  /**
+   * Push notification queue for processing
+   */
+  pushNotificationQueue: defineTable({
+    buyerDeviceId: v.string(),
+    type: v.string(),
+    title: v.string(),
+    body: v.string(),
+    data: v.optional(v.any()),
+    scheduledFor: v.number(),
+    status: v.union(v.literal("pending"), v.literal("sent"), v.literal("failed")),
+    sentAt: v.optional(v.number()),
+    error: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_buyerDeviceId", ["buyerDeviceId"]),
 
   /**
    * Notification preferences
