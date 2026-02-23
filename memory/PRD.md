@@ -32,16 +32,21 @@ Mobile flower shop application "Blomm-Daya" built with Expo/React Native and Con
 - [x] **Florist Analytics Dashboard** - Revenue, orders, top products, customer analytics
 - [x] **Wishlist** - Save favorite flowers with heart button
 - [x] **AI Greeting Cards** - Generate personalized greeting messages
-- [x] **Photo Reviews** - Upload photos with reviews
+- [x] **Photo Reviews** - Upload photos with reviews (real backend integration)
 - [x] **Product Bundles** - Bundle deals with discounts
 - [x] **Delivery Time Slots** - Select delivery date/time
 - [x] **Similar Products** - AI-powered product recommendations
 - [x] **AI Bouquet Generator** - Describe and generate bouquet suggestions
 - [x] **AI Review Moderation** - Auto-moderate reviews for spam
 - [x] **Live Courier Tracking** - Real-time GPS tracking during delivery
-- [x] **Abandoned Cart** - Cart recovery tracking and reminders
+- [x] **Abandoned Cart** - Cart recovery tracking and reminders (WORKING)
 - [x] **Trending Products** - Show popular products on homepage
 - [x] **Personalized Recommendations** - Based on purchase history
+- [x] **Social Sharing** - Share bouquets to Facebook, Telegram, Viber, Instagram
+- [x] **Self-Pickup** - Pickup points for in-store collection
+- [x] **Customer Gallery** - Public photo gallery from customers
+- [x] **Gamification** - Badges, achievements, levels, leaderboard
+- [x] **Push Notifications** - Order updates, abandoned cart reminders
 
 ### Homepage Sections (BrowseScreen)
 - [x] Florist Stories
