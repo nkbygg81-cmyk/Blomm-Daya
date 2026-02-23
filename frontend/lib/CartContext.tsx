@@ -142,9 +142,15 @@ export function CartProvider({ children }: any) {
   const [loaded, setLoaded] = useState(false);
   const [buyerDeviceId, setBuyerDeviceId] = useState<string | null>(null);
 
-  // Abandoned cart tracking
-  const saveCartState = useMutation(api.abandonedCarts.saveCartState);
-  const markCartConverted = useMutation(api.abandonedCarts.markCartConverted);
+  // Abandoned cart tracking - optional, fails silently if not available
+  let saveCartStateMutation: any = null;
+  let markCartConvertedMutation: any = null;
+  try {
+    saveCartStateMutation = useMutation(api.abandonedCarts?.saveCartState);
+    markCartConvertedMutation = useMutation(api.abandonedCarts?.markCartConverted);
+  } catch {
+    // Abandoned cart functions not available - that's OK
+  }
   const abandonedCartTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Toast state
