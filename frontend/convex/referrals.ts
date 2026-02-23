@@ -99,7 +99,7 @@ export const generateReferralCode = mutation({
     }
 
     // Generate unique code
-    let code = generateReferralCode();
+    let code = createReferralCode();
     let attempts = 0;
     while (attempts < 10) {
       const existing = await ctx.db
@@ -107,7 +107,7 @@ export const generateReferralCode = mutation({
         .withIndex("by_referralCode", (q) => q.eq("referralCode", code))
         .first();
       if (!existing) break;
-      code = generateReferralCode();
+      code = createReferralCode();
       attempts++;
     }
 
