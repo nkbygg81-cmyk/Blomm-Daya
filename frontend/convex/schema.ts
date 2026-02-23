@@ -933,4 +933,15 @@ export default defineSchema({
   })
     .index("by_orderId", ["orderId"])
     .index("by_floristId", ["floristId"]),
+
+  // File References - for uploaded files tracking
+  fileReferences: defineTable({
+    storageId: v.id("_storage"),
+    fileName: v.string(),
+    fileType: v.string(),
+    uploadedBy: v.optional(v.string()),
+    uploadedAt: v.number(),
+  })
+    .index("by_storageId", ["storageId"])
+    .index("by_uploadedBy", ["uploadedBy"]),
 });
