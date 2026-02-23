@@ -396,6 +396,14 @@ export function PhotoEditorModal({ visible, imageUri, onClose, onSave }: Props) 
                   {t("photoEditor.rotation")}: {rotation}°
                 </Text>
               </View>
+
+              {/* Zoom info */}
+              <View style={styles.rotationInfo}>
+                <Ionicons name="search" size={16} color={themeColors.muted} />
+                <Text style={[styles.rotationText, { color: themeColors.muted }]}>
+                  {t("photoEditor.zoom")}: {Math.round(zoom * 100)}%
+                </Text>
+              </View>
             </ScrollView>
           ) : (
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.presetsContainer}>
