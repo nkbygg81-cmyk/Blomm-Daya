@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
 // Generate a unique referral code
-function generateReferralCode(): string {
+function createReferralCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let code = "BL-";
   for (let i = 0; i < 6; i++) {
