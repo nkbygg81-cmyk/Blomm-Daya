@@ -64,6 +64,8 @@ import { DeliveryTimeSlotsScreen } from "./screens/DeliveryTimeSlotsScreen";
 import { ProductBundlesScreen } from "./screens/ProductBundlesScreen";
 import { AIBouquetGeneratorScreen } from "./screens/AIBouquetGeneratorScreen";
 import { CourierTrackingScreen } from "./screens/CourierTrackingScreen";
+import GamificationScreen from "./screens/buyer/GamificationScreen";
+import CustomerGalleryScreen from "./screens/buyer/CustomerGalleryScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
