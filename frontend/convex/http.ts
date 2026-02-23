@@ -4813,4 +4813,256 @@ http.route({
   }),
 });
 
+// ==========================================
+// ADMIN: Commission Management
+// ==========================================
+http.route({
+  path: "/admin/commissions",
+  method: "GET",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const URLCtor = (globalThis as any).URL;
+    const url = new URLCtor(req.url);
+    const pwd = (url.searchParams.get("p") ?? "").trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    // Get platform commission rate
+    const settings = await ctx.runQuery(api.admin.getSettings, {});
+    const platformRate = settings.platformCommission;
+
+    // Get all florists with their commission rates
+    const floristsData = await ctx.runQuery(api.admin.listFloristsCommissions, {});
+    const backUrl = `/admin?p=${encodeURIComponent(pwd)}`;
+
+    const floristRows = floristsData.map((f: any) => `
+      <tr>
+        <td>
+          <div style="font-weight:600;">${esc(f.name)}</div>
+          <div style="color:#6b7280;font-size:12px;">${esc(f.email || "—")}</div>
+        </td>
+        <td style="text-align:center;">
+          ${f.useCustomRate 
+            ? `<span style="background:#f59e0b;color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;">Індивідуальна</span>` 
+            : `<span style="background:#6b7280;color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;">Стандартна</span>`
+          }
+        </td>
+        <td style="text-align:center;font-weight:700;font-size:18px;">${f.commissionRate}%</td>
+        <td style="text-align:center;">${f.totalOrders}</td>
+        <td style="text-align:right;font-weight:600;">${f.totalRevenue.toLocaleString()} kr</td>
+        <td style="text-align:right;color:#059669;font-weight:600;">
+          ${Math.round(f.totalRevenue * f.commissionRate / 100).toLocaleString()} kr
+        </td>
+        <td style="text-align:center;">
+          <form method="POST" action="/admin/commissions/update" style="display:flex;gap:8px;align-items:center;justify-content:center;">
+            <input type="hidden" name="p" value="${esc(pwd)}" />
+            <input type="hidden" name="floristId" value="${f._id}" />
+            <input type="number" name="rate" value="${f.commissionRate}" min="0" max="100" step="0.5" 
+              style="width:70px;padding:6px;border:1px solid #d1d5db;border-radius:6px;text-align:center;" />
+            <label style="display:flex;align-items:center;gap:4px;font-size:12px;">
+              <input type="checkbox" name="useCustom" ${f.useCustomRate ? "checked" : ""} />
+              Інд.
+            </label>
+            <button type="submit" style="padding:6px 12px;background:#4f46e5;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;">✓</button>
+          </form>
+        </td>
+      </tr>
+    `).join("");
+
+    const html = `<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Управління комісіями</title>
+  ${styles()}
+  <style>
+    .commission-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .commission-table th, .commission-table td { padding: 12px 16px; border-bottom: 1px solid #e5e7eb; }
+    .commission-table th { background: #f9fafb; text-align: left; font-weight: 600; color: #374151; }
+    .commission-table tr:hover { background: #f3f4f6; }
+    .platform-rate-card { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; padding: 24px; border-radius: 16px; margin-bottom: 24px; }
+    .platform-rate-card h3 { margin: 0 0 8px 0; opacity: 0.9; font-size: 14px; }
+    .platform-rate-card .rate { font-size: 48px; font-weight: 800; }
+    .bulk-form { background: #f9fafb; padding: 16px; border-radius: 12px; margin-bottom: 24px; display: flex; gap: 12px; align-items: center; }
+    .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .summary-card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .summary-card .label { color: #6b7280; font-size: 14px; }
+    .summary-card .value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1>💰 Управління комісіями</h1>
+      <div class="sub">Налаштування відсотків для флористів</div>
+      
+      <div style="margin-top:16px;">
+        <a href="${backUrl}" style="padding:10px 20px;background:#6b7280;color:#fff;border-radius:12px;text-decoration:none;font-weight:700;display:inline-block;">← Назад</a>
+      </div>
+    </div>
+
+    <!-- Platform Rate Card -->
+    <div class="platform-rate-card">
+      <h3>Стандартна комісія платформи</h3>
+      <div class="rate">${platformRate}%</div>
+      <form method="POST" action="/admin/commissions/platform" style="margin-top:16px;display:flex;gap:8px;align-items:center;">
+        <input type="hidden" name="p" value="${esc(pwd)}" />
+        <input type="number" name="rate" value="${platformRate}" min="0" max="50" step="0.5" 
+          style="width:80px;padding:8px;border:none;border-radius:8px;text-align:center;font-size:16px;font-weight:600;" />
+        <button type="submit" style="padding:8px 16px;background:rgba(255,255,255,0.2);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">
+          Оновити
+        </button>
+      </form>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="label">Всього флористів</div>
+        <div class="value">${floristsData.length}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">З індивідуальною ставкою</div>
+        <div class="value">${floristsData.filter((f: any) => f.useCustomRate).length}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Загальний дохід</div>
+        <div class="value" style="color:#059669;">${floristsData.reduce((sum: number, f: any) => sum + Math.round(f.totalRevenue * f.commissionRate / 100), 0).toLocaleString()} kr</div>
+      </div>
+    </div>
+
+    <!-- Bulk Update Form -->
+    <div class="bulk-form">
+      <form method="POST" action="/admin/commissions/bulk" style="display:flex;gap:12px;align-items:center;width:100%;">
+        <input type="hidden" name="p" value="${esc(pwd)}" />
+        <span style="font-weight:600;">Масове оновлення:</span>
+        <input type="number" name="rate" placeholder="%" min="0" max="100" step="0.5" 
+          style="width:80px;padding:8px;border:1px solid #d1d5db;border-radius:8px;text-align:center;" />
+        <span>для</span>
+        <select name="target" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;">
+          <option value="all">Всіх флористів</option>
+          <option value="standard">Тільки зі стандартною ставкою</option>
+          <option value="custom">Тільки з індивідуальною</option>
+        </select>
+        <button type="submit" style="padding:8px 16px;background:#4f46e5;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">
+          Застосувати
+        </button>
+      </form>
+    </div>
+
+    <!-- Florists Table -->
+    <table class="commission-table">
+      <thead>
+        <tr>
+          <th>Флорист</th>
+          <th style="text-align:center;">Тип ставки</th>
+          <th style="text-align:center;">Комісія</th>
+          <th style="text-align:center;">Замовлень</th>
+          <th style="text-align:right;">Оборот</th>
+          <th style="text-align:right;">Наш дохід</th>
+          <th style="text-align:center;">Змінити</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${floristRows || '<tr><td colspan="7" style="text-align:center;padding:40px;color:#6b7280;">Немає флористів</td></tr>'}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>`;
+
+    return htmlResponse(html);
+  }),
+});
+
+// Update individual florist commission
+http.route({
+  path: "/admin/commissions/update",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const floristId = (fd?.get?.("floristId") ?? "").toString().trim();
+    const rate = parseFloat((fd?.get?.("rate") ?? "15").toString());
+    const useCustom = fd?.get?.("useCustom") === "on";
+
+    if (floristId) {
+      await ctx.runMutation(api.admin.updateFloristCommission, {
+        floristId: floristId as any,
+        commissionRate: rate,
+        useCustomRate: useCustom,
+      });
+    }
+
+    return redirect(`/admin/commissions?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// Update platform commission rate
+http.route({
+  path: "/admin/commissions/platform",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const rate = parseFloat((fd?.get?.("rate") ?? "15").toString());
+
+    await ctx.runMutation(api.admin.updateSettings, {
+      platformCommission: Math.max(0, Math.min(50, rate)),
+    });
+
+    return redirect(`/admin/commissions?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
+// Bulk update commissions
+http.route({
+  path: "/admin/commissions/bulk",
+  method: "POST",
+  handler: httpAction(async (ctx: AnyCtx, req: any) => {
+    const fd = await req.formData?.();
+    const pwd = (fd?.get?.("p") ?? "").toString().trim();
+
+    if (!checkPassword(pwd)) {
+      return htmlResponse(loginPage());
+    }
+
+    const rate = parseFloat((fd?.get?.("rate") ?? "15").toString());
+    const target = (fd?.get?.("target") ?? "all").toString();
+
+    // Get all florists
+    const floristsData = await ctx.runQuery(api.admin.listFloristsCommissions, {});
+    
+    let floristIds: string[] = [];
+    if (target === "all") {
+      floristIds = floristsData.map((f: any) => f._id);
+    } else if (target === "standard") {
+      floristIds = floristsData.filter((f: any) => !f.useCustomRate).map((f: any) => f._id);
+    } else if (target === "custom") {
+      floristIds = floristsData.filter((f: any) => f.useCustomRate).map((f: any) => f._id);
+    }
+
+    if (floristIds.length > 0) {
+      await ctx.runMutation(api.admin.bulkUpdateCommissions, {
+        floristIds: floristIds as any[],
+        commissionRate: rate,
+      });
+    }
+
+    return redirect(`/admin/commissions?p=${encodeURIComponent(pwd)}`);
+  }),
+});
+
 export default http;
