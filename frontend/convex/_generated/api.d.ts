@@ -23,6 +23,7 @@ import type * as cron from "../cron.js";
 import type * as deliveryCalculation from "../deliveryCalculation.js";
 import type * as deliveryTimeSlots from "../deliveryTimeSlots.js";
 import type * as favorites from "../favorites.js";
+import type * as files from "../files.js";
 import type * as floristApplications from "../floristApplications.js";
 import type * as floristAuth from "../floristAuth.js";
 import type * as floristHelpers from "../floristHelpers.js";
@@ -81,6 +82,7 @@ declare const fullApi: ApiFromModules<{
   deliveryCalculation: typeof deliveryCalculation;
   deliveryTimeSlots: typeof deliveryTimeSlots;
   favorites: typeof favorites;
+  files: typeof files;
   floristApplications: typeof floristApplications;
   floristAuth: typeof floristAuth;
   floristHelpers: typeof floristHelpers;
