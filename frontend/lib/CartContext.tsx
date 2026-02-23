@@ -312,11 +312,11 @@ export function CartProvider({ children }: any) {
 
   // Mark cart as converted when order is placed
   const onOrderPlaced = useCallback(() => {
-    if (buyerDeviceId) {
-      markCartConverted({ buyerDeviceId }).catch(console.error);
+    if (buyerDeviceId && markCartConvertedMutation) {
+      markCartConvertedMutation({ buyerDeviceId }).catch(() => {});
     }
     clearCart();
-  }, [buyerDeviceId, markCartConverted]);
+  }, [buyerDeviceId, markCartConvertedMutation]);
 
   const totalItems = useMemo(
     () => items.reduce((sum, item) => sum + item.qty, 0),
