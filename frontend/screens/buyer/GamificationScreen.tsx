@@ -8,12 +8,12 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
-import { useTheme } from "../lib/ThemeContext";
-import { useTranslation } from "../lib/i18n/useTranslation";
+import { api } from "../../convex/_generated/api";
+import { useTheme } from "../../lib/ThemeContext";
+import { useTranslation } from "../../lib/i18n/useTranslation";
 import { Ionicons } from "@expo/vector-icons";
-import { getBuyerDeviceId } from "../lib/buyerDeviceId";
-import { buttonPress } from "../lib/haptics";
+import { getBuyerDeviceId } from "../../lib/buyerDeviceId";
+import { buttonPress } from "../../lib/haptics";
 
 type Props = {
   navigation: any;
