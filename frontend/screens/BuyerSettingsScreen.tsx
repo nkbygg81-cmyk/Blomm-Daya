@@ -29,6 +29,7 @@ type Props = {
   onAIBouquetPress?: () => void;
   onGamificationPress?: () => void;
   onGalleryPress?: () => void;
+  onGroupOrdersPress?: () => void;
   authToken?: string;
 };
 
@@ -51,6 +52,7 @@ export function BuyerSettingsScreen({
   onAIBouquetPress,
   onGamificationPress,
   onGalleryPress,
+  onGroupOrdersPress,
   authToken,
 }: Props) {
   const { t, locale, changeLocale } = useTranslation();
