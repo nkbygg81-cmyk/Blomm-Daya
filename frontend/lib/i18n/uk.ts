@@ -1101,4 +1101,69 @@ export default {
     autoPassed: "Автосхвалено",
     autoRejected: "Автовідхилено",
   },
+
+  // Social Sharing
+  socialSharing: {
+    shareTitle: "Поділитися букетом",
+    share: "Поділитись",
+    shareVia: "Поділитись через...",
+    copyLink: "Копіювати посилання",
+    copied: "Скопійовано!",
+    linkCopied: "Посилання скопійовано в буфер обміну",
+    instagram: "Instagram",
+    instagramHint: "Instagram не підтримує пряме посилання. Скопіюйте текст і вставте в Stories або пост.",
+    copyAndOpen: "Копіювати і відкрити",
+  },
+
+  // Self Pickup
+  selfPickup: {
+    title: "Самовивіз",
+    selectPoint: "Оберіть пункт видачі",
+    selectedPoint: "Обраний пункт",
+    workingHours: "Години роботи",
+    address: "Адреса",
+    phone: "Телефон",
+    noPoints: "Немає доступних пунктів",
+    pickup: "Самовивіз",
+    delivery: "Доставка",
+    free: "Безкоштовно",
+  },
+
+  // Customer Gallery
+  customerGallery: {
+    title: "Галерея клієнтів",
+    subtitle: "Фото від наших покупців",
+    empty: "Поки немає фотографій",
+    addPhoto: "Додати фото",
+    yourPhotos: "Ваші фото",
+  },
+
+  // Gamification
+  gamification: {
+    achievements: "Досягнення",
+    badges: "Бейджі",
+    level: "Рівень",
+    currentLevel: "Поточний рівень",
+    nextLevel: "Наступний рівень",
+    progress: "Прогрес",
+    unlocked: "Відкрито",
+    locked: "Заблоковано",
+    earnedOn: "Отримано",
+    badges: {
+      firstOrder: "Перше замовлення",
+      loyal5: "5 замовлень",
+      loyal10: "10 замовлень",
+      bigSpender: "VIP клієнт",
+      reviewer: "Відгукодавець",
+      referrer: "Рекомендатор",
+    },
+    badgeDescriptions: {
+      firstOrder: "Зробіть перше замовлення",
+      loyal5: "Зробіть 5 замовлень",
+      loyal10: "Зробіть 10 замовлень",
+      bigSpender: "Витратьте більше 5000 kr",
+      reviewer: "Залиште 3 відгуки",
+      referrer: "Запросіть 3 друзів",
+    },
+  },
 };
