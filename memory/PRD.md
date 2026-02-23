@@ -294,4 +294,4 @@ Added 7 new tables in `convex/schema.ts`:
 
 ## Current Deployment Configuration
 - **Convex URL**: `https://blissful-bison-657.convex.cloud`
-- **Frontend Preview**: `https://blomm-daya-preview-1.preview.emergentagent.com`
+- **Frontend Preview**: `https://stripe-verify-4.preview.emergentagent.com`
