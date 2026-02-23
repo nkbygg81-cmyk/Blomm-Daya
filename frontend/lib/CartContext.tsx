@@ -193,7 +193,7 @@ export function CartProvider({ children }: any) {
 
   // Track abandoned cart - debounced to avoid too many API calls
   useEffect(() => {
-    if (!loaded || !buyerDeviceId) return;
+    if (!loaded || !buyerDeviceId || !saveCartStateMutation) return;
 
     // Clear existing timer
     if (abandonedCartTimer.current) {
@@ -206,7 +206,7 @@ export function CartProvider({ children }: any) {
                    gifts.reduce((sum, gift) => sum + gift.price * gift.qty, 0);
       
       // Save cart state to backend for abandoned cart tracking
-      saveCartState({
+      saveCartStateMutation({
         buyerDeviceId,
         items: items.map(item => ({
           flowerId: item.id,
@@ -216,7 +216,7 @@ export function CartProvider({ children }: any) {
           qty: item.qty,
         })),
         total,
-      }).catch(console.error);
+      }).catch(() => {}); // Silently fail
     }, 5000);
 
     return () => {
@@ -224,7 +224,7 @@ export function CartProvider({ children }: any) {
         clearTimeout(abandonedCartTimer.current);
       }
     };
-  }, [items, gifts, loaded, buyerDeviceId, saveCartState]);
+  }, [items, gifts, loaded, buyerDeviceId, saveCartStateMutation]);
 
   const showToast = useCallback(
     (name: string, imageUrl: string | null) => {
