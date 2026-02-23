@@ -1007,4 +1007,98 @@ export default defineSchema({
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_floristId", ["floristId"])
     .index("by_approved", ["approved"]),
+
+  /**
+   * Group Orders - Групові замовлення
+   * Дозволяє кільком людям збирати спільне замовлення
+   */
+  groupOrders: defineTable({
+    // Унікальний код для приєднання
+    inviteCode: v.string(),
+    // Ініціатор групового замовлення
+    creatorDeviceId: v.string(),
+    creatorName: v.string(),
+    creatorPhone: v.optional(v.string()),
+    // Назва групового замовлення
+    title: v.string(),
+    description: v.optional(v.string()),
+    // Адреса доставки (спільна для всіх)
+    deliveryAddress: v.string(),
+    deliveryType: v.union(v.literal("delivery"), v.literal("pickup")),
+    // Флорист (опціонально)
+    floristId: v.optional(v.id("florists")),
+    // Дедлайн для приєднання
+    deadline: v.number(),
+    // Статус групового замовлення
+    status: v.union(
+      v.literal("collecting"),   // Збір учасників та товарів
+      v.literal("locked"),       // Закрито для нових учасників
+      v.literal("payment"),      // Очікування оплати
+      v.literal("paid"),         // Оплачено
+      v.literal("processing"),   // В обробці
+      v.literal("delivered"),    // Доставлено
+      v.literal("cancelled")     // Скасовано
+    ),
+    // Тип оплати
+    paymentType: v.union(
+      v.literal("split"),        // Кожен платить окремо
+      v.literal("creator")       // Ініціатор платить за всіх
+    ),
+    // Загальна сума
+    totalAmount: v.number(),
+    deliveryFee: v.optional(v.number()),
+    // Stripe
+    stripeSessionId: v.optional(v.string()),
+    stripePaymentIntentId: v.optional(v.string()),
+    // Timestamps
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    paidAt: v.optional(v.number()),
+    deliveredAt: v.optional(v.number()),
+  })
+    .index("by_inviteCode", ["inviteCode"])
+    .index("by_creatorDeviceId", ["creatorDeviceId"])
+    .index("by_status", ["status"])
+    .index("by_floristId", ["floristId"]),
+
+  /**
+   * Group Order Participants - Учасники групового замовлення
+   */
+  groupOrderParticipants: defineTable({
+    groupOrderId: v.id("groupOrders"),
+    deviceId: v.string(),
+    name: v.string(),
+    phone: v.optional(v.string()),
+    // Товари цього учасника
+    items: v.array(v.object({
+      flowerId: v.string(),
+      name: v.string(),
+      price: v.number(),
+      imageUrl: v.optional(v.string()),
+      qty: v.number(),
+    })),
+    // Подарунки
+    gifts: v.optional(v.array(v.object({
+      giftId: v.string(),
+      name: v.string(),
+      price: v.number(),
+      imageUrl: v.optional(v.string()),
+      qty: v.number(),
+    }))),
+    // Сума цього учасника
+    subtotal: v.number(),
+    // Статус оплати (для split payment)
+    paymentStatus: v.union(
+      v.literal("pending"),
+      v.literal("paid")
+    ),
+    stripeSessionId: v.optional(v.string()),
+    paidAt: v.optional(v.number()),
+    // Timestamps
+    joinedAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_groupOrderId", ["groupOrderId"])
+    .index("by_deviceId", ["deviceId"])
+    .index("by_groupOrderId_deviceId", ["groupOrderId", "deviceId"]),
 });
