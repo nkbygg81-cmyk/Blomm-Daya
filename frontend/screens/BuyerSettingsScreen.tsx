@@ -229,6 +229,22 @@ export function BuyerSettingsScreen({
       onPress: onAIBouquetPress,
       color: themeColors.success,
     },
+    // Gamification - Achievements & Badges
+    {
+      icon: "trophy-outline",
+      label: t("gamification.achievements"),
+      sublabel: t("gamification.badges"),
+      onPress: onGamificationPress,
+      color: "#F59E0B",
+    },
+    // Customer Gallery
+    {
+      icon: "images-outline",
+      label: t("customerGallery.title"),
+      sublabel: t("customerGallery.subtitle"),
+      onPress: onGalleryPress,
+      color: "#EC4899",
+    },
     {
       icon: "storefront-outline",
       label: t("tabs.florists"),
