@@ -35,8 +35,7 @@
     "description": "Quickly generate React Native components with AI",
     "plugins": [
       "expo-localization",
-      "expo-web-browser",
-      "react-native-reanimated"
+      "expo-web-browser"
     ],
     "owner": "nazar81",
     "extra": {
