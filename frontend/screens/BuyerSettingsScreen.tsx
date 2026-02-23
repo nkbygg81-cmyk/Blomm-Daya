@@ -49,6 +49,8 @@ export function BuyerSettingsScreen({
   onGreetingCardsPress,
   onBundlesPress,
   onAIBouquetPress,
+  onGamificationPress,
+  onGalleryPress,
   authToken,
 }: Props) {
   const { t, locale, changeLocale } = useTranslation();
