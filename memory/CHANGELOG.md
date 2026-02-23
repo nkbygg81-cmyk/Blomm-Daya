@@ -1,5 +1,16 @@
 # Blomm-Daya Changelog
 
+## December 2025 - Session 3 (Fork)
+
+### Critical Bug Fix (P0)
+- **Fixed Critical Build Failure**: App was unbuildable due to missing `react-native-worklets` dependency
+- Error: `Cannot find module 'react-native-worklets/plugin'`
+- Solution: Added `react-native-worklets@0.7.4` and `react-native-worklets-core@1.6.3` to package.json
+- Build and Expo now working correctly
+- Verified via screenshot: Onboarding, Role Selection, and Buyer Auth screens all functional
+
+---
+
 ## December 2025 - Session 2
 
 ### Phase 2-5 Backend Implementation (ALL REQUESTED FEATURES)
