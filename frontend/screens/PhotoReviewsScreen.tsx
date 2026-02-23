@@ -235,7 +235,7 @@ export function PhotoReviewsComponent({ floristId, orderId, onBack, showAddRevie
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={themeColors.primary} />
         </View>
-      ) : photoReviews.length > 0 ? (
+      ) : (photoReviews && photoReviews.length > 0) ? (
         <FlatList
           data={photoReviews}
           renderItem={renderPhotoCard}
