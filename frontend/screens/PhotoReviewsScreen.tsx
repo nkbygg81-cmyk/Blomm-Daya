@@ -95,27 +95,53 @@ export function PhotoReviewsComponent({ floristId, orderId, onBack, showAddRevie
   };
 
   const handleSubmitReview = async () => {
-    if (!selectedImage || !buyerDeviceId) {
+    if (!selectedImage || !buyerDeviceId || !orderId) {
       Alert.alert(t("common.error"), t("photoReviews.addPhoto"));
       return;
     }
 
     setIsSubmitting(true);
     try {
-      // In a real implementation, we would:
-      // 1. Upload the image to Convex storage
-      // 2. Create the photo review record
-      // For now, we simulate success
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // 1. Get upload URL from Convex
+      const uploadUrl = await generateUploadUrl();
+      
+      // 2. Read file as base64 and upload
+      const base64 = await FileSystem.readAsStringAsync(selectedImage, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      
+      // 3. Upload to Convex storage
+      const response = await fetch(uploadUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "image/jpeg",
+        },
+        body: Uint8Array.from(atob(base64), c => c.charCodeAt(0)),
+      });
+      
+      const { storageId } = await response.json();
+      
+      // 4. Get the public URL for the uploaded image
+      const imageUrl = `https://blissful-bison-657.convex.site/getImage?storageId=${storageId}`;
+      
+      // 5. Submit the photo review
+      await submitPhotoReviewMutation({
+        orderId: orderId as any,
+        buyerDeviceId,
+        floristId: floristId as any,
+        imageUrl,
+        caption: caption || undefined,
+        rating,
+      });
       
       Alert.alert(t("photoReviews.success"), t("photoReviews.successMessage"));
       setShowAddModal(false);
       setSelectedImage(null);
       setCaption("");
       setRating(5);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting review:", error);
-      Alert.alert(t("common.error"), t("aiChat.errorMessage"));
+      Alert.alert(t("common.error"), error?.message || t("aiChat.errorMessage"));
     } finally {
       setIsSubmitting(false);
     }
