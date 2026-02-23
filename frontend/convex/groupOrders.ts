@@ -268,7 +268,7 @@ export const listForDevice = query({
     const asParticipant: any[] = [];
     
     for (const orderId of participantOrderIds) {
-      const order = await ctx.db.get(orderId);
+      const order = await ctx.db.get(orderId) as any;
       if (order && order.creatorDeviceId !== args.deviceId) {
         asParticipant.push(order);
       }
@@ -276,7 +276,7 @@ export const listForDevice = query({
     
     // Combine and sort by date
     const allOrders = [...asCreator, ...asParticipant].sort(
-      (a, b) => b.createdAt - a.createdAt
+      (a: any, b: any) => b.createdAt - a.createdAt
     );
     
     // Add participant counts
