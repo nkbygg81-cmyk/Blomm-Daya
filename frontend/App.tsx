@@ -66,6 +66,8 @@ import { AIBouquetGeneratorScreen } from "./screens/AIBouquetGeneratorScreen";
 import { CourierTrackingScreen } from "./screens/CourierTrackingScreen";
 import GamificationScreen from "./screens/buyer/GamificationScreen";
 import CustomerGalleryScreen from "./screens/buyer/CustomerGalleryScreen";
+import GroupOrdersScreen from "./screens/GroupOrdersScreen";
+import GroupOrderDetailScreen from "./screens/GroupOrderDetailScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
