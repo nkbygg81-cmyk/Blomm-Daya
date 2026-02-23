@@ -304,13 +304,13 @@ export function CartProvider({ children }: any) {
     AsyncStorage.multiRemove([CART_STORAGE_KEY, GIFTS_STORAGE_KEY]).catch(() => {});
   };
 
-  // Mark cart as converted when order is placed - DISABLED temporarily
+  // Mark cart as converted when order is placed
   const onOrderPlaced = useCallback(() => {
-    // if (buyerDeviceId && markCartConvertedMutation) {
-    //   markCartConvertedMutation({ buyerDeviceId }).catch(() => {});
-    // }
+    if (buyerDeviceId) {
+      markCartConvertedMutation({ buyerDeviceId }).catch(() => {});
+    }
     clearCart();
-  }, []);
+  }, [buyerDeviceId, markCartConvertedMutation]);
 
   const totalItems = useMemo(
     () => items.reduce((sum, item) => sum + item.qty, 0),
