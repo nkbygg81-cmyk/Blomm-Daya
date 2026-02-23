@@ -231,6 +231,14 @@ export function BuyerSettingsScreen({
       onPress: onAIBouquetPress,
       color: themeColors.success,
     },
+    // Group Orders
+    {
+      icon: "people-outline",
+      label: "Групові замовлення",
+      sublabel: "Замовляйте разом з друзями",
+      onPress: onGroupOrdersPress,
+      color: "#8B5CF6",
+    },
     // Gamification - Achievements & Badges
     {
       icon: "trophy-outline",
