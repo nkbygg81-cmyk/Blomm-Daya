@@ -105,6 +105,16 @@ export function FlowerDetailScreen({ flower, onBack, onAskFlorist, onFlowerPress
         />
       </TouchableOpacity>
 
+      {/* Share button */}
+      <View style={styles.shareButtonContainer}>
+        <SocialSharingButton
+          productId={flower.id}
+          productName={name}
+          productImage={flower.imageUrl || undefined}
+          productPrice={flower.price}
+        />
+      </View>
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Image
           source={{
