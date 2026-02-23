@@ -967,4 +967,44 @@ export default defineSchema({
   })
     .index("by_storageId", ["storageId"])
     .index("by_uploadedBy", ["uploadedBy"]),
+
+  // Pickup Points for self-pickup
+  pickupPoints: defineTable({
+    floristId: v.optional(v.id("florists")),
+    name: v.string(),
+    address: v.string(),
+    city: v.string(),
+    lat: v.optional(v.number()),
+    lon: v.optional(v.number()),
+    workingHours: v.string(),
+    phone: v.optional(v.string()),
+    isActive: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_floristId", ["floristId"])
+    .index("by_city", ["city"]),
+
+  // User Badges/Achievements for gamification
+  userBadges: defineTable({
+    buyerDeviceId: v.string(),
+    badgeId: v.string(),
+    earnedAt: v.number(),
+  })
+    .index("by_buyerDeviceId", ["buyerDeviceId"])
+    .index("by_badgeId", ["badgeId"]),
+
+  // Customer Gallery (uploaded photos from buyers)
+  customerGallery: defineTable({
+    buyerDeviceId: v.string(),
+    orderId: v.optional(v.id("buyerOrders")),
+    floristId: v.optional(v.id("florists")),
+    imageUrl: v.string(),
+    caption: v.optional(v.string()),
+    isPublic: v.boolean(),
+    approved: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_buyerDeviceId", ["buyerDeviceId"])
+    .index("by_floristId", ["floristId"])
+    .index("by_approved", ["approved"]),
 });
