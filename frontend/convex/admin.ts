@@ -600,6 +600,137 @@ export const updatePlatformSettings = mutation({
 });
 
 // ==========================================
+// Florist Commission Management
+// ==========================================
+
+// Get florist with commission rate
+export const getFloristCommission = query({
+  args: {
+    floristId: v.id("florists"),
+  },
+  returns: v.object({
+    floristId: v.id("florists"),
+    name: v.string(),
+    commissionRate: v.number(),
+    useCustomRate: v.boolean(),
+  }),
+  handler: async (ctx, args) => {
+    const florist = await ctx.db.get(args.floristId);
+    if (!florist) {
+      throw new Error("Florist not found");
+    }
+
+    // Get platform default rate
+    const platformSetting = await ctx.db
+      .query("platformSettings")
+      .withIndex("by_key", (q) => q.eq("key", "platformCommission"))
+      .first();
+    const defaultRate = platformSetting?.value ?? 15;
+
+    return {
+      floristId: args.floristId,
+      name: florist.businessName || florist.name || "Unknown",
+      commissionRate: florist.commissionRate ?? defaultRate,
+      useCustomRate: florist.commissionRate !== undefined,
+    };
+  },
+});
+
+// List all florists with their commission rates
+export const listFloristsCommissions = query({
+  args: {},
+  returns: v.array(v.object({
+    _id: v.id("florists"),
+    name: v.string(),
+    email: v.optional(v.string()),
+    commissionRate: v.number(),
+    useCustomRate: v.boolean(),
+    totalOrders: v.number(),
+    totalRevenue: v.number(),
+  })),
+  handler: async (ctx) => {
+    const florists = await ctx.db.query("florists").collect();
+    const orders = await ctx.db.query("buyerOrders").collect();
+
+    // Get platform default rate
+    const platformSetting = await ctx.db
+      .query("platformSettings")
+      .withIndex("by_key", (q) => q.eq("key", "platformCommission"))
+      .first();
+    const defaultRate = platformSetting?.value ?? 15;
+
+    return florists.map((f) => {
+      const floristOrders = orders.filter((o) => o.floristId === f._id);
+      const totalRevenue = floristOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+
+      return {
+        _id: f._id,
+        name: f.businessName || f.name || "Unknown",
+        email: f.email,
+        commissionRate: f.commissionRate ?? defaultRate,
+        useCustomRate: f.commissionRate !== undefined,
+        totalOrders: floristOrders.length,
+        totalRevenue,
+      };
+    });
+  },
+});
+
+// Update florist commission rate
+export const updateFloristCommission = mutation({
+  args: {
+    floristId: v.id("florists"),
+    commissionRate: v.number(),
+    useCustomRate: v.boolean(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const florist = await ctx.db.get(args.floristId);
+    if (!florist) {
+      throw new Error("Florist not found");
+    }
+
+    // Validate commission rate (0-100%)
+    const rate = Math.max(0, Math.min(100, args.commissionRate));
+
+    if (args.useCustomRate) {
+      await ctx.db.patch(args.floristId, {
+        commissionRate: rate,
+      });
+    } else {
+      // Remove custom rate to use platform default
+      const { commissionRate, ...rest } = florist;
+      await ctx.db.replace(args.floristId, rest);
+    }
+
+    return null;
+  },
+});
+
+// Bulk update commission rates
+export const bulkUpdateCommissions = mutation({
+  args: {
+    floristIds: v.array(v.id("florists")),
+    commissionRate: v.number(),
+  },
+  returns: v.number(),
+  handler: async (ctx, args) => {
+    const rate = Math.max(0, Math.min(100, args.commissionRate));
+    let updated = 0;
+
+    for (const floristId of args.floristIds) {
+      const florist = await ctx.db.get(floristId);
+      if (florist) {
+        await ctx.db.patch(floristId, { commissionRate: rate });
+        updated++;
+      }
+    }
+
+    return updated;
+  },
+});
+
+// ==========================================
 // ФАЗА 2: Портфоліо модерація
 // ==========================================
 
