@@ -308,6 +308,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  shareButtonContainer: {
+    position: "absolute",
+    top: 50,
+    right: spacing.md + 50,
+    zIndex: 10,
+  },
   scrollContent: { paddingBottom: spacing.xl },
   image: {
     width: "100%",
