@@ -381,14 +381,14 @@ export function PhotoReviewsComponent({ floristId, orderId, onBack, showAddRevie
 export function PhotoReviewsGallery({ floristId }: { floristId: string }) {
   const { t } = useTranslation();
   const { colors: themeColors } = useTheme();
-  const [photos, setPhotos] = useState<PhotoReview[]>([]);
+  
+  // Real data from Convex
+  const photos = useQuery(
+    api.photoReviews.getFloristPhotoReviews,
+    floristId ? { floristId: floristId as any, limit: 10 } : "skip"
+  );
 
-  // In real implementation, fetch from backend
-  useEffect(() => {
-    setPhotos([]);
-  }, [floristId]);
-
-  if (photos.length === 0) return null;
+  if (!photos || photos.length === 0) return null;
 
   return (
     <View style={styles.galleryContainer}>
