@@ -823,7 +823,7 @@ function AppContent() {
 }
 
 // Initialize Convex client
-const convex = new ConvexReactClient("https://glad-bison-596.convex.cloud");
+const convex = new ConvexReactClient("https://blissful-bison-657.convex.cloud");
 
 // Theme-aware navigation themes
 function getNavigationTheme(isDark: boolean) {

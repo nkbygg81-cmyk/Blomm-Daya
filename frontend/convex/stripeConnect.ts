@@ -133,7 +133,7 @@ export const createConnectAccountLink = action({
     const publicAppUrlRaw = process.env?.PUBLIC_APP_URL;
     const publicAppUrl = (typeof publicAppUrlRaw === "string" && publicAppUrlRaw.length
       ? publicAppUrlRaw
-      : "https://little-coyote-905.convex.cloud"
+      : "https://blissful-bison-657.convex.cloud"
     ).replace(/\/$/, "");
 
     // Create account link for onboarding

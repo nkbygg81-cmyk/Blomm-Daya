@@ -1,5 +1,5 @@
 // Quick script to check if we can add data via the seed functions
-const API_URL = "https://little-coyote-905.convex.cloud";
+const API_URL = "https://blissful-bison-657.convex.cloud";
 
 async function runSeed() {
 try {

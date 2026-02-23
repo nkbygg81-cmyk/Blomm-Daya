@@ -54,7 +54,7 @@ export const createCheckoutSession = action({
     }
 
     // Derive the Convex site URL for Stripe redirects (HTTPS required)
-    const convexUrl = process.env?.CONVEX_CLOUD_URL || "https://little-coyote-905.convex.cloud";
+    const convexUrl = process.env?.CONVEX_CLOUD_URL || "https://blissful-bison-657.convex.cloud";
     const siteUrl = convexUrl.replace(".cloud", ".site");
 
     const gifts = args.gifts ?? [];
