@@ -270,3 +270,13 @@ Added 7 new tables in `convex/schema.ts`:
   - Error: `Cannot find module 'react-native-worklets/plugin'`
   - Solution: Added `react-native-worklets@0.7.4` and `react-native-worklets-core@1.6.3`
   - App now builds and runs correctly on web platform
+
+- ✅ **SYNCED: Convex Deployment** - Synced with production deployment `blissful-bison-657`
+  - Deployed all new Convex functions (wishlist, bundles, courier tracking, etc.)
+  - Fixed duplicate route error in http.ts
+  - Fixed duplicate function name in referrals.ts
+  - Temporarily disabled abandoned cart tracking (mutations issue on prod)
+
+## Current Deployment Configuration
+- **Convex URL**: `https://blissful-bison-657.convex.cloud`
+- **Frontend Preview**: `https://blomm-daya-preview-1.preview.emergentagent.com`
