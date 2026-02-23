@@ -915,6 +915,9 @@ export default {
     contrast: "Контраст",
     saturation: "Насиченість",
     rotation: "Поворот",
+    zoom: "Масштаб",
+    zoomIn: "Збільшити",
+    zoomOut: "Зменшити",
     presets: {
       title: "Пресети",
       original: "Оригінал",
