@@ -378,6 +378,16 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
           <AIBouquetGeneratorScreen onBack={() => navigation.goBack()} />
         )}
       </Stack.Screen>
+      <Stack.Screen name="Gamification">
+        {({ navigation }: { navigation: any }) => (
+          <GamificationScreen navigation={navigation} />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name="CustomerGallery">
+        {({ navigation }: { navigation: any }) => (
+          <CustomerGalleryScreen navigation={navigation} />
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
