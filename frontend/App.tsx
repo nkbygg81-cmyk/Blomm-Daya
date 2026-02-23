@@ -308,6 +308,7 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
             onAIBouquetPress={() => navigation.navigate("AIBouquetGenerator")}
             onGamificationPress={() => navigation.navigate("Gamification")}
             onGalleryPress={() => navigation.navigate("CustomerGallery")}
+            onGroupOrdersPress={() => navigation.navigate("GroupOrders")}
           />
         )}
       </Stack.Screen>
