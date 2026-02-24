@@ -119,10 +119,10 @@ export const getOrderPickupInfo = query({
     v.null()
   ),
   handler: async (ctx, args) => {
-    const order = await ctx.db.get(args.orderId);
+    const order = await ctx.db.get(args.orderId) as any;
     if (!order || !order.pickupPointId) return null;
 
-    const point = await ctx.db.get(order.pickupPointId);
+    const point = await ctx.db.get(order.pickupPointId) as any;
     if (!point) return null;
 
     return {
@@ -151,7 +151,7 @@ export const markOrderPickedUp = mutation({
     error: v.optional(v.string()),
   }),
   handler: async (ctx, args) => {
-    const order = await ctx.db.get(args.orderId);
+    const order = await ctx.db.get(args.orderId) as any;
     if (!order) {
       return { success: false, error: "Order not found" };
     }

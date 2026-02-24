@@ -135,7 +135,7 @@ export const listPublicFlowersWithLocation = query({
       if (out.length >= limit) break;
 
       // Get florist data
-      const florist = await ctx.db.get(photo.floristId);
+      const florist = await ctx.db.get(photo.floristId) as any;
       if (!florist || !florist.available) continue;
 
       let imageUrl: string | null = null;

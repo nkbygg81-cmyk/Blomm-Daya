@@ -24,7 +24,7 @@ const active = stories.filter((s: any) => s.expiresAt > now);
 
 const enriched = await Promise.all(
 active.map(async (s: any) => {
-const florist = await ctx.db.get(s.floristId);
+const florist = await ctx.db.get(s.floristId) as any;
 return {
 id: s._id,
 floristId: s.floristId,

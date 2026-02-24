@@ -287,7 +287,7 @@ export const seedFlorists = mutation({
       if (existingPhotos.length > 0) continue;
 
       // Use the a0 image generator for stable demo images.
-      const florist: any = await ctx.db.get(floristId);
+      const florist: any = await ctx.db.get(floristId) as any;
       const title = encodeURIComponent(String(florist?.businessName ?? florist?.name ?? "Florist"));
       const city = encodeURIComponent(String(florist?.city ?? ""));
 
@@ -375,7 +375,7 @@ export const deletePortfolioPhoto = mutation({
     photoId: v.id("portfolioPhotos"),
   },
   handler: async (ctx, args) => {
-    const photo: any = await ctx.db.get(args.photoId);
+    const photo: any = await ctx.db.get(args.photoId) as any;
     if (photo?.imageStorageId) {
       await ctx.storage.delete(photo.imageStorageId);
     }
@@ -598,7 +598,7 @@ export const getById = query({
     v.null()
   ),
   handler: async (ctx, args) => {
-    const florist = await ctx.db.get(args.floristId);
+    const florist = await ctx.db.get(args.floristId) as any;
     if (!florist) return null;
     
     return {
@@ -723,7 +723,7 @@ export const getFinancialStats = query({
     platformFeePercent: v.number(),
   }),
   handler: async (ctx, args) => {
-    const florist = await ctx.db.get(args.floristId);
+    const florist = await ctx.db.get(args.floristId) as any;
     const platformFeePercent = (florist as any)?.platformFeePercent ?? 0.15;
     
     // Get all orders for this florist

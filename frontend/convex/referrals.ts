@@ -57,7 +57,7 @@ export const getMyReferralData = query({
       allReferrals.map(async (ref) => {
         let referredName: string | undefined;
         if (ref.referredId) {
-          const referred = await ctx.db.get(ref.referredId);
+          const referred = await ctx.db.get(ref.referredId) as any;
           referredName = referred?.name ?? referred?.email;
         }
         return {
@@ -197,7 +197,7 @@ export const applyReferralCode = mutation({
     });
 
     // Add bonus to new user's loyalty points
-    const newBuyer = await ctx.db.get(args.newBuyerId);
+    const newBuyer = await ctx.db.get(args.newBuyerId) as any;
     if (newBuyer) {
       await ctx.db.patch(args.newBuyerId, {
         loyaltyPoints: (newBuyer.loyaltyPoints ?? 0) + referredBonus,
@@ -242,7 +242,7 @@ export const completeReferral = mutation({
     });
 
     // Add bonus to referrer's loyalty points
-    const referrer = await ctx.db.get(referral.referrerId);
+    const referrer = await ctx.db.get(referral.referrerId) as any;
     if (referrer) {
       await ctx.db.patch(referral.referrerId, {
         loyaltyPoints: (referrer.loyaltyPoints ?? 0) + referral.bonusAmount,
@@ -283,7 +283,7 @@ export const getReferralByCode = query({
       return { valid: false as const };
     }
 
-    const referrer = await ctx.db.get(referral.referrerId);
+    const referrer = await ctx.db.get(referral.referrerId) as any;
     
     // Get bonus setting
     const bonusSetting = await ctx.db
