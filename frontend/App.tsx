@@ -68,6 +68,7 @@ import GamificationScreen from "./screens/buyer/GamificationScreen";
 import CustomerGalleryScreen from "./screens/buyer/CustomerGalleryScreen";
 import GroupOrdersScreen from "./screens/GroupOrdersScreen";
 import GroupOrderDetailScreen from "./screens/GroupOrderDetailScreen";
+import HolidayRemindersScreen from "./screens/HolidayRemindersScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
