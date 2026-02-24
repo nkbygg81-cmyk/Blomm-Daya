@@ -103,7 +103,7 @@ export const getOrderDetails = query({
     paymentStatus: v.union(v.string(), v.null()),
   })),
   handler: async (ctx, args) => {
-    const order = await ctx.db.get(args.orderId);
+    const order = await ctx.db.get(args.orderId) as any;
     if (!order) return null;
 
     return {
