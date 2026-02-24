@@ -166,8 +166,10 @@ export default defineSchema({
     pickupPointId: v.optional(v.id("pickupPoints")),
     pickupStatus: v.optional(v.string()),
     pickupCode: v.optional(v.string()),
+    pickedUpAt: v.optional(v.number()),
     // Stripe transfer
     stripeTransferId: v.optional(v.string()),
+    floristPayout: v.optional(v.number()),
   })
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_buyerDeviceId_and_createdAt", ["buyerDeviceId", "createdAt"])
