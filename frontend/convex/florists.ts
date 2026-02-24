@@ -807,8 +807,8 @@ export const getOrdersForCalendar = query({
   ),
   handler: async (ctx, args) => {
     const orders = await ctx.db
-      .query("orders")
-      .withIndex("by_florist", (q: any) => q.eq("floristId", args.floristId))
+      .query("buyerOrders")
+      .withIndex("by_floristId_and_createdAt", (q: any) => q.eq("floristId", args.floristId))
       .collect();
     
     return orders
