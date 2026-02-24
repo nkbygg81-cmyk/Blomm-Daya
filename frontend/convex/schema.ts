@@ -62,6 +62,8 @@ export default defineSchema({
     phone: v.optional(v.string()),
     createdAt: v.number(),
     lastLoginAt: v.optional(v.number()),
+    // Loyalty program
+    loyaltyPoints: v.optional(v.number()),
   }).index("by_email", ["email"]),
 
   buyerOtps: defineTable({
