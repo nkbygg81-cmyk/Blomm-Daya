@@ -24,7 +24,7 @@ export const registerPushToken = mutation({
     // Check if token already exists
     const existing = await ctx.db
       .query("pushTokens")
-      .withIndex("by_buyerDeviceId", (q) => q.eq("buyerDeviceId", args.buyerDeviceId))
+      .withIndex("by_buyerDeviceId", (q: any) => q.eq("buyerDeviceId", args.buyerDeviceId))
       .first();
 
     if (existing) {
@@ -38,9 +38,13 @@ export const registerPushToken = mutation({
     }
 
     return await ctx.db.insert("pushTokens", {
+      userId: args.buyerDeviceId,
+      userType: "buyer" as const,
+      token: args.pushToken,
+      platform: args.platform,
+      enabled: true,
       buyerDeviceId: args.buyerDeviceId,
       pushToken: args.pushToken,
-      platform: args.platform,
       isActive: true,
       createdAt: Date.now(),
       updatedAt: Date.now(),
