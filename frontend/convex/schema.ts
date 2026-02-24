@@ -1101,4 +1101,110 @@ export default defineSchema({
     .index("by_groupOrderId", ["groupOrderId"])
     .index("by_deviceId", ["deviceId"])
     .index("by_groupOrderId_deviceId", ["groupOrderId", "deviceId"]),
+
+  /**
+   * Holiday Reminders - Нагадування про свята
+   * Автоматичні push-сповіщення перед святами
+   */
+  holidays: defineTable({
+    name: v.string(),
+    nameUk: v.optional(v.string()),
+    nameSv: v.optional(v.string()),
+    // Дата свята (місяць та день)
+    month: v.number(), // 1-12
+    day: v.number(),   // 1-31
+    // Опис
+    description: v.optional(v.string()),
+    descriptionUk: v.optional(v.string()),
+    // Скільки днів до свята надсилати нагадування
+    reminderDaysBefore: v.number(), // default: 1
+    // Чи активне
+    isActive: v.boolean(),
+    // Тип свята
+    holidayType: v.union(
+      v.literal("national"),     // Національне свято
+      v.literal("religious"),    // Релігійне свято
+      v.literal("international"),// Міжнародне свято
+      v.literal("custom")        // Кастомне
+    ),
+    // Emoji для сповіщення
+    emoji: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_month_day", ["month", "day"])
+    .index("by_isActive", ["isActive"]),
+
+  /**
+   * Holiday Reminder Subscriptions - Підписки на нагадування
+   */
+  holidayReminderSubscriptions: defineTable({
+    buyerDeviceId: v.string(),
+    // Які типи свят отримувати
+    enabledTypes: v.array(v.string()), // ["national", "religious", etc.]
+    // Чи увімкнено загалом
+    isEnabled: v.boolean(),
+    // Push token
+    pushToken: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_buyerDeviceId", ["buyerDeviceId"])
+    .index("by_isEnabled", ["isEnabled"]),
+
+  /**
+   * Sent Holiday Reminders - Історія надісланих нагадувань
+   */
+  sentHolidayReminders: defineTable({
+    buyerDeviceId: v.string(),
+    holidayId: v.id("holidays"),
+    year: v.number(),
+    sentAt: v.number(),
+  })
+    .index("by_buyerDeviceId_holidayId_year", ["buyerDeviceId", "holidayId", "year"]),
+
+  /**
+   * Chat Notifications Settings - Налаштування сповіщень чату
+   */
+  chatNotificationSettings: defineTable({
+    // Може бути buyer або florist
+    userType: v.union(v.literal("buyer"), v.literal("florist")),
+    userId: v.string(), // deviceId для buyer, floristId для florist
+    // Налаштування
+    enablePush: v.boolean(),
+    enableSound: v.boolean(),
+    enableVibration: v.boolean(),
+    // Quiet hours (не турбувати)
+    quietHoursEnabled: v.boolean(),
+    quietHoursStart: v.optional(v.number()), // години 0-23
+    quietHoursEnd: v.optional(v.number()),   // години 0-23
+    // Push token
+    pushToken: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_userType_userId", ["userType", "userId"]),
+
+  /**
+   * Chat Messages Queue - Черга повідомлень для push
+   */
+  chatMessageQueue: defineTable({
+    consultationId: v.id("consultations"),
+    messageId: v.string(),
+    senderType: v.union(v.literal("buyer"), v.literal("florist")),
+    senderId: v.string(),
+    recipientType: v.union(v.literal("buyer"), v.literal("florist")),
+    recipientId: v.string(),
+    messagePreview: v.string(), // Перші 100 символів
+    // Статус
+    status: v.union(
+      v.literal("pending"),
+      v.literal("sent"),
+      v.literal("failed")
+    ),
+    sentAt: v.optional(v.number()),
+    error: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_recipientType_recipientId", ["recipientType", "recipientId"]),
 });
