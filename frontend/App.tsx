@@ -396,6 +396,7 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
       </Stack.Screen>
       <Stack.Screen name="GroupOrders" component={GroupOrdersScreen} options={{ headerShown: false }} />
       <Stack.Screen name="GroupOrderDetail" component={GroupOrderDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="HolidayReminders" component={HolidayRemindersScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
