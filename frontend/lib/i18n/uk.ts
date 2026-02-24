@@ -1144,7 +1144,7 @@ export default {
   // Gamification
   gamification: {
     achievements: "Досягнення",
-    badges: "Бейджі",
+    badgesTitle: "Бейджі",
     level: "Рівень",
     currentLevel: "Поточний рівень",
     nextLevel: "Наступний рівень",
