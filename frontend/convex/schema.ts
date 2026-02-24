@@ -172,6 +172,7 @@ export default defineSchema({
     floristPayout: v.optional(v.number()),
     platformFee: v.optional(v.number()),
     payoutStatus: v.optional(v.string()),
+    payoutCompletedAt: v.optional(v.number()),
   })
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_buyerDeviceId_and_createdAt", ["buyerDeviceId", "createdAt"])
