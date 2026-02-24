@@ -15,8 +15,8 @@ handler: async (ctx, args) => {
 // Check if review already exists
 const existing = await ctx.db
 .query("reviews")
-.withIndex("by_orderId", (q) => q.eq("orderId", args.orderId))
-.filter((q) => q.eq(q.field("flowerId"), args.flowerId))
+.withIndex("by_orderId", (q: any) => q.eq("orderId", args.orderId))
+.filter((q: any) => q.eq(q.field("flowerId"), args.flowerId))
 .first();
 
 if (existing) {
