@@ -171,6 +171,7 @@ export default defineSchema({
     stripeTransferId: v.optional(v.string()),
     floristPayout: v.optional(v.number()),
     platformFee: v.optional(v.number()),
+    payoutStatus: v.optional(v.string()),
   })
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_buyerDeviceId_and_createdAt", ["buyerDeviceId", "createdAt"])
