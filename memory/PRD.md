@@ -47,6 +47,9 @@ Mobile flower shop application "Blomm-Daya" built with Expo/React Native and Con
 - [x] **Customer Gallery** - Public photo gallery from customers
 - [x] **Gamification** - Badges, achievements, levels, leaderboard
 - [x] **Push Notifications** - Order updates, abandoned cart reminders
+- [x] **Group Orders** - Order together with friends, share delivery costs
+- [x] **Holiday Reminders** - Push notifications before holidays (Mother's Day, Valentine's etc.)
+- [x] **Chat Notifications** - Real-time push for consultation messages
 
 ### Homepage Sections (BrowseScreen)
 - [x] Florist Stories
