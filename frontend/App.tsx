@@ -844,10 +844,9 @@ function AppContent() {
   );
 }
 
-// Initialize Convex client
-const convexUrl = process.env.EXPO_PUBLIC_CONVEX_URL || "https://blissful-bison-657.convex.cloud";
-console.log("Convex URL:", convexUrl);
-const convex = new ConvexReactClient(convexUrl);
+// Initialize Convex client with fallback
+const CONVEX_URL = "https://blissful-bison-657.convex.cloud";
+const convex = new ConvexReactClient(CONVEX_URL);
 
 // Theme-aware navigation themes
 function getNavigationTheme(isDark: boolean) {
