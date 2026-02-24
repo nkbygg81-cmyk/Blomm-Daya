@@ -310,6 +310,7 @@ function SettingsStack({ onLogout, authToken }: { onLogout: () => void; authToke
             onGamificationPress={() => navigation.navigate("Gamification")}
             onGalleryPress={() => navigation.navigate("CustomerGallery")}
             onGroupOrdersPress={() => navigation.navigate("GroupOrders")}
+            onHolidayRemindersPress={() => navigation.navigate("HolidayReminders")}
           />
         )}
       </Stack.Screen>
