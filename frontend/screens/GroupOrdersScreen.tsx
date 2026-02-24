@@ -96,18 +96,18 @@ export default function GroupOrdersScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} data-testid="group-orders-screen">
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()} data-testid="back-btn">
           <Ionicons name="arrow-back" size={24} color="#111827" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Групові замовлення</Text>
+        <Text style={styles.headerTitle} data-testid="header-title">Групові замовлення</Text>
         <View style={{ width: 24 }} />
       </View>
 
       {/* Action Buttons */}
-      <View style={styles.actionButtons}>
+      <View style={styles.actionButtons} data-testid="action-buttons">
         <TouchableOpacity
           style={[styles.actionButton, styles.createButton]}
           onPress={() => setShowCreateModal(true)}
@@ -128,7 +128,7 @@ export default function GroupOrdersScreen() {
       </View>
 
       {/* Info Card */}
-      <View style={styles.infoCard}>
+      <View style={styles.infoCard} data-testid="info-card">
         <Ionicons name="people" size={32} color="#4f46e5" />
         <View style={styles.infoContent}>
           <Text style={styles.infoTitle}>Як це працює?</Text>
@@ -145,13 +145,14 @@ export default function GroupOrdersScreen() {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        data-testid="orders-list"
       >
         <Text style={styles.sectionTitle}>Мої групові замовлення</Text>
         
         {!myGroupOrders ? (
-          <ActivityIndicator size="large" color="#4f46e5" style={{ marginTop: 40 }} />
+          <ActivityIndicator size="large" color="#4f46e5" style={{ marginTop: 40 }} data-testid="loading-indicator" />
         ) : myGroupOrders.length === 0 ? (
-          <View style={styles.emptyState}>
+          <View style={styles.emptyState} data-testid="empty-state">
             <Ionicons name="basket-outline" size={64} color="#d1d5db" />
             <Text style={styles.emptyText}>Поки немає групових замовлень</Text>
             <Text style={styles.emptySubtext}>
@@ -167,14 +168,14 @@ export default function GroupOrdersScreen() {
                 groupOrderId: order.id,
                 inviteCode: order.inviteCode 
               })}
-              data-testid={`group-order-${order.id}`}
+              data-testid={`group-order-card-${order.inviteCode}`}
             >
               <View style={styles.orderHeader}>
                 <View>
-                  <Text style={styles.orderTitle}>{order.title}</Text>
+                  <Text style={styles.orderTitle} data-testid={`order-title-${order.inviteCode}`}>{order.title}</Text>
                   <View style={styles.orderBadges}>
                     <View style={[styles.badge, { backgroundColor: getStatusColor(order.status) + '20' }]}>
-                      <Text style={[styles.badgeText, { color: getStatusColor(order.status) }]}>
+                      <Text style={[styles.badgeText, { color: getStatusColor(order.status) }]} data-testid={`order-status-${order.inviteCode}`}>
                         {getStatusLabel(order.status)}
                       </Text>
                     </View>
