@@ -269,6 +269,14 @@ export function BuyerSettingsScreen({
       sublabel: t("settings.remindersSubtext"),
       onPress: onRemindersPress,
     },
+    // Holiday Reminders
+    {
+      icon: "gift-outline",
+      label: "Свята",
+      sublabel: "Нагадування про свята",
+      onPress: onHolidayRemindersPress,
+      color: "#ec4899",
+    },
     {
       icon: "ribbon-outline",
       label: t("giftCertificates.title"),
