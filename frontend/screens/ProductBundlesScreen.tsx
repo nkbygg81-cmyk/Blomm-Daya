@@ -49,7 +49,6 @@ export function ProductBundlesScreen({ onBack, onBundlePress }: Props) {
       name: getBundleName(bundle),
       price: bundle.bundlePrice,
       imageUrl: bundle.imageUrl,
-      isBundle: true,
     });
   };
 
