@@ -28,6 +28,7 @@ export default defineSchema({
     // Additional fields
     available: v.optional(v.boolean()),
     seeded: v.optional(v.boolean()),
+    seededType: v.optional(v.string()),
   })
     .index("by_floristId", ["floristId"]),
   orders: defineTable(v.any()),
