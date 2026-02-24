@@ -579,7 +579,7 @@ export function CheckoutScreen({ onBack }: Props) {
           </View>
         )}
 
-        <View style={styles.section}>>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t("checkout.address")}</Text>
 
           <View style={styles.deliveryNote}>
