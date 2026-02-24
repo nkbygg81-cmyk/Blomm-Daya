@@ -104,21 +104,21 @@ export default function HolidayRemindersScreen({ navigation }: Props) {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} data-testid="holiday-reminders-screen">
       {/* Header */}
       <View style={[styles.header, { backgroundColor: themeColors.card, borderBottomColor: themeColors.border }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} data-testid="back-button">
           <Ionicons name="arrow-back" size={24} color={themeColors.text} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: themeColors.text }]}>
+        <Text style={[styles.headerTitle, { color: themeColors.text }]} data-testid="header-title">
           Нагадування про свята
         </Text>
         <View style={{ width: 24 }} />
       </View>
 
-      <ScrollView style={styles.content}>
+      <ScrollView style={styles.content} data-testid="content-scroll">
         {/* Main Toggle */}
-        <View style={[styles.card, { backgroundColor: themeColors.card }]}>
+        <View style={[styles.card, { backgroundColor: themeColors.card }]} data-testid="main-toggle-card">
           <View style={styles.toggleRow}>
             <View style={styles.toggleInfo}>
               <Text style={[styles.toggleTitle, { color: themeColors.text }]}>
