@@ -164,6 +164,10 @@ export default defineSchema({
     paymentMethodType: v.optional(v.string()),
     // Self-pickup
     pickupPointId: v.optional(v.id("pickupPoints")),
+    pickupStatus: v.optional(v.string()),
+    pickupCode: v.optional(v.string()),
+    // Stripe transfer
+    stripeTransferId: v.optional(v.string()),
   })
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_buyerDeviceId_and_createdAt", ["buyerDeviceId", "createdAt"])
