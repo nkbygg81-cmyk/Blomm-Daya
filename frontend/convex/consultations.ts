@@ -234,7 +234,7 @@ export const listForBuyer = query({
 
     const enriched = await Promise.all(
       consultations.map(async (consultation: any) => {
-        const florist = await ctx.db.get(consultation.floristId);
+        const florist = await ctx.db.get(consultation.floristId) as any;
 
         // Count unread messages from florist
         const messages = await ctx.db
