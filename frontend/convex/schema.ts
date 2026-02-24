@@ -25,6 +25,9 @@ export default defineSchema({
     rating: v.optional(v.number()),
     category: v.optional(v.string()),
     floristId: v.optional(v.id("florists")),
+    // Additional fields
+    available: v.optional(v.boolean()),
+    seeded: v.optional(v.boolean()),
   })
     .index("by_floristId", ["floristId"]),
   orders: defineTable(v.any()),
