@@ -728,8 +728,8 @@ export const getFinancialStats = query({
     
     // Get all orders for this florist
     const orders = await ctx.db
-      .query("orders")
-      .withIndex("by_florist", (q: any) => q.eq("floristId", args.floristId))
+      .query("buyerOrders")
+      .withIndex("by_floristId_and_createdAt", (q: any) => q.eq("floristId", args.floristId))
       .collect();
     
     const now = Date.now();
