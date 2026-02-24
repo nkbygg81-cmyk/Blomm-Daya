@@ -107,7 +107,7 @@ export function PhotoReviewsComponent({ floristId, orderId, onBack, showAddRevie
       
       // 2. Read file as base64 and upload
       const base64 = await FileSystem.readAsStringAsync(selectedImage, {
-        encoding: FileSystem.EncodingType.Base64,
+        encoding: "base64" as const,
       });
       
       // 3. Upload to Convex storage
