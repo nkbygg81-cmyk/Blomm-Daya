@@ -57,7 +57,7 @@ const reviews = await ctx.db
 
 const enriched = await Promise.all(
 reviews.map(async (review) => {
-const buyer = await ctx.db.get(review.buyerId);
+const buyer = await ctx.db.get(review.buyerId) as any;
 return {
 id: review._id,
 buyerName: buyer?.name ?? null,
@@ -106,7 +106,7 @@ flowerId: v.string(),
 returns: v.boolean(),
 handler: async (ctx, args) => {
 // Check if order exists and is delivered
-const order = await ctx.db.get(args.orderId);
+const order = await ctx.db.get(args.orderId) as any;
 if (!order || order.status !== "delivered") {
 return false;
 }
