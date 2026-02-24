@@ -330,7 +330,7 @@ export const getById = query({
     }),
   ),
   handler: async (ctx, args) => {
-    const order = await ctx.db.get(args.orderId);
+    const order = await ctx.db.get(args.orderId) as any;
     if (!order) return null;
 
     return {
