@@ -161,6 +161,8 @@ export default defineSchema({
     stripePaymentIntentId: v.optional(v.string()),
     paymentStatus: v.optional(v.string()),
     paymentMethodType: v.optional(v.string()),
+    // Self-pickup
+    pickupPointId: v.optional(v.id("pickupPoints")),
   })
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_buyerDeviceId_and_createdAt", ["buyerDeviceId", "createdAt"])
