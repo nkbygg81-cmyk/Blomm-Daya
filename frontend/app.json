@@ -33,7 +33,13 @@
     "description": "Flower shop mobile application",
     "plugins": [
       "expo-localization",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-notifications",
+        {
+          "sounds": []
+        }
+      ]
     ],
     "owner": "nazar81",
     "extra": {
