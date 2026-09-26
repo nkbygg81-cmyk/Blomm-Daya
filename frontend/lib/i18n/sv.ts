@@ -178,6 +178,7 @@ export default {
     statusDelivered: "Levererad",
     statusCancelled: "Avbruten",
     statusPreparing: "Förbereds",
+    statusReady: "Klar",
     statusDelivering: "På väg",
     filterOngoing: "Pågående",
     filterToday: "Dagens leveranser",
