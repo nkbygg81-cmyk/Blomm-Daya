@@ -318,6 +318,7 @@ export default {
     statusDelivered: "Доставлено",
     statusCancelled: "Скасовано",
     statusPreparing: "Готується",
+    statusReady: "Готово",
     statusDelivering: "У дорозі",
     filterOngoing: "Активні",
     filterToday: "Сьогодні",
