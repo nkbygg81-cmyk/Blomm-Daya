@@ -19,6 +19,7 @@ export const listForFlorist = query({
     view: v.optional(v.union(v.literal("ongoing"), v.literal("today"))),
     dayStart: v.optional(v.number()),
     dayEnd: v.optional(v.number()),
+    deliveryDate: v.optional(v.string()),
   },
   returns: v.array(v.object({
     id: v.id("buyerOrders"),
@@ -67,10 +68,23 @@ export const listForFlorist = query({
       orders = orders.filter((o: any) => !hasFailedPayment(o));
     }
 
-    if (args.view === "today" && args.dayStart != null && args.dayEnd != null) {
-      orders = orders.filter(
-        (o: any) => o.createdAt >= args.dayStart! && o.createdAt < args.dayEnd!
-      );
+    if (args.view === "today") {
+      if (args.deliveryDate) {
+        const bookings = await ctx.db
+          .query("deliverySlotBookings")
+          .withIndex("by_date", (q: any) => q.eq("date", args.deliveryDate!))
+          .collect();
+
+        if (bookings.length > 0) {
+          const todayOrderIds = new Set(bookings.map((b: any) => String(b.orderId)));
+          orders = orders.filter((o: any) => todayOrderIds.has(String(o._id)));
+        } else if (args.dayStart != null && args.dayEnd != null) {
+          // Backward-compatible fallback for orders made before delivery slots were introduced.
+          orders = orders.filter(
+            (o: any) => o.createdAt >= args.dayStart! && o.createdAt < args.dayEnd!
+          );
+        }
+      }
     }
 
     return orders.map((o: any) => ({
@@ -107,7 +121,7 @@ export const updateStatus = mutation({
   handler: async (ctx, args) => {
     const order = await ctx.db.get(args.orderId);
     if (!order) throw new Error("Order not found");
-    if (order.floristId && order.floristId !== args.floristId) {
+    if (order.floristId !== args.floristId) {
       throw new Error("Not authorized for this order");
     }
 
@@ -181,7 +195,7 @@ export const hideOrderForFlorist = mutation({
   handler: async (ctx, args) => {
     const order = await ctx.db.get(args.orderId);
     if (!order) throw new Error("Order not found");
-    if (order.floristId && order.floristId !== args.floristId) {
+    if (order.floristId !== args.floristId) {
       throw new Error("Not authorized for this order");
     }
 
