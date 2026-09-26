@@ -318,6 +318,7 @@ favorites: {
     statusDelivered: "Delivered",
     statusCancelled: "Cancelled",
     statusPreparing: "Preparing",
+    statusReady: "Ready",
     statusDelivering: "On the way",
     filterOngoing: "Ongoing",
     filterToday: "Today's deliveries",
