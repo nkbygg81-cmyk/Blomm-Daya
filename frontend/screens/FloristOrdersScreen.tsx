@@ -79,7 +79,14 @@ export function FloristOrdersScreen({ floristId, initialStatus }: Props) {
     start.setHours(0, 0, 0, 0);
     const end = new Date(start);
     end.setDate(end.getDate() + 1);
-    return { dayStart: start.getTime(), dayEnd: end.getTime() };
+    const yyyy = start.getFullYear();
+    const mm = String(start.getMonth() + 1).padStart(2, "0");
+    const dd = String(start.getDate()).padStart(2, "0");
+    return {
+      dayStart: start.getTime(),
+      dayEnd: end.getTime(),
+      deliveryDate: `${yyyy}-${mm}-${dd}`,
+    };
   }, []);
 
   const statusFilter =
@@ -98,6 +105,7 @@ export function FloristOrdersScreen({ floristId, initialStatus }: Props) {
           : undefined,
     dayStart: selectedFilter === "today" ? todayBounds.dayStart : undefined,
     dayEnd: selectedFilter === "today" ? todayBounds.dayEnd : undefined,
+    deliveryDate: selectedFilter === "today" ? todayBounds.deliveryDate : undefined,
   });
 
   const orderDetails = useQuery(
