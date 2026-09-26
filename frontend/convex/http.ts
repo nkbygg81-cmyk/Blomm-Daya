@@ -766,7 +766,22 @@ http.route({
         return json({ received: true, orderCreated: false });
       }
       const metadata = session.metadata || {};
+      const requiredMetadata = ["buyerDeviceId", "customerName", "customerPhone", "deliveryAddress"];
+      const missingMetadata = requiredMetadata.filter(
+        (key) => typeof metadata[key] !== "string" || !metadata[key].trim()
+      );
+      if (missingMetadata.length > 0) {
+        console.error(
+          `Paid Checkout session ${session.id} is missing metadata: ${missingMetadata.join(", ")}`
+        );
+        return json({ received: true, orderCreated: false });
+      }
+
       const items = JSON.parse(metadata.items || "[]");
+      if (!Array.isArray(items) || items.length === 0) {
+        console.error(`Paid Checkout session ${session.id} has no valid order items`);
+        return json({ received: true, orderCreated: false });
+      }
       const gifts = JSON.parse(metadata.gifts || "[]");
       const floristId = metadata.floristId || undefined;
       const deliveryType = metadata.deliveryType || "delivery";
