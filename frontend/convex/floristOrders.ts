@@ -6,6 +6,7 @@ const orderStatusValidator = v.union(
   v.literal("pending"),
   v.literal("confirmed"),
   v.literal("preparing"),
+  v.literal("ready"),
   v.literal("delivering"),
   v.literal("delivered"),
   v.literal("cancelled")
@@ -50,8 +51,20 @@ export const listForFlorist = query({
 
     orders = orders.filter((o: any) => o.hiddenForFlorist !== true);
 
+    const hasFailedPayment = (o: any) =>
+      ["failed", "unpaid", "expired", "cancelled", "canceled"].includes(
+        String(o.paymentStatus ?? "").toLowerCase()
+      );
+
     if (args.view === "ongoing") {
-      orders = orders.filter((o: any) => o.status !== "delivered" && o.status !== "cancelled");
+      orders = orders.filter(
+        (o: any) =>
+          o.status !== "delivered" &&
+          o.status !== "cancelled" &&
+          !hasFailedPayment(o)
+      );
+    } else if (args.status && args.status !== "cancelled") {
+      orders = orders.filter((o: any) => !hasFailedPayment(o));
     }
 
     if (args.view === "today" && args.dayStart != null && args.dayEnd != null) {
@@ -70,6 +83,7 @@ export const listForFlorist = query({
         | "pending"
         | "confirmed"
         | "preparing"
+        | "ready"
         | "delivering"
         | "delivered"
         | "cancelled",
@@ -249,6 +263,7 @@ export const getOrderDetails = query({
         | "pending"
         | "confirmed"
         | "preparing"
+        | "ready"
         | "delivering"
         | "delivered"
         | "cancelled",
