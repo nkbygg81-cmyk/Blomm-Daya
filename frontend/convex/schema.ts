@@ -173,6 +173,12 @@ export default defineSchema({
     platformFee: v.optional(v.number()),
     payoutStatus: v.optional(v.string()),
     payoutCompletedAt: v.optional(v.number()),
+    // Florist order-list cleanup / cancellation metadata
+    cancellationReason: v.optional(v.string()),
+    cancelledBy: v.optional(v.string()),
+    cancelledAt: v.optional(v.number()),
+    hiddenForFlorist: v.optional(v.boolean()),
+    hiddenForFloristAt: v.optional(v.number()),
   })
     .index("by_buyerDeviceId", ["buyerDeviceId"])
     .index("by_buyerDeviceId_and_createdAt", ["buyerDeviceId", "createdAt"])

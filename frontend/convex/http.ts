@@ -753,10 +753,35 @@ http.route({
 
     const event = JSON.parse(body);
 
-    if (event.type === "checkout.session.completed") {
+    if (
+      event.type === "checkout.session.completed" ||
+      event.type === "checkout.session.async_payment_succeeded"
+    ) {
       const session = event.data.object;
+
+      // A completed Checkout session is not always paid (for example, delayed
+      // payment methods). Never create an active order until Stripe confirms payment.
+      if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required") {
+        console.log(`Checkout session ${session.id} completed but is not paid yet (${session.payment_status})`);
+        return json({ received: true, orderCreated: false });
+      }
       const metadata = session.metadata || {};
+      const requiredMetadata = ["buyerDeviceId", "customerName", "customerPhone", "deliveryAddress"];
+      const missingMetadata = requiredMetadata.filter(
+        (key) => typeof metadata[key] !== "string" || !metadata[key].trim()
+      );
+      if (missingMetadata.length > 0) {
+        console.error(
+          `Paid Checkout session ${session.id} is missing metadata: ${missingMetadata.join(", ")}`
+        );
+        return json({ received: true, orderCreated: false });
+      }
+
       const items = JSON.parse(metadata.items || "[]");
+      if (!Array.isArray(items) || items.length === 0) {
+        console.error(`Paid Checkout session ${session.id} has no valid order items`);
+        return json({ received: true, orderCreated: false });
+      }
       const gifts = JSON.parse(metadata.gifts || "[]");
       const floristId = metadata.floristId || undefined;
       const deliveryType = metadata.deliveryType || "delivery";
@@ -766,6 +791,11 @@ http.route({
 
       const stripeSecretKey = process.env?.STRIPE_SECRET_KEY;
       const paymentIntentId = session.payment_intent;
+
+      if (typeof paymentIntentId !== "string" || !paymentIntentId.length) {
+        console.error(`Paid Checkout session ${session.id} has no payment_intent; order not created`);
+        return json({ received: true, orderCreated: false });
+      }
 
       let paymentMethodType: string | null = null;
       if (stripeSecretKey && typeof paymentIntentId === "string" && paymentIntentId.length) {
@@ -785,7 +815,7 @@ http.route({
         note: metadata.note || undefined,
         items,
         gifts,
-        stripePaymentIntentId: session.payment_intent,
+        stripePaymentIntentId: paymentIntentId,
         paymentMethodType: paymentMethodType ?? undefined,
         floristId: floristId ? (floristId as any) : undefined,
         promoCode: promoCode,
@@ -807,7 +837,13 @@ http.route({
         }
       }
 
-      return json({ received: true });
+      return json({ received: true, orderCreated: true });
+    }
+
+    if (event.type === "checkout.session.async_payment_failed") {
+      const session = event.data.object;
+      console.log(`Async payment failed for Checkout session ${session.id}; no active order created`);
+      return json({ received: true, orderCreated: false });
     }
 
     return json({ received: true });
